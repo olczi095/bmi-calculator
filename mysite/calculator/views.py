@@ -6,4 +6,4 @@ def home(request):
     return redirect('bmi')
 
 def bmi_calculator(request):
-    return render(request, 'calculator/base.html')
+    return render(request, 'calculator/bmi.html')
