@@ -3,6 +3,13 @@ h1 {
     
 }
 
-.container {
-    color:red; 
+.navbar-dark .navbar-brand {
+    color: bisque;
+    margin-left: 40px;
+  }
+
+.nav-link {
+    color: white;
+    margin-left: 10px;
+    margin-right: 10px;
 }
