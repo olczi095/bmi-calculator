@@ -1,7 +1,8 @@
-.nav{
-    margin: 20px;
+h1 {
+    color: red;
+    
 }
 
-h1{
-    color: red;
-  }
+.container {
+    color:red; 
+}
