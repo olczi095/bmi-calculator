@@ -3,4 +3,17 @@
 {% block title %}BMI Calculator{% endblock %}
 
 {% block content %}
+<div class="form-style">
+    <form method="post">
+        {% csrf_token %}
+        <h2>BMI Calculator</h2>
+        <hr><br>
+        {{ form.as_p }}
+        <br>
+            <input type="submit" class="btn btn-primary my-btn" value="Calculate" />
+            <span/>
+            <input type="submit" class="btn btn-danger my-btn" value="Clear" />
+        <br>
+    </form>
+</div>
 {% endblock %}
