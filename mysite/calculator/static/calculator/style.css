@@ -22,7 +22,7 @@ h3 {
     margin-left: 40px;
     margin-right: 40px;
     text-shadow: 5px 1px 2px grey;
-  }
+ }
 
 .nav-link {
     font-family: 'Nunito Sans', sans-serif;
@@ -82,4 +82,39 @@ h3 {
     position: absolute;
     top: 85%;
     width: 90%;
+}
+
+.bmi-table {
+    position: absolute;
+    top: 50%;
+    left: 55%;    
+    opacity: 0.8;
+}
+
+.bmi-table th {
+    background-color: #0d6efd;
+    color: white;
+    font-weight: bold;
+    font-size: 70%;
+    padding: 8px;
+    text-align: left;
+}
+
+.td-category {
+    background-color: bisque;
+    border: 1px solid #ddd;
+    color: grey;
+    padding: 8px;
+    font-size: 70%;
+    padding: 10px;
+}
+
+.td-number {
+    background-color: bisque;
+    border: 1px solid #ddd;
+    color: #bb2d3b;
+    font-weight: bold;
+    padding: 8px;
+    font-size: 70%;
+    padding: 10px;
 }
