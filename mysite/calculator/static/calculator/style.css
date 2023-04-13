@@ -45,6 +45,7 @@ h3 {
 }
 
 .form-style {
+    max-width: 25%;
     font-family: 'Nunito Sans', sans-serif; 
     font-family: 'Orbitron', sans-serif;
     font-family: 'Rubik', sans-serif;
