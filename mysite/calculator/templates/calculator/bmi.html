@@ -8,7 +8,8 @@
         {% csrf_token %}
         <h2>BMI Calculator</h2>
         <hr><br>
-        {{ form.as_p }}
+        {{ form.height.label }}{{ form.height }}<br><br>
+        {{ form.weight.label }}{{ form.weight }}<br><br>
         <br>
             <input type="submit" class="btn btn-primary my-btn" value="Calculate" />
             <span/>
