@@ -43,5 +43,19 @@ def checking_bmi_category(bmi):
                 'You should meet an experienced specialist immediately. Sometimes in the treatment it becomes necessary to involve psychologists, especially eating disorder therapists.')
 
 def bmr_calculator(request):
-    form = UserDataForm()
-    return render(request, 'calculator/bmr.html', {'form': form})
+    if request.method == "POST":
+        form = UserDataForm(request.POST)
+        if form.is_valid():
+            age = form.cleaned_data['age']
+            gender = form.cleaned_data['gender']
+            height = form.cleaned_data['height']
+            weight = form.cleaned_data['weight']
+            if gender == 'male':
+                bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5
+            else:
+                bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161
+
+            return render(request, 'calculator/bmrresult.html', {'bmr': bmr})
+    else:
+        form = UserDataForm()
+        return render(request, 'calculator/bmr.html', {'form': form})
