@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from .forms import UserDataForm
     
 def home(request):
@@ -41,3 +41,7 @@ def checking_bmi_category(bmi):
     else:
         return ('morbidly obese', 'You have third degree obesity. This is a really danger diseases that threatens your health and even your life.'
                 'You should meet an experienced specialist immediately. Sometimes in the treatment it becomes necessary to involve psychologists, especially eating disorder therapists.')
+
+def bmr_calculator(request):
+    form = UserDataForm()
+    return render(request, 'calculator/bmr.html', {'form': form})
