@@ -34,14 +34,10 @@ h3 {
 }
 
 .background {
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 50px;
-    margin-bottom: 50px;
-    display: block;
-    align-items: center;
-    width: 90%;
-    height: 90%; 
+    background-image: url('/static/calculator/background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 120%
 }
 
 .form-style {
@@ -101,6 +97,21 @@ h3 {
     top: 50%;
     left: 55%;    
     opacity: 0.8;
+}
+
+.pal-table {
+    max-width: 23%;
+    font-family: 'Nunito Sans', sans-serif; 
+    font-weight: 200%;
+    font-size: 50%;
+    color: #666666;
+    position: absolute;
+    border: 1px solid grey;
+    top: 50%;
+    left: 50%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
 }
 
 .bmi-table th {
