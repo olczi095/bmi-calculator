@@ -33,11 +33,14 @@ h3 {
     margin-right: 10px;
 }
 
+html, body {
+    height: 120%;
+}
+
 .background {
     background-image: url('/static/calculator/background.jpg');
     background-repeat: no-repeat;
-    background-size: cover;
-    height: 120%
+    background-size: auto 120%;
 }
 
 .form-style {
