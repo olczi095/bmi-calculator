@@ -7,4 +7,5 @@ urlpatterns = [
     path('bmi_calculator/', views.bmi_calculator , name='bmi'),
     path('bmr_calculator/', views.bmr_calculator, name='bmr'),
     path('pal_calculator/', views.pal_calculator, name='pal'),
+    path('tmr_calculator/', views.tmr_calculator, name='tmr'),
 ]

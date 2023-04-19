@@ -62,3 +62,14 @@ def bmr_calculator(request):
     
 def pal_calculator(request):
     return render(request, 'calculator/pal.html')
+
+def tmr_calculator(request):
+    form = UserDataForm()
+    return render(request, 'calculator/tmr.html', {'form': form})
+    # if request.method == 'POST':
+    #     form = UserDataForm(request.POST)
+    #     if form.is_valid():
+    #         return render(request, 'calculator/tmrresult.html', {'form': form})
+    #     else:
+    #         form = UserDataForm()
+    #         return render(request, 'calculator/tmrresult.html', {'form': form})
