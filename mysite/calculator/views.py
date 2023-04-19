@@ -59,3 +59,6 @@ def bmr_calculator(request):
     else:
         form = UserDataForm()
         return render(request, 'calculator/bmr.html', {'form': form})
+    
+def pal_calculator(request):
+    return render(request, 'calculator/pal.html')
