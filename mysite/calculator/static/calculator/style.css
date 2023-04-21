@@ -181,3 +181,14 @@ html, body {
     text-align: right;
     width: 43%;
 }
+
+.important {
+    background-color: bisque;
+    color: #bb2d3b;
+    height: 70%;
+}
+
+.important-text {
+    text-align: center;
+    font-weight: bold;
+}
