@@ -66,12 +66,19 @@ def pal_calculator(request):
     return render(request, 'calculator/pal.html')
 
 def tmr_calculator(request):
-    form = UserDataForm()
-    return render(request, 'calculator/tmr.html', {'form': form})
-    # if request.method == 'POST':
-    #     form = UserDataForm(request.POST)
-    #     if form.is_valid():
-    #         return render(request, 'calculator/tmrresult.html', {'form': form})
-    #     else:
-    #         form = UserDataForm()
-    #         return render(request, 'calculator/tmrresult.html', {'form': form})
+    if request.method == 'POST':
+        form = UserDataForm(request.POST)
+        if form.is_valid():
+            age = form.cleaned_data['age']
+            gender = form.cleaned_data['gender']
+            height = form.cleaned_data['height']
+            weight = form.cleaned_data['weight']
+            pal = float(form.cleaned_data['pal'])
+            if gender == 'male':
+                tmr = round(((10 * weight) + (6.25 * height) - (5 * age) + 5) * pal, 2)
+            else:
+                tmr = round(((10 * weight) + (6.25 * height) - (5 * age) - 161) * pal, 2)
+            return render(request, 'calculator/tmrresult.html', {'tmr': tmr})
+    else:
+        form = UserDataForm()
+        return render(request, 'calculator/tmr.html', {'form': form})
