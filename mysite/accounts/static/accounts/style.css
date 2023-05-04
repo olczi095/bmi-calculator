@@ -23,6 +23,16 @@ h3 {
    font-family: 'Rubik', sans-serif;
 }
 
+.login {
+   border: 2px solid bisque;
+   padding: 35px;
+   border-radius: 5px;
+   margin: 0 auto;
+   margin-top: 50px;
+   width: 500px;
+   font-family: 'Rubik', sans-serif;
+}
+
 .field-style input{
    display: block;
    width: 100%;
