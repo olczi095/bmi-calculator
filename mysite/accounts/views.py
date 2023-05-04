@@ -7,7 +7,7 @@ def signup_view(request):
     if request.method == 'POST':
         form = UserCreationForm(request)
         # log in the user with form
-        return redirect('calculator:home')
+        return redirect(home_page)
     else:
         form = UserCreationForm()
         return render(request, 'registration/signup.html', {'form': form})
