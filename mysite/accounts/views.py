@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login
 from calculator.views import home as home_page
@@ -19,6 +20,9 @@ def login_view(request):
             user = form.get_user()
             login(request, user)
             return redirect(home_page)
+        else:
+            messages.error(request, 'The email or the password is not correct.')
+            return redirect('login')
     else:
         form = AuthenticationForm()
         return render(request, 'registration/login.html', {'form': form})
