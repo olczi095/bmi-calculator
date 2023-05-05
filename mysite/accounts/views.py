@@ -6,12 +6,16 @@ from calculator.views import home as home_page
 
 def signup_view(request):
     if request.method == 'POST':
-        form = UserCreationForm(request)
-        # log in the user with form
-        return redirect(home_page)
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect(home_page)
     else:
         form = UserCreationForm()
-        return render(request, 'registration/signup.html', {'form': form})
+
+    context = {'form': form}
+    return render(request, 'registration/signup.html', context)
     
 def login_view(request):
     if request.method == 'POST':
