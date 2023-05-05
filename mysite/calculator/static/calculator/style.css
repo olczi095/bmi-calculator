@@ -192,3 +192,8 @@ html, body {
     text-align: center;
     font-weight: bold;
 }
+
+.navbar-log {
+    position: absolute;
+    right: 100px;
+}
