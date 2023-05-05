@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Log In{% endblock %}</title>
+    <title>{% block title %}{% endblock %}</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,17 +24,6 @@
 
     <div class="container">
         {% block content %}
-        <form class="login" method="POST" action="{% url 'login' %}">
-                {% csrf_token %}
-                <h3>Log in</h3>
-                <p><div class="field-style">{{ form }}</div><br></p>
-                {% for message in messages %}
-                    <div class="alert alert-danger">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-                <input type="submit" class="submit-button" value="Log in" />
-        </form>
         {% endblock %}
     </div>
     

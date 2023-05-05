@@ -33,4 +33,4 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    redirect(home_page)
+    return redirect(home_page)

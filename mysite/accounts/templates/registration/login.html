@@ -4,7 +4,7 @@
 
 {% block content %}
     <div class="container">
-        <form class="login" method="POST" action="{% url 'login' %}">
+        <form class="login" method="POST" action="{% url 'accounts:login' %}">
                 {% csrf_token %}
                 <h3>Log in</h3>
                 <p><div class="field-style">{{ form }}</div><br></p>
