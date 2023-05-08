@@ -15,7 +15,7 @@ def signup_view(request):
         form = UserCreationForm()
 
     context = {'form': form}
-    return render(request, 'registration/signup.html', context)
+    return render(request, 'accounts/signup.html', context)
     
 def login_view(request):
     if request.method == 'POST':
@@ -26,10 +26,10 @@ def login_view(request):
             return redirect(home_page)
         else:
             messages.error(request, 'The email or the password is not correct.')
-            return redirect('login')
+            return redirect('accounts/login')
     else:
         form = AuthenticationForm()
-        return render(request, 'registration/login.html', {'form': form})
+        return render(request, 'accounts/login.html', {'form': form})
 
 def logout_view(request):
     logout(request)
