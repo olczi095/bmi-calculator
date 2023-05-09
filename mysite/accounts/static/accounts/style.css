@@ -46,7 +46,7 @@ h3 {
 
 .submit-button {
    display: block;
-   width: 150px;
+   width: 300px;
    height: 7%;
    font-family: 'Rubik', sans-serif;
    color: white;
@@ -54,5 +54,4 @@ h3 {
    border: 1px solid #17B169;
    border-radius: 20px;
    margin: 0 auto;
-   margin-right: 30px;
 }

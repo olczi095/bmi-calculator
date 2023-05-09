@@ -7,6 +7,7 @@
         <form class="login" method="POST" action="{% url 'accounts:login' %}">
                 {% csrf_token %}
                 <h3>Log in</h3>
+                <hr>
                 <p><div class="field-style">{{ form }}</div><br></p>
                 {% for message in messages %}
                     <div class="alert alert-danger">
@@ -14,6 +15,8 @@
                     </div>
                 {% endfor %}
                 <input type="submit" class="submit-button" value="Log in" />
+                <br>
+                <p class="text-center">Not a member? <a href="{% url 'accounts:signup' %}">Signup!</a></p>
         </form>
     </div>
 {% endblock %}
