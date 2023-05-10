@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect
 from .forms import UserDataForm
+from .models import Person, CalculatedData
     
 def home(request):
    return redirect('bmi')
@@ -11,6 +12,13 @@ def bmi_calculator(request):
                 height = form.cleaned_data['height']
                 weight = form.cleaned_data['weight']
                 calculated_bmi = round(weight / (height * 0.01) ** 2, 2)
+
+                if request.user.is_authenticated:
+                    person = Person(user=request.user, weight=weight, height=height)
+                    calculated_data = CalculatedData(user=request.user, bmi=calculated_bmi, bmi_category=checking_bmi_category(calculated_bmi)['category'])
+                    person.save()
+                    calculated_data.save()
+                    
                 return render(request, 'calculator/bmiresult.html', checking_bmi_category(calculated_bmi))
     else:
         form = UserDataForm()
@@ -29,20 +37,21 @@ def checking_bmi_category(bmi):
     }
 
     if bmi < 16:
-        return {'calculated_bmi': bmi, 'category': 'severe thinness', 'description': bmi_categories['severe thinnes']}
+        category = 'severe thinnes'
     elif bmi < 18.5:
-        return {'calculated_bmi': bmi, 'category': 'underweight', 'description': bmi_categories['underweight']}
+        category = 'underweight'
     elif 18.5 <= bmi < 25:
-        return {'calculated_bmi': bmi, 'category': 'normal weight', 'description': bmi_categories['normal weight']}
+        category = 'normal weight'
     elif 25 <= bmi < 30:
-        return {'calculated_bmi': bmi, 'category': 'overweight', 'description': bmi_categories['overweight']}
+        category = 'overweight'
     elif 30 <= bmi < 35:
-        return {'calculated_bmi': bmi, 'category': 'obese', 'description': bmi_categories['obese']}
+        category = 'obese'
     elif 35 <= bmi < 40:
-        return {'calculated_bmi': bmi, 'category': 'severely obese', 'description': bmi_categories['severely obese']}
+        category = 'severely obese'
     else:
-        return {'calculated_bmi': bmi, 'category': 'morbidly obese', 'description': bmi_categories['morbidly obese']}
+        category = 'morbidly obese'
 
+    return {'calculated_bmi': bmi, 'category': category, 'description': bmi_categories[category]}
 
 def bmr_calculator(request):
     if request.method == "POST":
@@ -56,6 +65,11 @@ def bmr_calculator(request):
                 bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5
             else:
                 bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161
+            if request.user.is_authenticated:
+                person = Person(user=request.user, age=age, gender=gender, height=height, weight=weight)
+                calculated_data = CalculatedData(user=request.user, bmr=bmr)
+                person.save()
+                calculated_data.save()
 
             return render(request, 'calculator/bmrresult.html', {'bmr': bmr})
     else:
@@ -78,6 +92,11 @@ def tmr_calculator(request):
                 tmr = round(((10 * weight) + (6.25 * height) - (5 * age) + 5) * pal, 2)
             else:
                 tmr = round(((10 * weight) + (6.25 * height) - (5 * age) - 161) * pal, 2)
+            if request.user.is_authenticated:
+                person = Person(user=request.user, age=age, gender=gender, height=height, weight=weight)
+                calculated_data = CalculatedData(user=request.user, pal=pal, tmr=tmr)
+                person.save()
+                calculated_data.save()
             return render(request, 'calculator/tmrresult.html', {'tmr': tmr})
     else:
         form = UserDataForm()

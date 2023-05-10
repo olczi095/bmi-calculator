@@ -2,16 +2,31 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class LoggedInUser(models.Model):
+class Person(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        )
+    weight = models.IntegerField(default=0)
+    height = models.IntegerField(default=0)
+    gender = models.CharField(
+        default='unknown',
+        max_length=100
+        )
+    
+
+class CalculatedData(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE
-        )
-    weight = models.IntegerField()
-    height = models.IntegerField()
-    gender = models.CharField(
+    )
+    bmi = models.FloatField(default=0)
+    bmi_category = models.CharField(
+        default='unknown',
         max_length=100
-        )
+    )
     pal = models.CharField(
+        default='unknown',
         max_length=100
         )
+    tmr = models.FloatField(default=0)

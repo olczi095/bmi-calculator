@@ -1,4 +1,5 @@
 from django.contrib import admin
-from .models import LoggedInUser
+from .models import Person, CalculatedData
 
-admin.site.register(LoggedInUser)
+admin.site.register(Person)
+admin.site.register(CalculatedData)
