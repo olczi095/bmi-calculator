@@ -5,6 +5,13 @@ from .models import Person, CalculatedData
 def home(request):
    return redirect('bmi')
 
+def user_update_or_create(request, object_for_update, defaults):
+    if request.user.is_authenticated:
+        object_for_update.objects.update_or_create(
+            user=request.user,
+            defaults=defaults
+        )
+
 def bmi_calculator(request):
     if request.method == 'POST':
             form = UserDataForm(request.POST)
@@ -14,22 +21,19 @@ def bmi_calculator(request):
                 gender = form.cleaned_data['gender']
                 calculated_bmi = round(weight / (height * 0.01) ** 2, 2)
 
-                if request.user.is_authenticated:
-                    Person.objects.update_or_create(
-                        user=request.user, 
-                        defaults={
-                            'weight': weight, 
-                            'height': height, 
-                            'gender': gender
-                        }
-                    )
-                    CalculatedData.objects.update_or_create(
-                        user=request.user, 
-                        defaults={
-                            'bmi':calculated_bmi, 
-                            'bmi_category': checking_bmi_category(calculated_bmi)['category']
-                        }
-                    )
+                user_update_or_create(
+                    request,
+                    Person,
+                    {'weight': weight, 
+                     'height': height, 
+                     'gender': gender}
+                )
+                user_update_or_create(
+                    request,
+                    CalculatedData,
+                    {'bmi': calculated_bmi, 
+                     'bmi_category': checking_bmi_category(calculated_bmi)['category']}
+                )
                     
                 return render(request, 'calculator/bmiresult.html', checking_bmi_category(calculated_bmi))
     else:
@@ -77,11 +81,20 @@ def bmr_calculator(request):
                 bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5
             else:
                 bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161
-            if request.user.is_authenticated:
-                person = Person(user=request.user, age=age, gender=gender, height=height, weight=weight)
-                calculated_data = CalculatedData(user=request.user, bmr=bmr)
-                person.save()
-                calculated_data.save()
+            
+            user_update_or_create(
+                request,
+                Person,
+                {'age': age,
+                 'gender': gender,
+                 'height': height,
+                 'weight': weight}
+            )
+            user_update_or_create(
+                request,
+                CalculatedData,
+                {'bmr': bmr}
+            )
 
             return render(request, 'calculator/bmrresult.html', {'bmr': bmr})
     else:
@@ -104,11 +117,21 @@ def tmr_calculator(request):
                 tmr = round(((10 * weight) + (6.25 * height) - (5 * age) + 5) * pal, 2)
             else:
                 tmr = round(((10 * weight) + (6.25 * height) - (5 * age) - 161) * pal, 2)
-            if request.user.is_authenticated:
-                person = Person(user=request.user, age=age, gender=gender, height=height, weight=weight)
-                calculated_data = CalculatedData(user=request.user, pal=pal, tmr=tmr)
-                person.save()
-                calculated_data.save()
+            
+            user_update_or_create(
+                request,
+                Person,
+                {'age': age,
+                 'gender': gender,
+                 'height': height,
+                 'weight': weight}
+            )
+            user_update_or_create(
+                request,
+                CalculatedData,
+                {'pal': pal,
+                 'tmr': tmr}
+            )
             return render(request, 'calculator/tmrresult.html', {'tmr': tmr})
     else:
         form = UserDataForm()
