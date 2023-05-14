@@ -13,7 +13,8 @@ class UserDataForm(forms.Form):
                                                               }))
     gender = forms.ChoiceField(required=False, label='Gender ', choices = [
                                 ('male', 'male'),
-                                ('female', 'female')])
+                                ('female', 'female'),
+                                ('other', 'other')])
     pal = forms.ChoiceField(required=False, label='PAL ', choices = [
                                 ('1.2', '1.2'),
                                 ('1.3', '1.3'),

@@ -11,10 +11,11 @@ def bmi_calculator(request):
             if form.is_valid():
                 height = form.cleaned_data['height']
                 weight = form.cleaned_data['weight']
+                gender = form.cleaned_data['gender']
                 calculated_bmi = round(weight / (height * 0.01) ** 2, 2)
 
                 if request.user.is_authenticated:
-                    person = Person(user=request.user, weight=weight, height=height)
+                    person = Person(user=request.user, weight=weight, height=height, gender=gender)
                     calculated_data = CalculatedData(user=request.user, bmi=calculated_bmi, bmi_category=checking_bmi_category(calculated_bmi)['category'])
                     person.save()
                     calculated_data.save()
