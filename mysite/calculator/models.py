@@ -9,12 +9,11 @@ class Person(models.Model):
     gender = models.CharField(
         default='unknown',
         max_length=100
-        )
+    )
     
     def __str__(self):
         return self.user.get_username()
     
-
 
 class CalculatedData(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -26,7 +25,7 @@ class CalculatedData(models.Model):
     pal = models.CharField(
         default='unknown',
         max_length=100
-        )
+    )
     tmr = models.FloatField(default=0)
 
     def __str__(self):
