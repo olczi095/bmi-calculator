@@ -1,9 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import UserDataForm
 from .models import Person, CalculatedData
-    
-def home(request):
-   return redirect('bmi')
 
 def user_update_or_create(request, object_for_update, defaults):
     if request.user.is_authenticated:
@@ -17,48 +14,14 @@ def select_required_fields(calculator, form):
         form.fields['height'].required = True
         form.fields['weight'].required = True
         form.fields['gender'].required = True
-    elif calculator == 'bmr_calculator':
+    elif calculator in ['bmr_calculator', 'tmr_calculator']:
         form.fields['age'].required = True
         form.fields['gender'].required = True
         form.fields['height'].required = True
         form.fields['weight'].required = True
-    elif calculator == 'tmr_calculator':
-        form.fields['age'].required = True
-        form.fields['gender'].required = True
-        form.fields['height'].required = True
-        form.fields['weight'].required = True
-        form.fields['pal'].required = True
+        if calculator == 'tmr_calculator':
+            form.fields['pal'].required = True
 
-def bmi_calculator(request):
-    if request.method == 'POST':
-            form = UserDataForm(request.POST)
-            select_required_fields('bmi_calculator', form=form)
-            if form.is_valid():
-                height = form.cleaned_data['height']
-                weight = form.cleaned_data['weight']
-                gender = form.cleaned_data['gender']
-                calculated_bmi = round(weight / (height * 0.01) ** 2, 2)
-
-                user_update_or_create(
-                    request,
-                    Person,
-                    {'weight': weight, 
-                     'height': height, 
-                     'gender': gender}
-                )
-                user_update_or_create(
-                    request,
-                    CalculatedData,
-                    {'bmi': calculated_bmi, 
-                     'bmi_category': checking_bmi_category(calculated_bmi)['category']}
-                )
-                    
-                return render(request, 'calculator/bmiresult.html', checking_bmi_category(calculated_bmi))
-    else:
-        form = UserDataForm()
-        select_required_fields('bmi_calculator', form=form)
-        return render(request, 'calculator/bmi.html', {'form': form})
-    
 def checking_bmi_category(bmi):
 
     bmi_categories = {
@@ -86,8 +49,49 @@ def checking_bmi_category(bmi):
     else:
         category = 'morbidly obese'
 
-    return {'calculated_bmi': bmi, 'category': category, 'description': bmi_categories[category]}
+    return {
+        'calculated_bmi': bmi, 
+        'category': category, 
+        'description': bmi_categories[category]
+    }
 
+def home(request):
+   return redirect('bmi')
+
+def bmi_calculator(request):
+    if request.method == 'POST':
+            form = UserDataForm(request.POST)
+            select_required_fields('bmi_calculator', form=form)
+            if form.is_valid():
+                height = form.cleaned_data['height']
+                weight = form.cleaned_data['weight']
+                gender = form.cleaned_data['gender']
+                calculated_bmi = round(weight / (height * 0.01) ** 2, 2)
+
+                user_update_or_create(
+                    request,
+                    Person,
+                    {
+                        'weight': weight,
+                        'height': height, 
+                        'gender': gender
+                    }
+                )
+                user_update_or_create(
+                    request,
+                    CalculatedData,
+                    {
+                        'bmi': calculated_bmi, 
+                        'bmi_category': checking_bmi_category(calculated_bmi)['category']
+                    }
+                )
+                    
+                return render(request, 'calculator/bmiresult.html', checking_bmi_category(calculated_bmi))
+    else:
+        form = UserDataForm()
+        select_required_fields('bmi_calculator', form=form)
+        return render(request, 'calculator/bmi.html', {'form': form})
+    
 def bmr_calculator(request):
     if request.method == "POST":
         form = UserDataForm(request.POST)
@@ -105,15 +109,19 @@ def bmr_calculator(request):
             user_update_or_create(
                 request,
                 Person,
-                {'age': age,
-                 'gender': gender,
-                 'height': height,
-                 'weight': weight}
+                {
+                    'age': age,
+                    'gender': gender,
+                    'height': height,
+                    'weight': weight
+                }
             )
             user_update_or_create(
                 request,
                 CalculatedData,
-                {'bmr': bmr}
+                {
+                    'bmr': bmr
+                }
             )
 
             return render(request, 'calculator/bmrresult.html', {'bmr': bmr})
@@ -143,16 +151,20 @@ def tmr_calculator(request):
             user_update_or_create(
                 request,
                 Person,
-                {'age': age,
-                 'gender': gender,
-                 'height': height,
-                 'weight': weight}
+                {
+                    'age': age,
+                    'gender': gender,
+                    'height': height,
+                    'weight': weight
+                }
             )
             user_update_or_create(
                 request,
                 CalculatedData,
-                {'pal': pal,
-                 'tmr': tmr}
+                {
+                    'pal': pal,
+                    'tmr': tmr
+                }
             )
             return render(request, 'calculator/tmrresult.html', {'tmr': tmr})
     else:
