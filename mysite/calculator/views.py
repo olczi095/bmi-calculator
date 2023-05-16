@@ -12,9 +12,27 @@ def user_update_or_create(request, object_for_update, defaults):
             defaults=defaults
         )
 
+def select_required_fields(calculator, form):
+    if calculator == 'bmi_calculator':
+        form.fields['height'].required = True
+        form.fields['weight'].required = True
+        form.fields['gender'].required = True
+    elif calculator == 'bmr_calculator':
+        form.fields['age'].required = True
+        form.fields['gender'].required = True
+        form.fields['height'].required = True
+        form.fields['weight'].required = True
+    elif calculator == 'tmr_calculator':
+        form.fields['age'].required = True
+        form.fields['gender'].required = True
+        form.fields['height'].required = True
+        form.fields['weight'].required = True
+        form.fields['pal'].required = True
+
 def bmi_calculator(request):
     if request.method == 'POST':
             form = UserDataForm(request.POST)
+            select_required_fields('bmi_calculator', form=form)
             if form.is_valid():
                 height = form.cleaned_data['height']
                 weight = form.cleaned_data['weight']
@@ -38,6 +56,7 @@ def bmi_calculator(request):
                 return render(request, 'calculator/bmiresult.html', checking_bmi_category(calculated_bmi))
     else:
         form = UserDataForm()
+        select_required_fields('bmi_calculator', form=form)
         return render(request, 'calculator/bmi.html', {'form': form})
     
 def checking_bmi_category(bmi):
@@ -72,6 +91,7 @@ def checking_bmi_category(bmi):
 def bmr_calculator(request):
     if request.method == "POST":
         form = UserDataForm(request.POST)
+        select_required_fields('bmr_calculator', form=form)
         if form.is_valid():
             age = form.cleaned_data['age']
             gender = form.cleaned_data['gender']
@@ -99,6 +119,7 @@ def bmr_calculator(request):
             return render(request, 'calculator/bmrresult.html', {'bmr': bmr})
     else:
         form = UserDataForm()
+        select_required_fields('bmr_calculator', form=form)
         return render(request, 'calculator/bmr.html', {'form': form})
     
 def pal_calculator(request):
@@ -107,6 +128,7 @@ def pal_calculator(request):
 def tmr_calculator(request):
     if request.method == 'POST':
         form = UserDataForm(request.POST)
+        select_required_fields('tmr_calculator', form=form)
         if form.is_valid():
             age = form.cleaned_data['age']
             gender = form.cleaned_data['gender']
@@ -135,4 +157,5 @@ def tmr_calculator(request):
             return render(request, 'calculator/tmrresult.html', {'tmr': tmr})
     else:
         form = UserDataForm()
+        select_required_fields('tmr_calculator', form=form)
         return render(request, 'calculator/tmr.html', {'form': form})
