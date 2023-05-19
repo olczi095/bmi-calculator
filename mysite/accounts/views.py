@@ -27,7 +27,7 @@ def login_view(request):
             return redirect(home_page)
         else:
             messages.error(request, 'The email or the password is not correct.')
-            return redirect('accounts/login')
+            return redirect('accounts:login')
     else:
         form = AuthenticationForm()
         return render(request, 'accounts/login.html', {'form': form})
