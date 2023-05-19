@@ -10,7 +10,8 @@ class Person(models.Model):
         default='unknown',
         max_length=100
     )
-    
+    age = models.IntegerField(default=0)
+
     def __str__(self):
         return self.user.get_username()
     
