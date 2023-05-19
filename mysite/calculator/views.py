@@ -100,7 +100,7 @@ def bmi_calculator_filled_out(request):
             'weight': person.weight,
             'gender': person.gender
         }
-    except Person.DoesNotExist:
+    except:
         initial_data = {}
 
     form = UserDataForm(request.POST or None, initial=initial_data)
