@@ -92,6 +92,49 @@ def bmi_calculator(request):
         select_required_fields('bmi_calculator', form=form)
         return render(request, 'calculator/bmi.html', {'form': form})
     
+def bmi_calculator_filled_out(request):
+    try:
+        person = Person.objects.get(user=request.user)
+        initial_data = {
+            'height': person.height,
+            'weight': person.weight,
+            'gender': person.gender
+        }
+    except Person.DoesNotExist:
+        initial_data = {}
+
+    form = UserDataForm(request.POST or None, initial=initial_data)
+    select_required_fields('bmi_calculator', form=form)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            height = form.cleaned_data['height']
+            weight = form.cleaned_data['weight']
+            gender = form.cleaned_data['gender']
+            calculated_bmi = round(weight / (height * 0.01) ** 2, 2)
+
+            user_update_or_create(
+                request,
+                Person,
+                {
+                    'weight': weight,
+                    'height': height, 
+                    'gender': gender
+                }
+            )
+            user_update_or_create(
+                request,
+                CalculatedData,
+                {
+                    'bmi': calculated_bmi, 
+                    'bmi_category': checking_bmi_category(calculated_bmi)['category']
+                }
+            )
+                
+            return render(request, 'calculator/bmiresult.html', checking_bmi_category(calculated_bmi))
+
+    return render(request, 'calculator/bmi.html', {'form': form})
+
 def bmr_calculator(request):
     if request.method == "POST":
         form = UserDataForm(request.POST)
