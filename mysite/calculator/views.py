@@ -101,7 +101,7 @@ def bmi_calculator_filled_out(request):
             'gender': person.gender
         }
     except:
-        initial_data = {}
+        return redirect('bmi')
 
     form = UserDataForm(request.POST or None, initial=initial_data)
     select_required_fields('bmi_calculator', form=form)
@@ -183,7 +183,7 @@ def bmr_calculator_filled_out(request):
             'weight': person.weight
         }
     except:
-        initial_data = {}
+        return redirect('bmr')
 
     form = UserDataForm(request.POST or None, initial=initial_data)
     select_required_fields('bmr_calculator', form=form)
@@ -276,7 +276,7 @@ def tmr_calculator_filled_out(request):
             'pal': calculated_data.pal
         }
     except:
-        initial_data = {}
+        return redirect('tmr')
     
     form = UserDataForm(request.POST or None, initial=initial_data)
     select_required_fields('tmr_calculator', form=form)
