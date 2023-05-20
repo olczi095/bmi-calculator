@@ -173,6 +173,55 @@ def bmr_calculator(request):
         select_required_fields('bmr_calculator', form=form)
         return render(request, 'calculator/bmr.html', {'form': form})
     
+def bmr_calculator_filled_out(request):
+    try:
+        person = Person.objects.get(user=request.user)
+        initial_data = {
+            'age': person.age,
+            'gender': person.gender,
+            'height': person.height,
+            'weight': person.weight
+        }
+    except:
+        initial_data = {}
+
+    form = UserDataForm(request.POST or None, initial=initial_data)
+    select_required_fields('bmr_calculator', form=form)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            age = form.cleaned_data['age']
+            gender = form.cleaned_data['gender']
+            height = form.cleaned_data['height']
+            weight = form.cleaned_data['weight']
+            if gender == 'male':
+                bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5
+            else:
+                bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161
+            
+            user_update_or_create(
+                request,
+                Person,
+                {
+                    'age': age,
+                    'gender': gender,
+                    'height': height,
+                    'weight': weight
+                }
+            )
+            user_update_or_create(
+                request,
+                CalculatedData,
+                {
+                    'bmr': bmr
+                }
+            )
+
+            return render(request, 'calculator/bmrresult.html', {'bmr': bmr})
+    else:
+        return render(request, 'calculator/bmr.html', {'form': form})
+    
+
 def pal_calculator(request):
     return render(request, 'calculator/pal.html')
 
@@ -214,3 +263,56 @@ def tmr_calculator(request):
         form = UserDataForm()
         select_required_fields('tmr_calculator', form=form)
         return render(request, 'calculator/tmr.html', {'form': form})
+
+def tmr_calculator_filled_out(request):
+    try:
+        person = Person.objects.get(user=request.user)
+        calculated_data = CalculatedData.objects.get(user=request.user)
+        initial_data = {
+            'age': person.age,
+            'gender': person.gender,
+            'weight': person.weight,
+            'height': person.height,
+            'pal': calculated_data.pal
+        }
+    except:
+        initial_data = {}
+    
+    form = UserDataForm(request.POST or None, initial=initial_data)
+    select_required_fields('tmr_calculator', form=form)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            age = form.cleaned_data['age']
+            gender = form.cleaned_data['gender']
+            height = form.cleaned_data['height']
+            weight = form.cleaned_data['weight']
+            pal = float(form.cleaned_data['pal'])
+            if gender == 'male':
+                tmr = round(((10 * weight) + (6.25 * height) - (5 * age) + 5) * pal, 2)
+            else:
+                tmr = round(((10 * weight) + (6.25 * height) - (5 * age) - 161) * pal, 2)
+            
+            user_update_or_create(
+                request,
+                Person,
+                {
+                    'age': age,
+                    'gender': gender,
+                    'height': height,
+                    'weight': weight
+                }
+            )
+            user_update_or_create(
+                request,
+                CalculatedData,
+                {
+                    'pal': pal,
+                    'tmr': tmr
+                }
+            )
+            return render(request, 'calculator/tmrresult.html', {'tmr': tmr})
+    else:
+        return render(request, 'calculator/tmr.html', {'form': form})
+
+    

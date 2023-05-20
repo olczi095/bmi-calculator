@@ -7,7 +7,13 @@
     <form method="POST">
         {% csrf_token %}
         <h2>TMR Calculator</h2>
-        <hr><br>
+        <hr>
+        {% if user.is_authenticated %}
+            <a href="{% url 'tmr-filled' %}" class="btn btn-info" style="color:white">
+                CLICK IF YOU WANT TO FILL OUT THE FORM WITH LAST SAVED DATA
+            </a>
+            <hr>
+        {% endif %}
         <p>{{ form.age.label }}{{ form.age }}<br></p>
         <p>{{ form.gender.label }}{{ form.gender }}<br></p>
         <p>{{ form.height.label }}{{ form.height }}<br></p>
