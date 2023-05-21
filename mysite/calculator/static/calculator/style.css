@@ -60,6 +60,21 @@ html, body {
     border-radius: 10px;
 }
 
+.nice-alert {
+    float: left;
+    margin-left: 48%;
+    margin-top: 150px;
+    max-width: 25%;
+    font-size: 50%;
+    font-family: 'Rubik';
+    text-align: center;
+}
+
+.strong-text {
+    font-size: 120%;
+    color: black;
+}
+
 .my-btn {
     width:100px;
 }
@@ -97,8 +112,8 @@ html, body {
 
 .bmi-table {
     position: absolute;
-    top: 50%;
-    left: 55%;    
+    left: 15%;
+    top: 50%;  
     opacity: 0.8;
 }
 

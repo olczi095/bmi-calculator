@@ -157,7 +157,11 @@ def bmi_calculator(request):
     else:
         form = UserDataForm()
         select_required_fields('bmi_calculator', form=form)
-        return render(request, 'calculator/bmi.html', {'form': form})
+        try:
+            calculated_data = CalculatedData.objects.get(user=request.user)
+            return render(request, 'calculator/bmi.html', {'form': form, 'last_bmi': calculated_data.bmi})
+        except:
+            return render(request, 'calculator/bmi.html', {'form': form, 'last_bmi': 'NO SAVED INFO :('})
     
 def bmi_calculator_filled_out(request):
     try:

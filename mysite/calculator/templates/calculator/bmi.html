@@ -3,6 +3,30 @@
 {% block title %}BMI Calculator{% endblock %}
 
 {% block content %}
+
+{% if user.is_authenticated %}
+    <div id="bmiContainer">
+        <button onclick="displayLastBMI()" class="alert alert-info nice-alert">Click and check your last saved BMI value!</button>
+        <div id="bmiMessage" class="alert alert-info nice-alert" style="display: none;">
+            Your last BMI: 
+            <p class="strong-text">
+                <br />{{ last_bmi }}
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function displayLastBMI() {
+            var bmiContainer = document.getElementById("bmiContainer");
+            var button = document.querySelector("#bmiContainer button");
+            var bmiMessage = document.getElementById("bmiMessage");
+
+            button.style.display = "none";
+            bmiMessage.style.display = "block";
+        }
+    </script>
+{% endif %}
+
 <div class="form-style">
     <form method="post">
         {% csrf_token %}
