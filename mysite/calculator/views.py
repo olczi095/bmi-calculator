@@ -55,6 +55,95 @@ def checking_bmi_category(bmi):
         'description': bmi_categories[category]
     }
 
+def calculate_bmi_save_data(request, form):
+    height = form.cleaned_data['height']
+    weight = form.cleaned_data['weight']
+    gender = form.cleaned_data['gender']
+    calculated_bmi = round(weight / (height * 0.01) ** 2, 2)
+
+    user_update_or_create(
+        request,
+        Person,
+        {
+            'weight': weight,
+            'height': height, 
+            'gender': gender
+        }
+    )
+    user_update_or_create(
+        request,
+        CalculatedData,
+        {
+            'bmi': calculated_bmi, 
+            'bmi_category': checking_bmi_category(calculated_bmi)['category']
+        }
+    )
+        
+    return calculated_bmi
+
+def calculate_bmr_save_data(request, form):
+    age = form.cleaned_data['age']
+    gender = form.cleaned_data['gender']
+    height = form.cleaned_data['height']
+    weight = form.cleaned_data['weight']
+    if gender == 'male':
+        bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5
+    else:
+        bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161
+    
+    user_update_or_create(
+        request,
+        Person,
+        {
+            'age': age,
+            'gender': gender,
+            'height': height,
+            'weight': weight
+        }
+    )
+    user_update_or_create(
+        request,
+        CalculatedData,
+        {
+            'bmr': bmr
+        }
+    )
+
+    return bmr
+
+def calculate_tmr_save_data(request, form):
+    age = form.cleaned_data['age']
+    gender = form.cleaned_data['gender']
+    height = form.cleaned_data['height']
+    weight = form.cleaned_data['weight']
+    pal = float(form.cleaned_data['pal'])
+    if gender == 'male':
+        tmr = round(((10 * weight) + (6.25 * height) - (5 * age) + 5) * pal, 2)
+    else:
+        tmr = round(((10 * weight) + (6.25 * height) - (5 * age) - 161) * pal, 2)
+    
+    user_update_or_create(
+        request,
+        Person,
+        {
+            'age': age,
+            'gender': gender,
+            'height': height,
+            'weight': weight
+        }
+    )
+    user_update_or_create(
+        request,
+        CalculatedData,
+        {
+            'pal': pal,
+            'tmr': tmr
+        }
+    )
+
+    return tmr
+
+# Main views
 def home(request):
    return redirect('bmi')
 
@@ -63,29 +152,7 @@ def bmi_calculator(request):
             form = UserDataForm(request.POST)
             select_required_fields('bmi_calculator', form=form)
             if form.is_valid():
-                height = form.cleaned_data['height']
-                weight = form.cleaned_data['weight']
-                gender = form.cleaned_data['gender']
-                calculated_bmi = round(weight / (height * 0.01) ** 2, 2)
-
-                user_update_or_create(
-                    request,
-                    Person,
-                    {
-                        'weight': weight,
-                        'height': height, 
-                        'gender': gender
-                    }
-                )
-                user_update_or_create(
-                    request,
-                    CalculatedData,
-                    {
-                        'bmi': calculated_bmi, 
-                        'bmi_category': checking_bmi_category(calculated_bmi)['category']
-                    }
-                )
-                    
+                calculated_bmi = calculate_bmi_save_data(request, form)
                 return render(request, 'calculator/bmiresult.html', checking_bmi_category(calculated_bmi))
     else:
         form = UserDataForm()
@@ -106,33 +173,9 @@ def bmi_calculator_filled_out(request):
     form = UserDataForm(request.POST or None, initial=initial_data)
     select_required_fields('bmi_calculator', form=form)
 
-    if request.method == 'POST':
-        if form.is_valid():
-            height = form.cleaned_data['height']
-            weight = form.cleaned_data['weight']
-            gender = form.cleaned_data['gender']
-            calculated_bmi = round(weight / (height * 0.01) ** 2, 2)
-
-            user_update_or_create(
-                request,
-                Person,
-                {
-                    'weight': weight,
-                    'height': height, 
-                    'gender': gender
-                }
-            )
-            user_update_or_create(
-                request,
-                CalculatedData,
-                {
-                    'bmi': calculated_bmi, 
-                    'bmi_category': checking_bmi_category(calculated_bmi)['category']
-                }
-            )
-                
+    if request.method == 'POST' and form.is_valid():
+            calculated_bmi = calculate_bmi_save_data(request, form)
             return render(request, 'calculator/bmiresult.html', checking_bmi_category(calculated_bmi))
-
     return render(request, 'calculator/bmi.html', {'form': form})
 
 def bmr_calculator(request):
@@ -140,33 +183,7 @@ def bmr_calculator(request):
         form = UserDataForm(request.POST)
         select_required_fields('bmr_calculator', form=form)
         if form.is_valid():
-            age = form.cleaned_data['age']
-            gender = form.cleaned_data['gender']
-            height = form.cleaned_data['height']
-            weight = form.cleaned_data['weight']
-            if gender == 'male':
-                bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5
-            else:
-                bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161
-            
-            user_update_or_create(
-                request,
-                Person,
-                {
-                    'age': age,
-                    'gender': gender,
-                    'height': height,
-                    'weight': weight
-                }
-            )
-            user_update_or_create(
-                request,
-                CalculatedData,
-                {
-                    'bmr': bmr
-                }
-            )
-
+            bmr = calculate_bmr_save_data(request, form)
             return render(request, 'calculator/bmrresult.html', {'bmr': bmr})
     else:
         form = UserDataForm()
@@ -188,36 +205,9 @@ def bmr_calculator_filled_out(request):
     form = UserDataForm(request.POST or None, initial=initial_data)
     select_required_fields('bmr_calculator', form=form)
 
-    if request.method == 'POST':
-        if form.is_valid():
-            age = form.cleaned_data['age']
-            gender = form.cleaned_data['gender']
-            height = form.cleaned_data['height']
-            weight = form.cleaned_data['weight']
-            if gender == 'male':
-                bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5
-            else:
-                bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161
-            
-            user_update_or_create(
-                request,
-                Person,
-                {
-                    'age': age,
-                    'gender': gender,
-                    'height': height,
-                    'weight': weight
-                }
-            )
-            user_update_or_create(
-                request,
-                CalculatedData,
-                {
-                    'bmr': bmr
-                }
-            )
-
-            return render(request, 'calculator/bmrresult.html', {'bmr': bmr})
+    if request.method == 'POST' and form.is_valid():
+        bmr = calculate_bmr_save_data(request, form)
+        return render(request, 'calculator/bmrresult.html', {'bmr': bmr})
     else:
         return render(request, 'calculator/bmr.html', {'form': form})
     
@@ -230,34 +220,7 @@ def tmr_calculator(request):
         form = UserDataForm(request.POST)
         select_required_fields('tmr_calculator', form=form)
         if form.is_valid():
-            age = form.cleaned_data['age']
-            gender = form.cleaned_data['gender']
-            height = form.cleaned_data['height']
-            weight = form.cleaned_data['weight']
-            pal = float(form.cleaned_data['pal'])
-            if gender == 'male':
-                tmr = round(((10 * weight) + (6.25 * height) - (5 * age) + 5) * pal, 2)
-            else:
-                tmr = round(((10 * weight) + (6.25 * height) - (5 * age) - 161) * pal, 2)
-            
-            user_update_or_create(
-                request,
-                Person,
-                {
-                    'age': age,
-                    'gender': gender,
-                    'height': height,
-                    'weight': weight
-                }
-            )
-            user_update_or_create(
-                request,
-                CalculatedData,
-                {
-                    'pal': pal,
-                    'tmr': tmr
-                }
-            )
+            tmr = calculate_tmr_save_data(request, form)
             return render(request, 'calculator/tmrresult.html', {'tmr': tmr})
     else:
         form = UserDataForm()
@@ -281,37 +244,9 @@ def tmr_calculator_filled_out(request):
     form = UserDataForm(request.POST or None, initial=initial_data)
     select_required_fields('tmr_calculator', form=form)
 
-    if request.method == 'POST':
-        if form.is_valid():
-            age = form.cleaned_data['age']
-            gender = form.cleaned_data['gender']
-            height = form.cleaned_data['height']
-            weight = form.cleaned_data['weight']
-            pal = float(form.cleaned_data['pal'])
-            if gender == 'male':
-                tmr = round(((10 * weight) + (6.25 * height) - (5 * age) + 5) * pal, 2)
-            else:
-                tmr = round(((10 * weight) + (6.25 * height) - (5 * age) - 161) * pal, 2)
-            
-            user_update_or_create(
-                request,
-                Person,
-                {
-                    'age': age,
-                    'gender': gender,
-                    'height': height,
-                    'weight': weight
-                }
-            )
-            user_update_or_create(
-                request,
-                CalculatedData,
-                {
-                    'pal': pal,
-                    'tmr': tmr
-                }
-            )
-            return render(request, 'calculator/tmrresult.html', {'tmr': tmr})
+    if request.method == 'POST' and form.is_valid():
+        tmr = calculate_tmr_save_data(request, form)
+        return render(request, 'calculator/tmrresult.html', {'tmr': tmr})
     else:
         return render(request, 'calculator/tmr.html', {'form': form})
 
