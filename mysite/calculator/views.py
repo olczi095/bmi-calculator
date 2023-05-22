@@ -149,20 +149,21 @@ def home(request):
 
 def bmi_calculator(request):
     if request.method == 'POST':
-            form = UserDataForm(request.POST)
-            select_required_fields('bmi_calculator', form=form)
-            if form.is_valid():
-                calculated_bmi = calculate_bmi_save_data(request, form)
-                return render(request, 'calculator/bmiresult.html', checking_bmi_category(calculated_bmi))
+        form = UserDataForm(request.POST)
+        select_required_fields('bmi_calculator', form=form)
+        if form.is_valid():
+            calculated_bmi = calculate_bmi_save_data(request, form)
+            return render(request, 'calculator/bmiresult.html', checking_bmi_category(calculated_bmi))
     else:
         form = UserDataForm()
         select_required_fields('bmi_calculator', form=form)
         try:
             calculated_data = CalculatedData.objects.get(user=request.user)
-            return render(request, 'calculator/bmi.html', {'form': form, 'last_bmi': calculated_data.bmi})
+            last_bmi = calculated_data.bmi if calculated_data.bmi != 0 else "Sorry you don't have any saved data."
         except:
-            return render(request, 'calculator/bmi.html', {'form': form, 'last_bmi': "Sorry you don't have any saved data."})
-    
+            last_bmi = "Sorry you don't have any saved data."
+    return render(request, 'calculator/bmi.html', {'form': form, 'last_bmi': last_bmi})
+        
 def bmi_calculator_filled_out(request):
     try:
         person = Person.objects.get(user=request.user)
@@ -194,9 +195,10 @@ def bmr_calculator(request):
         select_required_fields('bmr_calculator', form=form)
         try:
             calculated_data = CalculatedData.objects.get(user=request.user)
-            return render(request, 'calcultor/bmr.html', {'form': form, 'last_bmr': calculated_data.bmr})
+            last_bmr = calculated_data.bmr if calculated_data.bmr != 0 else "Sorry you don't have any saved data."
         except:
-            return render(request, 'calculator/bmr.html', {'form': form, 'last_bmr': "Sorry you don't have any saved data."})
+            last_bmr = "Sorry you don't have any saved data."
+        return render(request, 'calculator/bmr.html', {'form': form, 'last_bmr': last_bmr})
     
 def bmr_calculator_filled_out(request):
     try:
@@ -233,11 +235,18 @@ def tmr_calculator(request):
     else:
         form = UserDataForm()
         select_required_fields('tmr_calculator', form=form)
+        #         try:
+        #     calculated_data = CalculatedData.objects.get(user=request.user)
+        #     last_bmr = calculated_data.bmr if calculated_data.bmr != 0 else "Sorry you don't have any saved data."
+        # except:
+        #     last_bmr = "Sorry you don't have any saved data."
+        # return render(request, 'calculator/bmr.html', {'form': form, 'last_bmr': last_bmr})
         try:
             calculated_data = CalculatedData.objects.get(user=request.user)
-            return render(request, 'calculator/tmr.html', {'form': form, 'last_tmr': calculated_data.tmr})
+            last_tmr = calculated_data.tmr if calculated_data.tmr != 0 else "Sorry you don't have any saved data."
         except:
-            return render(request, 'calculator/tmr.html', {'form': form, 'last_tmr': "Sorry you don't have any saved data."})
+            last_tmr = "Sorry you don't have any saved data."
+        return render(request, 'calculator/tmr.html', {'form': form, 'last_tmr': last_tmr})
 
 def tmr_calculator_filled_out(request):
     try:
