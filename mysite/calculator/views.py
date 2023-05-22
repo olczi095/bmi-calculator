@@ -161,7 +161,7 @@ def bmi_calculator(request):
             calculated_data = CalculatedData.objects.get(user=request.user)
             return render(request, 'calculator/bmi.html', {'form': form, 'last_bmi': calculated_data.bmi})
         except:
-            return render(request, 'calculator/bmi.html', {'form': form, 'last_bmi': 'NO SAVED INFO :('})
+            return render(request, 'calculator/bmi.html', {'form': form, 'last_bmi': "Sorry you don't have any saved data."})
     
 def bmi_calculator_filled_out(request):
     try:
@@ -192,7 +192,11 @@ def bmr_calculator(request):
     else:
         form = UserDataForm()
         select_required_fields('bmr_calculator', form=form)
-        return render(request, 'calculator/bmr.html', {'form': form})
+        try:
+            calculated_data = CalculatedData.objects.get(user=request.user)
+            return render(request, 'calcultor/bmr.html', {'form': form, 'last_bmr': calculated_data.bmr})
+        except:
+            return render(request, 'calculator/bmr.html', {'form': form, 'last_bmr': "Sorry you don't have any saved data."})
     
 def bmr_calculator_filled_out(request):
     try:
@@ -229,7 +233,11 @@ def tmr_calculator(request):
     else:
         form = UserDataForm()
         select_required_fields('tmr_calculator', form=form)
-        return render(request, 'calculator/tmr.html', {'form': form})
+        try:
+            calculated_data = CalculatedData.objects.get(user=request.user)
+            return render(request, 'calculator/tmr.html', {'form': form, 'last_tmr': calculated_data.tmr})
+        except:
+            return render(request, 'calculator/tmr.html', {'form': form, 'last_tmr': "Sorry you don't have any saved data."})
 
 def tmr_calculator_filled_out(request):
     try:

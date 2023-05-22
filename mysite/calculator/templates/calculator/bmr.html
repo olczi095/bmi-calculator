@@ -3,6 +3,30 @@
 {% block title %}BMR Calculator{% endblock %}
 
 {% block content %}
+
+{% if user.is_authenticated %}
+    <div id="bmrContainer">
+        <button onclick="displayLastBMR()" class="alert alert-info nice-alert">Click and check your last saved BMR value!</button>
+        <div id="bmrMessage" class="alert alert-info nice-alert" style="display: none;">
+            Your last BMR: 
+            <p class="strong-text">
+                <br />{{ last_bmr }}
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function displayLastBMR() {
+            var bmrContainer = document.getElementById("bmrContainer");
+            var button = document.querySelector("#bmrContainer button");
+            var bmrMessage = document.getElementById("bmrMessage");
+
+            button.style.display = "none";
+            bmrMessage.style.display = "block";
+        }
+    </script>
+{% endif %}
+
 <div class="form-style">
     <form method="post">
         {% csrf_token %}

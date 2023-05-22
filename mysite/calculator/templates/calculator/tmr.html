@@ -3,6 +3,30 @@
 {% block title %}TMR Calculator{% endblock %}
 
 {% block content %}
+
+{% if user.is_authenticated %}
+    <div id="tmrContainer">
+        <button onclick="displayLastTMR()" class="alert alert-info nice-alert">Click and check your last saved TMR value!</button>
+        <div id="tmrMessage" class="alert alert-info nice-alert" style="display: none;">
+            Your last TMR: 
+            <p class="strong-text">
+                <br />{{ last_tmr }}
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function displayLastTMR() {
+            var tmrContainer = document.getElementById("tmrContainer");
+            var button = document.querySelector("#tmrContainer button");
+            var tmrMessage = document.getElementById("tmrMessage");
+
+            button.style.display = "none";
+            tmrMessage.style.display = "block";
+        }
+    </script>
+{% endif %}
+
 <div class="form-style">
     <form method="POST">
         {% csrf_token %}
