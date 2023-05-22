@@ -14,7 +14,11 @@
     <br>
 </div>
 
+{% if user.is_authenticated %}
     <table class="form-style bmi-table">
+{% else %}
+    <table class="form-style bmi-table" style="left:53.5%">
+{% endif %}
         <tr>
             <th>Category</th>
             <th>BMI</th>
