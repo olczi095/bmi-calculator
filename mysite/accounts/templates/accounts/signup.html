@@ -7,10 +7,10 @@
         <form class="signup" method="POST" action="{% url 'accounts:signup' %}">
                 {% csrf_token %}
                 <h4>Sign Up</h3>
-                <p><div class="field-style">{{ form }}</div><br></p>
+                <p><div class="field-style">{{ form }}</div><br /></p>
                 <input type="submit" class="submit-button" value="Sign Up" />
-                <br>
-                <p class="text-center">Do you already have an account?<br><a href="{% url 'accounts:login' %}">Login!</a></p>
+                <br />
+                <p class="text-center">Do you already have an account?<br /><a href="{% url 'accounts:login' %}">Login!</a></p>
         </form>
     </div>
     <div class="space"></div>
