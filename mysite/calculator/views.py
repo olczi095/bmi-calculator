@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from .forms import UserDataForm
 from .models import Person, CalculatedData
@@ -143,6 +144,9 @@ def calculate_tmr_save_data(request, form):
 
     return tmr
 
+def add_success_message(request):
+    messages.success(request, '<strong>Your data has been successfully saved.</strong> You will be able to use them later to refill if you want to!')
+
 # Main views
 def home(request):
    return redirect('bmi')
@@ -179,6 +183,7 @@ def bmi_calculator_filled_out(request):
     select_required_fields('bmi_calculator', form=form)
 
     if request.method == 'POST' and form.is_valid():
+            add_success_message(request)
             calculated_bmi = calculate_bmi_save_data(request, form)
             return render(request, 'calculator/bmiresult.html', checking_bmi_category(calculated_bmi))
     return render(request, 'calculator/bmi.html', {'form': form})
@@ -216,6 +221,7 @@ def bmr_calculator_filled_out(request):
     select_required_fields('bmr_calculator', form=form)
 
     if request.method == 'POST' and form.is_valid():
+        add_success_message(request)
         bmr = calculate_bmr_save_data(request, form)
         return render(request, 'calculator/bmrresult.html', {'bmr': bmr})
     else:
@@ -235,12 +241,6 @@ def tmr_calculator(request):
     else:
         form = UserDataForm()
         select_required_fields('tmr_calculator', form=form)
-        #         try:
-        #     calculated_data = CalculatedData.objects.get(user=request.user)
-        #     last_bmr = calculated_data.bmr if calculated_data.bmr != 0 else "Sorry you don't have any saved data."
-        # except:
-        #     last_bmr = "Sorry you don't have any saved data."
-        # return render(request, 'calculator/bmr.html', {'form': form, 'last_bmr': last_bmr})
         try:
             calculated_data = CalculatedData.objects.get(user=request.user)
             last_tmr = calculated_data.tmr if calculated_data.tmr != 0 else "Sorry you don't have any saved data."
@@ -266,6 +266,7 @@ def tmr_calculator_filled_out(request):
     select_required_fields('tmr_calculator', form=form)
 
     if request.method == 'POST' and form.is_valid():
+        add_success_message(request)
         tmr = calculate_tmr_save_data(request, form)
         return render(request, 'calculator/tmrresult.html', {'tmr': tmr})
     else:

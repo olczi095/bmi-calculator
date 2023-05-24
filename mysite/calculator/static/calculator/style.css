@@ -212,3 +212,7 @@ html, body {
     position: absolute;
     right: 100px;
 }
+
+.message-success {
+    font-size: 50%;
+}
