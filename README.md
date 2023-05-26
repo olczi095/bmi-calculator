@@ -2,10 +2,10 @@
 
 The website provides a set of basic functional calculators, including:
 <br /><br />
-* :standing_man: BMI calculator
-* :lotus_position_woman: BMR calculator
-* :weight_lifting_man: PAL calculator
-* :running_woman: TMR calculator
+* :standing_man: **BMI calculator** - Body Mass Index
+* :lotus_position_woman: **BMR calculator** - Basal Metabolic Rate
+* :weight_lifting_man: **PAL calculator** - Physical Activity Level
+* :running_woman: **TMR calculator** - Total Metabolic Rate
 <br />
 The project allows users to save their data (like current BMI value) for future reference, which can particularly useful especially during weight loss or weight gain journeys.
 
@@ -78,7 +78,7 @@ The website is designed to be clear user-friendly. I've also put some effort to 
 
 ## Screenshots
 <br />
-<strong><p align="center">Main website with BMI calculator for any users &darr;</p></strong>
+<strong><p align="center">main website with BMI calculator for any users &darr;</p></strong>
 
 <br />
 
