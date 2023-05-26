@@ -86,7 +86,11 @@ The website is designed to be clear user-friendly. I've also put some effort to 
 
 <br />
 
-![Basic Website 2](./mysite/screenshots/basic_website2.png)
+***<p align="center">TMR calculator for logged-in user &darr;</p>***
+
+<br />
+
+![Basic Website 2](./mysite/screenshots/tmr_for_logged_user.png)
 
 <br />
 
