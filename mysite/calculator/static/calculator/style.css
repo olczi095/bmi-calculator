@@ -1,36 +1,25 @@
 h2 {
-    font-family: 'Nunito Sans', sans-serif;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 30px;
-    font-weight: 700;
+    /* font-family: 'Nunito Sans', sans-serif; */
+    font: 700 30px 'Orbitron', sans-serif;
     color: black;
 }
 
 h3 {
-    font-family: 'Nunito Sans', sans-serif;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 20px;
-    font-weight: 500;
+    font: 500 20px 'Orbitron', sans-serif;
     color: black;
 }
 
 .navbar-dark .navbar-brand {
-    font-family: 'Nunito Sans', sans-serif;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 30px;
+    font: 30px 'Orbitron', sans-serif;
     color: bisque;
-    margin-left: 40px;
-    margin-right: 40px;
+    margin: auto 40px;
     text-shadow: 5px 1px 2px grey;
  }
 
 .nav-link {
-    font-family: 'Nunito Sans', sans-serif;
-    font-family: 'Orbitron', sans-serif;
     font-family: 'Rubik', sans-serif;
     color: white;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin: auto 10px;
 }
 
 html, body {
@@ -38,17 +27,13 @@ html, body {
 }
 
 .background {
-    background-image: url('/static/calculator/background.jpg');
-    background-repeat: no-repeat;
+    background: url('/static/calculator/background.jpg') no-repeat;
     background-size: auto 120%;
 }
 
 .form-style {
     max-width: 23%;
-    font-family: 'Nunito Sans', sans-serif; 
-    font-family: 'Orbitron', sans-serif;
-    font-family: 'Rubik', sans-serif;
-    font-size: 50%;
+    font: 50% 'Rubik', sans-serif;
     color: grey;
     position: absolute;
     border: 1px solid grey;
@@ -62,11 +47,9 @@ html, body {
 
 .nice-alert {
     float: left;
-    margin-left: 48%;
-    margin-top: 10%;
+    margin: 10% auto auto 48%;
     max-width: 25%;
-    font-size: 50%;
-    font-family: 'Rubik';
+    font: 50% Rubik;
     text-align: center;
 }
 
@@ -92,8 +75,6 @@ html, body {
 .box-grid {
     display: flex;
     justify-content: space-around;
-    margin-left: auto;
-    margin-right: auto;
     position: absolute;
     top: 85%;
     width: 90%;
@@ -102,8 +83,6 @@ html, body {
 .second-box-grid {
     display: flex;
     justify-content: space-around;
-    margin-left: 10%;
-    margin-right: auto;
     position: absolute;
     top: 85%;
     width: 60%;
@@ -140,18 +119,15 @@ html, body {
     border: 1px solid #ddd;
     color: #bb2d3b;
     font-weight: bold;
-    padding: 8px;
     font-size: 70%;
     padding: 10px;
-    font-weight: bold;
 }
 
 .info {
     font-size: 50%;
     background-color: lightgray;
     text-align: center;
-    margin-left: auto;
-    margin-right: auto;
+    margin: auto;
     width: 80%;
     padding: 20px;
     border: 3px dotted #bb2d3b;
@@ -162,21 +138,17 @@ html, body {
     max-width: 60%;
     left: 12%;
     top: 40%;
-    font-family: 'Nunito Sans', sans-serif; 
-    font-weight: bold;
-    font-size: 50%;
+    font: bold 50% 'Nunito Sans', sans-serif; 
     color: #666666;
     border: 1px solid grey;
     background-color: #fff;
 }
 
 .th-pal {
-    font-family: 'Rubik', sans-serif;
+    font: bold 90% 'Rubik', sans-serif;
     background-color: bisque;
     border: 2px solid #ddd;
     color: black;
-    font-size: 90%;
-    font-weight: bold;
     padding: 20px;
 }
 
