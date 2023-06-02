@@ -1,5 +1,23 @@
+/*  =============
+    Global Styles
+    =============
+*/
+
+html, body {
+    height: 120%;
+}
+
+.background {
+    background: url('/static/calculator/background.jpg') no-repeat;
+    background-size: auto 120%;
+}
+
+/*  ==========
+    Typography
+    ==========
+*/
+
 h2 {
-    /* font-family: 'Nunito Sans', sans-serif; */
     font: 700 30px 'Orbitron', sans-serif;
     color: black;
 }
@@ -22,14 +40,24 @@ h3 {
     margin: auto 10px;
 }
 
-html, body {
-    height: 120%;
+.strong-text {
+    font-size: 120%;
+    color: black;
 }
 
-.background {
-    background: url('/static/calculator/background.jpg') no-repeat;
-    background-size: auto 120%;
+.important-text {
+    text-align: center;
+    font-weight: bold;
 }
+
+.message-success {
+    font-size: 50%;
+}
+
+/*  ==========
+    Components
+    ==========
+*/
 
 .form-style {
     max-width: 23%;
@@ -51,11 +79,6 @@ html, body {
     max-width: 25%;
     font: 50% Rubik;
     text-align: center;
-}
-
-.strong-text {
-    font-size: 120%;
-    color: black;
 }
 
 .my-btn {
@@ -175,16 +198,7 @@ html, body {
     height: 70%;
 }
 
-.important-text {
-    text-align: center;
-    font-weight: bold;
-}
-
 .navbar-log {
     position: absolute;
     right: 100px;
-}
-
-.message-success {
-    font-size: 50%;
 }
