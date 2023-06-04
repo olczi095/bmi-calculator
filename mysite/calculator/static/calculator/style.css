@@ -8,8 +8,8 @@ html, body {
 }
 
 .background {
-    background: url('/static/calculator/background.jpg') no-repeat;
     background-size: auto 120%;
+    background: url('/static/calculator/background.jpg') no-repeat;
 }
 
 /*  ==========
@@ -18,36 +18,36 @@ html, body {
 */
 
 h2 {
-    font: 700 30px 'Orbitron', sans-serif;
     color: black;
+    font: 700 30px 'Orbitron', sans-serif;
 }
 
 h3 {
-    font: 500 20px 'Orbitron', sans-serif;
     color: black;
+    font: 500 20px 'Orbitron', sans-serif;
 }
 
 .navbar-dark .navbar-brand {
-    font: 30px 'Orbitron', sans-serif;
     color: bisque;
+    font: 30px 'Orbitron', sans-serif;
     margin: auto 40px;
     text-shadow: 5px 1px 2px grey;
  }
 
 .nav-link {
-    font-family: 'Rubik', sans-serif;
     color: white;
+    font-family: 'Rubik', sans-serif;
     margin: auto 10px;
 }
 
 .strong-text {
-    font-size: 120%;
     color: black;
+    font-size: 120%;
 }
 
 .important-text {
-    text-align: center;
     font-weight: bold;
+    text-align: center;
 }
 
 .message-success {
@@ -60,24 +60,24 @@ h3 {
 */
 
 .form-style {
-    max-width: 23%;
-    font: 50% 'Rubik', sans-serif;
-    color: grey;
-    position: absolute;
-    border: 1px solid grey;
-    top: 47%;
-    left: 35%;
-    transform: translate(-50%, -50%);
     background-color: #fff;
-    padding: 20px;
     border-radius: 10px;
+    border: 1px solid grey;
+    color: grey;
+    font: 50% 'Rubik', sans-serif;
+    left: 35%;
+    max-width: 23%;
+    padding: 20px;
+    position: absolute;
+    top: 47%;
+    transform: translate(-50%, -50%);
 }
 
 .nice-alert {
     float: left;
+    font: 50% Rubik;
     margin: 10% auto auto 48%;
     max-width: 25%;
-    font: 50% Rubik;
     text-align: center;
 }
 
@@ -86,13 +86,13 @@ h3 {
 }
 
 .box {
+    background-color: #fff;
+    border-radius: 10px;
+    border: 1px solid lightsteelblue;
     color: #1E8CFB;
     font-size: 16px;
     max-width: 350px;
-    border: 1px solid lightsteelblue;
-    background-color: #fff;
     padding: 20px;
-    border-radius: 10px;
 }
 
 .box-grid {
@@ -113,17 +113,17 @@ h3 {
 }
 
 .bmi-table {
-    position: absolute;
     left: 16%;
-    top: 50%;  
     opacity: 0.8;
+    position: absolute;
+    top: 50%;  
 }
 
 .bmi-table th {
     background-color: #bb2d3b;
     color: white;
-    font-weight: bold;
     font-size: 70%;
+    font-weight: bold;
     padding: 8px;
     text-align: left;
 }
@@ -132,63 +132,63 @@ h3 {
     background-color: bisque;
     border: 1px solid #ddd;
     color: grey;
-    padding: 8px;
     font-size: 70%;
     padding: 10px;
+    padding: 8px;
 }
 
 .td-number {
     background-color: bisque;
     border: 1px solid #ddd;
     color: #bb2d3b;
-    font-weight: bold;
     font-size: 70%;
+    font-weight: bold;
     padding: 10px;
 }
 
 .info {
-    font-size: 50%;
     background-color: lightgray;
-    text-align: center;
-    margin: auto;
-    width: 80%;
-    padding: 20px;
     border: 3px dotted #bb2d3b;
+    font-size: 50%;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+    width: 80%;
 }
 
 .pal-table {
-    position: absolute;
-    max-width: 60%;
-    left: 12%;
-    top: 40%;
-    font: bold 50% 'Nunito Sans', sans-serif; 
-    color: #666666;
-    border: 1px solid grey;
     background-color: #fff;
+    border: 1px solid grey;
+    color: #666666;
+    font: bold 50% 'Nunito Sans', sans-serif; 
+    left: 12%;
+    max-width: 60%;
+    position: absolute;
+    top: 40%;
 }
 
 .th-pal {
-    font: bold 90% 'Rubik', sans-serif;
     background-color: bisque;
     border: 2px solid #ddd;
     color: black;
+    font: bold 90% 'Rubik', sans-serif;
     padding: 20px;
 }
 
 .pal-box {
+    max-width: 70%;
     position: absolute;
     top: 110%;
-    max-width: 70%;
 }
 
 .tmr-info {
-    position: absolute;
-    top: 10%;
-    left: 800px;
     background-color: bisque;
     border: 1px solid black;
+    left: 800px;
     padding: 10px 30px 10px 10px;
+    position: absolute;
     text-align: right;
+    top: 10%;
     width: 43%;
 }
 
