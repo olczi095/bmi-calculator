@@ -19,25 +19,25 @@ html, body {
 
 h2 {
     color: black;
-    font: 700 30px 'Orbitron', sans-serif;
+    font: 700 1.875rem 'Orbitron', sans-serif;
 }
 
 h3 {
     color: black;
-    font: 500 20px 'Orbitron', sans-serif;
+    font: 500 1.25rem 'Orbitron', sans-serif;
 }
 
 .navbar-dark .navbar-brand {
     color: bisque;
-    font: 30px 'Orbitron', sans-serif;
-    margin: auto 40px;
+    font: 1.875rem 'Orbitron', sans-serif;
+    margin: auto 2.5rem;
     text-shadow: 5px 1px 2px grey;
  }
 
 .nav-link {
     color: white;
     font-family: 'Rubik', sans-serif;
-    margin: auto 10px;
+    margin: auto 0.625rem;
 }
 
 .strong-text {
@@ -61,13 +61,13 @@ h3 {
 
 .form-style {
     background-color: #fff;
-    border-radius: 10px;
+    border-radius: 0.625rem;
     border: 1px solid grey;
     color: grey;
     font: 50% 'Rubik', sans-serif;
     left: 35%;
     max-width: 23%;
-    padding: 20px;
+    padding: 1.25rem;
     position: absolute;
     top: 47%;
     transform: translate(-50%, -50%);
@@ -82,17 +82,17 @@ h3 {
 }
 
 .my-btn {
-    width:100px;
+    width:6.25rem;
 }
 
 .box {
     background-color: #fff;
-    border-radius: 10px;
+    border-radius: 0.625rem;
     border: 1px solid lightsteelblue;
     color: #1E8CFB;
-    font-size: 16px;
-    max-width: 350px;
-    padding: 20px;
+    font-size: 1rem;
+    max-width: 21.875rem;
+    padding: 1.25rem;
 }
 
 .box-grid {
@@ -124,7 +124,7 @@ h3 {
     color: white;
     font-size: 70%;
     font-weight: bold;
-    padding: 8px;
+    padding: 0.5rem;
     text-align: left;
 }
 
@@ -133,32 +133,31 @@ h3 {
     border: 1px solid #ddd;
     color: grey;
     font-size: 70%;
-    padding: 10px;
-    padding: 8px;
+    padding: 0.5rem;
 }
 
 .td-number {
     background-color: bisque;
-    border: 1px solid #ddd;
+    border: 0,0625rem solid #ddd;
     color: #bb2d3b;
     font-size: 70%;
     font-weight: bold;
-    padding: 10px;
+    padding: 0.625rem;
 }
 
 .info {
     background-color: lightgray;
-    border: 3px dotted #bb2d3b;
+    border: 0.1875rem dotted #bb2d3b;
     font-size: 50%;
     margin: auto;
-    padding: 20px;
+    padding: 1.25rem;
     text-align: center;
     width: 80%;
 }
 
 .pal-table {
     background-color: #fff;
-    border: 1px solid grey;
+    border: 0.0625rem solid grey;
     color: #666666;
     font: bold 50% 'Nunito Sans', sans-serif; 
     left: 12%;
@@ -169,10 +168,10 @@ h3 {
 
 .th-pal {
     background-color: bisque;
-    border: 2px solid #ddd;
+    border: 0.125rem solid #ddd;
     color: black;
     font: bold 90% 'Rubik', sans-serif;
-    padding: 20px;
+    padding: 1.25rem;
 }
 
 .pal-box {
@@ -184,8 +183,8 @@ h3 {
 .tmr-info {
     background-color: bisque;
     border: 1px solid black;
-    left: 800px;
-    padding: 10px 30px 10px 10px;
+    left: 50rem;
+    padding: 0.625rem 1.875rem 0.625rem 0.625rem;
     position: absolute;
     text-align: right;
     top: 10%;
@@ -200,5 +199,5 @@ h3 {
 
 .navbar-log {
     position: absolute;
-    right: 100px;
+    right: 6.25rem;
 }
