@@ -62,22 +62,22 @@ h3 {
 .form-style {
     background-color: #fff;
     border-radius: 0.625rem;
-    border: 1px solid grey;
+    border: 0.0625rem solid grey;
     color: grey;
-    font: 50% 'Rubik', sans-serif;
-    left: 35%;
-    max-width: 23%;
+    font: 1.25rem 'Rubik', sans-serif;
+    left: 31.2rem;
+    max-width: 20.575rem;
     padding: 1.25rem;
     position: absolute;
-    top: 47%;
+    top: 20.90rem;
     transform: translate(-50%, -50%);
 }
 
 .nice-alert {
     float: left;
-    font: 50% Rubik;
-    margin: 10% auto auto 48%;
-    max-width: 25%;
+    font: 1.25rem Rubik;
+    margin: 8.1rem auto auto 38.9rem;
+    max-width: 20.2rem;
     text-align: center;
 }
 
@@ -88,7 +88,7 @@ h3 {
 .box {
     background-color: #fff;
     border-radius: 0.625rem;
-    border: 1px solid lightsteelblue;
+    border: 0.0625rem solid lightsteelblue;
     color: #1E8CFB;
     font-size: 1rem;
     max-width: 21.875rem;
@@ -99,30 +99,30 @@ h3 {
     display: flex;
     justify-content: space-around;
     position: absolute;
-    top: 85%;
-    width: 90%;
+    top: 37.75rem;
+    width: 81rem;
 }
 
 .second-box-grid {
     display: flex;
     justify-content: space-around;
     position: absolute;
-    top: 85%;
-    width: 60%;
+    top: 37.75rem;
+    width: 54rem;
 
 }
 
 .bmi-table {
-    left: 16%;
+    left: 14.5rem;
     opacity: 0.8;
     position: absolute;
-    top: 50%;  
+    top: 22.25rem;  
 }
 
 .bmi-table th {
     background-color: #bb2d3b;
     color: white;
-    font-size: 70%;
+    font-size: 0.9rem;
     font-weight: bold;
     padding: 0.5rem;
     text-align: left;
@@ -132,7 +132,7 @@ h3 {
     background-color: bisque;
     border: 1px solid #ddd;
     color: grey;
-    font-size: 70%;
+    font-size: 0.88rem;
     padding: 0.5rem;
 }
 
@@ -140,7 +140,7 @@ h3 {
     background-color: bisque;
     border: 0,0625rem solid #ddd;
     color: #bb2d3b;
-    font-size: 70%;
+    font-size: 0.88rem;
     font-weight: bold;
     padding: 0.625rem;
 }
@@ -148,53 +148,53 @@ h3 {
 .info {
     background-color: lightgray;
     border: 0.1875rem dotted #bb2d3b;
-    font-size: 50%;
+    font-size: 1.25rem;
     margin: auto;
     padding: 1.25rem;
     text-align: center;
-    width: 80%;
+    width: 64.8rem;
 }
 
 .pal-table {
     background-color: #fff;
     border: 0.0625rem solid grey;
     color: #666666;
-    font: bold 50% 'Nunito Sans', sans-serif; 
-    left: 12%;
-    max-width: 60%;
+    font: bold 1.25rem 'Nunito Sans', sans-serif; 
+    left: 10.8rem;
+    max-width: 62rem;
     position: absolute;
-    top: 40%;
+    top: 17.8rem;
 }
 
 .th-pal {
     background-color: bisque;
     border: 0.125rem solid #ddd;
     color: black;
-    font: bold 90% 'Rubik', sans-serif;
+    font: bold 1.125rem 'Rubik', sans-serif;
     padding: 1.25rem;
 }
 
 .pal-box {
-    max-width: 70%;
+    max-width: 63rem;
     position: absolute;
-    top: 110%;
+    top: 48.9rem;
 }
 
 .tmr-info {
     background-color: bisque;
-    border: 1px solid black;
+    border: 0.0625rem solid black;
     left: 50rem;
     padding: 0.625rem 1.875rem 0.625rem 0.625rem;
     position: absolute;
     text-align: right;
-    top: 10%;
-    width: 43%;
+    top: 4.45rem;
+    width: 38.7rem;
 }
 
 .important {
     background-color: bisque;
     color: #bb2d3b;
-    height: 70%;
+    height: 15.6rem;
 }
 
 .navbar-log {
