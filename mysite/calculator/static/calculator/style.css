@@ -1,27 +1,23 @@
-/*  =========
-    Variables
-    =========
-*/
+/* Variables */
 :root {
-    --orbitron-font: 'Orbitron', sans-serif;
-    --rubik-font: 'Rubik', sans-serif;
-    --nunito-font: 'Nunito Sans', sans-serif;
+    /* Fonts */
+    --font-orbitron: 'Orbitron', sans-serif;
+    --font-rubik: 'Rubik', sans-serif;
+    --font-nunito: 'Nunito Sans', sans-serif;
 
-    --black-color: #000;
-    --basic-color: #ffe4c4;
-    --white-color: #fff;
-    --lightgrey-color: #ddd;
-    --grey-color: #808080;
-    --darkgrey-color: #666666;
-    --lightblue-color: #b0c4de;
-    --normalblue-color: #1E8CFB;
-    --red-color: #bb2d3b;
+    /* Colors */
+    --color-black: #000;
+    --color-basic: #ffe4c4;
+    --color-white: #fff;
+    --color-lightgrey: #ddd;
+    --color-grey: #808080;
+    --color-darkgrey: #666666;
+    --color-lightblue: #b0c4de;
+    --color-normalblue: #1E8CFB;
+    --color-red: #bb2d3b;
 }
 
-/*  =============
-    Global Styles
-    =============
-*/
+/* Global Styles */
 html, body {
     height: 120%;
 }
@@ -31,35 +27,32 @@ html, body {
     background: url('/static/calculator/background.jpg') no-repeat;
 }
 
-/*  ==========
-    Typography
-    ==========
-*/
+/* Typography */
 h2 {
-    color: var(--black-color);
-    font: 700 1.875rem var(--orbitron-font);
+    color: var(--color-black);
+    font: 700 1.875rem var(--font-orbitron);
 }
 
 h3 {
-    color: var(--black-color);
-    font: 500 1.25rem var(--orbitron-font);
+    color: var(--color-black);
+    font: 500 1.25rem var(--font-orbitron);
 }
 
 .navbar-dark .navbar-brand {
-    color: var(--basic-color);
-    font: 1.875rem var(--orbitron-font);
+    color: var(--color-basic);
+    font: 1.875rem var(--font-orbitron);
     margin: auto 2.5rem;
-    text-shadow: 0.3125rem 0.0625rem 0.125rem var(--grey-color);
+    text-shadow: 0.3125rem 0.0625rem 0.125rem var(--color-grey);
  }
 
 .nav-link {
-    color: var(--white-color);
-    font-family: var(--rubik-font);
+    color: var(--color-white);
+    font-family: var(--font-rubik);
     margin: auto 0.625rem;
 }
 
 .strong-text {
-    color: var(--black-color);
+    color: var(--color-black);
     font-size: 1.5rem;
 }
 
@@ -72,16 +65,13 @@ h3 {
     font-size: 1rem;
 }
 
-/*  ==========
-    Components
-    ==========
-*/
+/* Components */
 .form-style {
-    background-color: var(--white-color);
+    background-color: var(--color-white);
     border-radius: 0.625rem;
-    border: 0.0625rem solid var(--grey-color);
-    color: var(--grey-color);
-    font: 1.25rem var(--rubik-font);
+    border: 0.0625rem solid var(--color-grey);
+    color: var(--color-grey);
+    font: 1.25rem var(--font-rubik);
     left: 31.2rem;
     max-width: 20.575rem;
     padding: 1.25rem;
@@ -92,7 +82,7 @@ h3 {
 
 .nice-alert {
     float: left;
-    font: 1.25rem var(--rubik-font);
+    font: 1.25rem var(--font-rubik);
     margin: 8.1rem auto auto 38.9rem;
     max-width: 20.2rem;
     text-align: center;
@@ -103,10 +93,10 @@ h3 {
 }
 
 .box {
-    background-color: var(--white-color);
+    background-color: var(--color-white);
     border-radius: 0.625rem;
-    border: 0.0625rem solid var(--lightblue-color);
-    color: var(--normalblue-color);
+    border: 0.0625rem solid var(--color-lightblue);
+    color: var(--color-normalblue);
     font-size: 1rem;
     max-width: 21.875rem;
     padding: 1.25rem;
@@ -137,8 +127,8 @@ h3 {
 }
 
 .bmi-table th {
-    background-color: var(--red-color);
-    color: var(--white-color);
+    background-color: var(--color-red);
+    color: var(--color-white);
     font-size: 0.9rem;
     font-weight: bold;
     padding: 0.5rem;
@@ -146,25 +136,25 @@ h3 {
 }
 
 .td-category {
-    background-color: var(--basic-color);
-    border: 0.0625rem solid var(--lightgrey-color);
-    color: var(--grey-color);
+    background-color: var(--color-basic);
+    border: 0.0625rem solid var(--color-lightgrey);
+    color: var(--color-grey);
     font-size: 0.88rem;
     padding: 0.5rem;
 }
 
 .td-number {
-    background-color: var(--basic-color);
-    border: 0.0625rem solid var(--lightgrey-color);
-    color: var(--red-color);
+    background-color: var(--color-basic);
+    border: 0.0625rem solid var(--color-lightgrey);
+    color: var(--color-red);
     font-size: 0.88rem;
     font-weight: bold;
     padding: 0.625rem;
 }
 
 .info {
-    background-color: var(--lightgrey-color);
-    border: 0.1875rem dotted var(--red-color);
+    background-color: var(--color-lightgrey);
+    border: 0.1875rem dotted var(--color-red);
     font-size: 1.25rem;
     margin: auto;
     padding: 1.25rem;
@@ -173,10 +163,10 @@ h3 {
 }
 
 .pal-table {
-    background-color: var(--white-color);
-    border: 0.0625rem solid var(--grey-color);
-    color: var(--darkgrey-color);
-    font: bold 1.25rem var(--nunito-font); 
+    background-color: var(--color-white);
+    border: 0.0625rem solid var(--color-grey);
+    color: var(--color-darkgrey);
+    font: bold 1.25rem var(--font-nunito); 
     left: 10.8rem;
     max-width: 62rem;
     position: absolute;
@@ -184,10 +174,10 @@ h3 {
 }
 
 .th-pal {
-    background-color: var(--basic-color);
-    border: 0.125rem solid var(--lightgrey-color);
-    color: var(--black-color);
-    font: bold 1.125rem var(--rubik-font);
+    background-color: var(--color-basic);
+    border: 0.125rem solid var(--color-lightgrey);
+    color: var(--color-black);
+    font: bold 1.125rem var(--font-rubik);
     padding: 1.25rem;
 }
 
@@ -198,8 +188,8 @@ h3 {
 }
 
 .tmr-info {
-    background-color: var(--basic-color);
-    border: 0.0625rem solid var(--black-color);
+    background-color: var(--color-basic);
+    border: 0.0625rem solid var(--color-black);
     left: 50rem;
     padding: 0.625rem 1.875rem 0.625rem 0.625rem;
     position: absolute;
@@ -209,8 +199,8 @@ h3 {
 }
 
 .important {
-    background-color: var(--basic-color);
-    color: var(--red-color);
+    background-color: var(--color-basic);
+    color: var(--color-red);
     height: 15.6rem;
 }
 
