@@ -1,8 +1,27 @@
+/*  =========
+    Variables
+    =========
+*/
+:root {
+    --orbitron-font: 'Orbitron', sans-serif;
+    --rubik-font: 'Rubik', sans-serif;
+    --nunito-font: 'Nunito Sans', sans-serif;
+
+    --black-color: #000;
+    --basic-color: #ffe4c4;
+    --white-color: #fff;
+    --lightgrey-color: #ddd;
+    --grey-color: #808080;
+    --darkgrey-color: #666666;
+    --lightblue-color: #b0c4de;
+    --normalblue-color: #1E8CFB;
+    --red-color: #bb2d3b;
+}
+
 /*  =============
     Global Styles
     =============
 */
-
 html, body {
     height: 120%;
 }
@@ -16,32 +35,31 @@ html, body {
     Typography
     ==========
 */
-
 h2 {
-    color: black;
-    font: 700 1.875rem 'Orbitron', sans-serif;
+    color: var(--black-color);
+    font: 700 1.875rem var(--orbitron-font);
 }
 
 h3 {
-    color: black;
-    font: 500 1.25rem 'Orbitron', sans-serif;
+    color: var(--black-color);
+    font: 500 1.25rem var(--orbitron-font);
 }
 
 .navbar-dark .navbar-brand {
-    color: bisque;
-    font: 1.875rem 'Orbitron', sans-serif;
+    color: var(--basic-color);
+    font: 1.875rem var(--orbitron-font);
     margin: auto 2.5rem;
-    text-shadow: 5px 1px 2px grey;
+    text-shadow: 5px 1px 2px var(--grey-color);
  }
 
 .nav-link {
-    color: white;
-    font-family: 'Rubik', sans-serif;
+    color: var(--white-color);
+    font-family: var(--rubik-font);
     margin: auto 0.625rem;
 }
 
 .strong-text {
-    color: black;
+    color: var(--black-color);
     font-size: 120%;
 }
 
@@ -58,13 +76,12 @@ h3 {
     Components
     ==========
 */
-
 .form-style {
-    background-color: #fff;
+    background-color: var(--white-color);
     border-radius: 0.625rem;
-    border: 0.0625rem solid grey;
-    color: grey;
-    font: 1.25rem 'Rubik', sans-serif;
+    border: 0.0625rem solid var(--grey-color);
+    color: var(--grey-color);
+    font: 1.25rem var(--rubik-font);
     left: 31.2rem;
     max-width: 20.575rem;
     padding: 1.25rem;
@@ -75,7 +92,7 @@ h3 {
 
 .nice-alert {
     float: left;
-    font: 1.25rem Rubik;
+    font: 1.25rem var(--rubik-font);
     margin: 8.1rem auto auto 38.9rem;
     max-width: 20.2rem;
     text-align: center;
@@ -86,10 +103,10 @@ h3 {
 }
 
 .box {
-    background-color: #fff;
+    background-color: var(--white-color);
     border-radius: 0.625rem;
-    border: 0.0625rem solid lightsteelblue;
-    color: #1E8CFB;
+    border: 0.0625rem solid var(--lightblue-color);
+    color: var(--normalblue-color);
     font-size: 1rem;
     max-width: 21.875rem;
     padding: 1.25rem;
@@ -120,8 +137,8 @@ h3 {
 }
 
 .bmi-table th {
-    background-color: #bb2d3b;
-    color: white;
+    background-color: var(--red-color);
+    color: var(--white-color);
     font-size: 0.9rem;
     font-weight: bold;
     padding: 0.5rem;
@@ -129,25 +146,25 @@ h3 {
 }
 
 .td-category {
-    background-color: bisque;
-    border: 1px solid #ddd;
-    color: grey;
+    background-color: var(--basic-color);
+    border: 1px solid var(--lightgrey-color);
+    color: var(--grey-color);
     font-size: 0.88rem;
     padding: 0.5rem;
 }
 
 .td-number {
-    background-color: bisque;
-    border: 0,0625rem solid #ddd;
-    color: #bb2d3b;
+    background-color: var(--basic-color);
+    border: 0,0625rem solid var(--lightgrey-color);
+    color: var(--red-color);
     font-size: 0.88rem;
     font-weight: bold;
     padding: 0.625rem;
 }
 
 .info {
-    background-color: lightgray;
-    border: 0.1875rem dotted #bb2d3b;
+    background-color: var(--lightgrey-color);
+    border: 0.1875rem dotted var(--red-color);
     font-size: 1.25rem;
     margin: auto;
     padding: 1.25rem;
@@ -156,10 +173,10 @@ h3 {
 }
 
 .pal-table {
-    background-color: #fff;
-    border: 0.0625rem solid grey;
-    color: #666666;
-    font: bold 1.25rem 'Nunito Sans', sans-serif; 
+    background-color: var(--white-color);
+    border: 0.0625rem solid var(--grey-color);
+    color: var(--darkgrey-color);
+    font: bold 1.25rem var(--nunito-font); 
     left: 10.8rem;
     max-width: 62rem;
     position: absolute;
@@ -167,10 +184,10 @@ h3 {
 }
 
 .th-pal {
-    background-color: bisque;
-    border: 0.125rem solid #ddd;
-    color: black;
-    font: bold 1.125rem 'Rubik', sans-serif;
+    background-color: var(--basic-color);
+    border: 0.125rem solid var(--lightgrey-color);
+    color: var(--black-color);
+    font: bold 1.125rem var(--rubik-font);
     padding: 1.25rem;
 }
 
@@ -181,8 +198,8 @@ h3 {
 }
 
 .tmr-info {
-    background-color: bisque;
-    border: 0.0625rem solid black;
+    background-color: var(--basic-color);
+    border: 0.0625rem solid var(--black-color);
     left: 50rem;
     padding: 0.625rem 1.875rem 0.625rem 0.625rem;
     position: absolute;
@@ -192,8 +209,8 @@ h3 {
 }
 
 .important {
-    background-color: bisque;
-    color: #bb2d3b;
+    background-color: var(--basic-color);
+    color: var(--red-color);
     height: 15.6rem;
 }
 
