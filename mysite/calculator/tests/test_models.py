@@ -1,6 +1,6 @@
 from django.forms import ValidationError
 from django.test import TestCase
-from calculator.models import Person
+from calculator.models import Person, CalculatedData
 from django.contrib.auth.models import User
 
 
@@ -37,3 +37,36 @@ class PersonTestCase(TestCase):
         self.assertNotEqual(person.height, 200)
         self.assertNotEqual(person.gender, 'female')
         self.assertNotEqual(person.age, 60)
+
+
+class CalculatedDataTestCase(TestCase):
+    
+    def setUp(self):
+        self.user = User.objects.create_user(username='test_user', password='test_password')
+        CalculatedData.objects.create(user=self.user, bmi=18, bmi_category='unknown', pal='2.0', tmr=2000)
+
+    def test_calculated_data_string_representation(self):
+        calculated_data = CalculatedData.objects.get(id=1)
+        self.assertEqual(str(calculated_data), 'test_user')
+        self.assertTrue(isinstance(calculated_data, CalculatedData))
+        
+    def test_calculated_data_labels(self):
+        calculated_data = CalculatedData.objects.get(id=1)
+        self.assertEqual(calculated_data._meta.get_field('bmi').verbose_name, 'bmi')
+        self.assertEqual(calculated_data._meta.get_field('bmi_category').verbose_name, 'bmi category')
+        self.assertEqual(calculated_data._meta.get_field('pal').verbose_name, 'pal')
+        self.assertEqual(calculated_data._meta.get_field('tmr').verbose_name, 'tmr')
+
+    def test_calculated_data_with_correct_values(self):
+        calculated_data = CalculatedData.objects.get(id=1)
+        self.assertEqual(calculated_data.bmi, 18)
+        self.assertEqual(calculated_data.bmi_category, 'unknown')
+        self.assertEqual(calculated_data.pal, '2.0')
+        self.assertEqual(calculated_data.tmr, 2000)
+
+    def test_calculated_data_with_incorrect_values(self):
+        calculated_data = CalculatedData.objects.get(id=1)
+        self.assertNotEqual(calculated_data.bmi, 30)
+        self.assertNotEqual(calculated_data.bmi_category, 'female')
+        self.assertNotEqual(calculated_data.pal, '1.0')
+        self.assertNotEqual(calculated_data.tmr, 1500)
