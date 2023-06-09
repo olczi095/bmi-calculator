@@ -1,3 +1,4 @@
+from django.forms import ValidationError
 from django.test import TestCase
 from calculator.models import Person
 from django.contrib.auth.models import User
@@ -7,79 +8,32 @@ class PersonTestCase(TestCase):
 
     def setUp(self):
         self.user = User.objects.create_user(username='test_user', password='test_password')
+        self.second_user = User.objects.create_user(username='test_second_user', password='test_second_password')
         Person.objects.create(user=self.user, weight=80, height=175, gender='male', age=30)
+        Person.objects.create(user=self.second_user, weight=60, height=160, gender='female', age=40)
 
     def test_person_string_representation(self):
-        self.second_user = User.objects.create_user(username='test_second_user', password='test_second_password')
-        Person.objects.create(user=self.second_user, weight=60, height=160, gender='female', age=40)
-        test_person = Person.objects.get(id=2)
-        self.assertEqual(str(test_person), 'test_second_user')
-        self.assertTrue(isinstance(test_person, Person))
+        person = Person.objects.get(id=2)
+        self.assertEqual(str(person), 'test_second_user')
+        self.assertTrue(isinstance(person, Person))
+    
+    def test_person_labels(self):
+        person = Person.objects.get(id=1)
+        self.assertEqual(person._meta.get_field('weight').verbose_name, 'weight')
+        self.assertEqual(person._meta.get_field('height').verbose_name, 'height')
+        self.assertEqual(person._meta.get_field('gender').verbose_name, 'gender')
+        self.assertEqual(person._meta.get_field('age').verbose_name, 'age')
 
-    def test_weight_label(self):
-        test_person = Person.objects.get(id=1)
-        weight_field_label = test_person._meta.get_field('weight').verbose_name
-        self.assertEqual(weight_field_label, 'weight')
+    def test_person_with_correct_values(self):
+        person = Person.objects.get(id=1)
+        self.assertEqual(person.weight, 80)
+        self.assertEqual(person.height, 175)
+        self.assertEqual(person.gender, 'male')
+        self.assertEqual(person.age, 30)
 
-    def test_weight_value(self):
-        test_person = Person.objects.get(id=1)
-        person_weight = test_person.weight
-        expected_weight = 80
-        self.assertEqual(person_weight, expected_weight)
-
-    def test_wrong_weight_value(self):
-        test_person = Person.objects.get(id=1)
-        person_weight = test_person.weight
-        wrong_weight = 100
-        self.assertNotEqual(person_weight, wrong_weight)
-
-    def test_height_label(self):
-        test_person = Person.objects.get(id=1)
-        height_field_label = test_person._meta.get_field('height').verbose_name
-        self.assertEqual(height_field_label, 'height')
-
-    def test_height_value(self):
-        test_person = Person.objects.get(id=1)
-        person_height = test_person.height
-        expected_height = 175
-        self.assertEqual(person_height, expected_height)
-
-    def test_wrong_height_value(self):
-        test_person = Person.objects.get(id=1)
-        person_height = test_person.height
-        wrong_height = 200
-        self.assertNotEqual(person_height, wrong_height)
-
-    def test_gender_label(self):
-        test_person = Person.objects.get(id=1)
-        gender_field_label = test_person._meta.get_field('gender').verbose_name
-        self.assertEqual(gender_field_label, 'gender')
-
-    def test_gender_value(self):
-        test_person = Person.objects.get(id=1)
-        person_gender = test_person.gender
-        expected_gender = 'male'
-        self.assertEqual(person_gender, expected_gender)
-
-    def test_wrong_gender_value(self):
-        test_person = Person.objects.get(id=1)
-        person_gender = test_person.gender
-        wrong_gender = 'female'
-        self.assertNotEqual(person_gender, wrong_gender)
-
-    def test_age_label(self):
-        test_person = Person.objects.get(id=1)
-        age_field_label = test_person._meta.get_field('age').verbose_name
-        self.assertEqual(age_field_label, 'age')
-
-    def test_age_value(self):
-        test_person = Person.objects.get(id=1)
-        person_age = test_person.age
-        expected_value = 30
-        self.assertEqual(person_age, expected_value)
-
-    def test_wrong_age_value(self):
-        test_person = Person.objects.get(id=1)
-        person_age = test_person.age
-        wrong_age = 60
-        self.assertNotEqual(person_age, wrong_age)
+    def test_person_with_incorrect_values(self):
+        person = Person.objects.get(id=1)
+        self.assertNotEqual(person.weight, 100)
+        self.assertNotEqual(person.height, 200)
+        self.assertNotEqual(person.gender, 'female')
+        self.assertNotEqual(person.age, 60)
