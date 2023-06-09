@@ -27,6 +27,12 @@ class PersonTestCase(TestCase):
         expected_weight = 80
         self.assertEqual(person_weight, expected_weight)
 
+    def test_wrong_weight_value(self):
+        test_person = Person.objects.get(id=1)
+        person_weight = test_person.weight
+        wrong_weight = 100
+        self.assertNotEqual(person_weight, wrong_weight)
+
     def test_height_label(self):
         test_person = Person.objects.get(id=1)
         height_field_label = test_person._meta.get_field('height').verbose_name
@@ -37,6 +43,12 @@ class PersonTestCase(TestCase):
         person_height = test_person.height
         expected_height = 175
         self.assertEqual(person_height, expected_height)
+
+    def test_wrong_height_value(self):
+        test_person = Person.objects.get(id=1)
+        person_height = test_person.height
+        wrong_height = 200
+        self.assertNotEqual(person_height, wrong_height)
 
     def test_gender_label(self):
         test_person = Person.objects.get(id=1)
@@ -49,6 +61,12 @@ class PersonTestCase(TestCase):
         expected_gender = 'male'
         self.assertEqual(person_gender, expected_gender)
 
+    def test_wrong_gender_value(self):
+        test_person = Person.objects.get(id=1)
+        person_gender = test_person.gender
+        wrong_gender = 'female'
+        self.assertNotEqual(person_gender, wrong_gender)
+
     def test_age_label(self):
         test_person = Person.objects.get(id=1)
         age_field_label = test_person._meta.get_field('age').verbose_name
@@ -59,3 +77,9 @@ class PersonTestCase(TestCase):
         person_age = test_person.age
         expected_value = 30
         self.assertEqual(person_age, expected_value)
+
+    def test_wrong_age_value(self):
+        test_person = Person.objects.get(id=1)
+        person_age = test_person.age
+        wrong_age = 60
+        self.assertNotEqual(person_age, wrong_age)
