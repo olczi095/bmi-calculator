@@ -10,7 +10,7 @@ class UserDataForm(forms.Form):
     )
     weight = forms.FloatField(
         required=False, 
-        label='Weight    ', 
+        label='Weight ', 
         min_value=1, 
         max_value=600,
         widget=forms.NumberInput(attrs={'placeholder': 'kg ', 'style': 'text-align: right; max-width: 70%; '})
