@@ -8,29 +8,29 @@ class URLSTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response['Location'], '/bmi_calculator/')
     
-    def test_bmi_returns_success(self):
+    def test_bmi_url_returns_success(self):
         response = self.client.get(reverse('bmi'))
         self.assertEqual(response.status_code, 200)
 
-    def test_bmi_filled_returns_redirect(self):
+    def test_bmi_url_filled_returns_redirect(self):
         response = self.client.get(reverse('bmi-filled'))
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response['Location'], '/bmi_calculator/')
 
-    def test_bmr_returns_success(self):
+    def test_bmr_url_returns_success(self):
         response = self.client.get(reverse('bmr'))
         self.assertEqual(response.status_code, 200)
 
-    def test_bmr_filled_returns_redirect(self):
+    def test_bmr_url_filled_returns_redirect(self):
         response = self.client.get(reverse('bmr-filled'))
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response['Location'], '/bmr_calculator/')
     
-    def test_pal_returns_success(self):
+    def test_pal_url_returns_success(self):
         response = self.client.get(reverse('pal'))
         self.assertEqual(response.status_code, 200)
 
-    def test_tmr_returns_success(self):
+    def test_tmr_url_returns_success(self):
         response = self.client.get(reverse('tmr'))
         self.assertEqual(response.status_code, 200)
 
