@@ -3,10 +3,9 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from calculator.forms import UserDataForm
 from calculator.views import checking_bmi_category, calculate_bmi_save_data, calculate_bmr_save_data, calculate_tmr_save_data
-from calculator.views import bmi_calculator
 
 # Main views
-class URLSTestCase(TestCase):
+class URLSViewTestCase(TestCase):
 
     def setUp(self):
         self.client = Client()
@@ -65,7 +64,7 @@ class AdditionalFunctionsTestCase(TestCase):
         self.user = User.objects.create_user(username='test_user', password='test_password')
 
     def test_checking_bmi_category_function(self):
-        data = {
+        bmi_data = {
             14: 'severe thinnes', 
             17: 'underweight',
             20: 'normal weight',
@@ -75,7 +74,7 @@ class AdditionalFunctionsTestCase(TestCase):
             45: 'morbidly obese'
         }
 
-        for bmi, bmi_category in data.items():
+        for bmi, bmi_category in bmi_data.items():
             result = {
                 'calculated_bmi': bmi,
                 'category': bmi_category,
