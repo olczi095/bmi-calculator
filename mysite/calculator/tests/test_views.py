@@ -181,18 +181,3 @@ class SavingCalculatedDataModelTestCase(TestCase):
         self.assertEqual(filled_data.pal, 1.6)
         self.assertEqual(filled_data.tmr, 2000)
 
-
-class BMICalculatorTestCase:
-
-    def setUp(self):
-        self.client = Client()
-
-    def test_form_is_invalid(self):
-        invalid_data = {
-            'age': 20
-            }
-        url = reverse('bmi')
-        response = self.client.post(url, data=invalid_data)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'calculator/bmi.html')
-        self.assertIsInstance(response.context['form'], UserDataForm)
