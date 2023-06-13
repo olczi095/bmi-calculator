@@ -1,4 +1,4 @@
-from django.test import RequestFactory, TestCase, Client
+from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User
 from calculator.forms import UserDataForm
@@ -62,6 +62,7 @@ class AdditionalFunctionsTestCase(TestCase):
     
     def setUp(self):
         self.user = User.objects.create_user(username='test_user', password='test_password')
+        self.client = Client()
 
     def test_checking_bmi_category_function(self):
         bmi_data = {
@@ -85,8 +86,7 @@ class AdditionalFunctionsTestCase(TestCase):
         
 
     def test_calculating_values(self):
-        self.factory = RequestFactory()
-        request = self.factory.get("/bmi_calculator/filled")
+        request = self.client.get("/bmi_calculator/filled")
         request.user = self.user
 
         male_form = UserDataForm(data={'age': 40, 'weight': 100, 'height': 190, 'gender': 'male', 'pal': 1.2})
