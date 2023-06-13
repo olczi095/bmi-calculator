@@ -2,10 +2,10 @@ from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User
 from calculator.forms import UserDataForm
-from calculator.views import checking_bmi_category, calculate_bmi_save_data, calculate_bmr_save_data, calculate_tmr_save_data
+from calculator.models import Person, CalculatedData
+from calculator.views import checking_bmi_category, calculate_bmi_save_data, calculate_bmr_save_data, calculate_tmr_save_data, user_update_or_create
 
-# Main views
-class URLSViewTestCase(TestCase):
+class URLViewTestCase(TestCase):
 
     def setUp(self):
         self.client = Client()
@@ -47,8 +47,7 @@ class URLSViewTestCase(TestCase):
         self.assertEqual(response['Location'], '/tmr_calculator/')
 
 
-# Additional Functions
-class AdditionalFunctionsTestCase(TestCase):
+class UtilityFunctionsTestCase(TestCase):
             
     bmi_categories = {
             'severe thinnes': 'Your weight is too low and your life may be at risk. Try to gain weight but if you may have problems with an eating disorder, please contant an experienced specialist.',
@@ -61,8 +60,14 @@ class AdditionalFunctionsTestCase(TestCase):
         }
     
     def setUp(self):
+        self.male_form = UserDataForm(data={'age': 40, 'weight': 100, 'height': 190, 'gender': 'male', 'pal': 1.2})
+        self.female_form = UserDataForm(data={'age': 50, 'weight': 70, 'height': 150, 'gender': 'female', 'pal': 1.8})
         self.user = User.objects.create_user(username='test_user', password='test_password')
-        self.client = Client()
+        self.user.save()
+    
+    def test_form_validation(self):
+        self.assertTrue(self.male_form.is_valid())
+        self.assertTrue(self.female_form.is_valid())
 
     def test_checking_bmi_category_function(self):
         bmi_data = {
@@ -83,16 +88,12 @@ class AdditionalFunctionsTestCase(TestCase):
             }   
             self.assertEqual(result, checking_bmi_category(bmi))
 
-        
-
     def test_calculating_values(self):
         request = self.client.get("/bmi_calculator/filled")
         request.user = self.user
 
-        male_form = UserDataForm(data={'age': 40, 'weight': 100, 'height': 190, 'gender': 'male', 'pal': 1.2})
-        male_form.is_valid()
-        female_form = UserDataForm(data={'age': 50, 'weight': 70, 'height': 150, 'gender': 'female', 'pal': 1.8})
-        female_form.is_valid()
+        self.male_form.is_valid()
+        self.female_form.is_valid()
         
         expected_values_male = {
             'expected_bmi': 27.70,
@@ -104,9 +105,94 @@ class AdditionalFunctionsTestCase(TestCase):
             'expected_bmr': 1226.50,
             'expected_tmr': 2207.70
         }
-        self.assertEqual(calculate_bmi_save_data(request, male_form), expected_values_male['expected_bmi'])
-        self.assertEqual(calculate_bmr_save_data(request, male_form), expected_values_male['expected_bmr'])
-        self.assertEqual(calculate_tmr_save_data(request, male_form), expected_values_male['expected_tmr'])
-        self.assertEqual(calculate_bmi_save_data(request, female_form), expected_values_female['expected_bmi'])
-        self.assertEqual(calculate_bmr_save_data(request, female_form), expected_values_female['expected_bmr'])
-        self.assertEqual(calculate_tmr_save_data(request, female_form), expected_values_female['expected_tmr'])
+        self.assertEqual(calculate_bmi_save_data(request, self.male_form), expected_values_male['expected_bmi'])
+        self.assertEqual(calculate_bmr_save_data(request, self.male_form), expected_values_male['expected_bmr'])
+        self.assertEqual(calculate_tmr_save_data(request, self.male_form), expected_values_male['expected_tmr'])
+        self.assertEqual(calculate_bmi_save_data(request, self.female_form), expected_values_female['expected_bmi'])
+        self.assertEqual(calculate_bmr_save_data(request, self.female_form), expected_values_female['expected_bmr'])
+        self.assertEqual(calculate_tmr_save_data(request, self.female_form), expected_values_female['expected_tmr'])
+
+class SavingDataPersonModelTestCase(TestCase):
+
+    def setUp(self):
+        self.user = User.objects.create_user(username='test_user', password='test_password')
+        self.male_form = UserDataForm(data={'age': 40, 'weight': 100, 'height': 190, 'gender': 'male', 'pal': 1.2})
+        self.female_form = UserDataForm(data={'age': 50, 'weight': 70, 'height': 150, 'gender': 'female', 'pal': 1.8})
+
+    def test_male_saving_data(self):
+        self.client.login(username='test_user', password='test_password')
+        response = self.client.get(reverse('bmi-filled'))
+        self.male_form.is_valid()
+        user_update_or_create(response.wsgi_request, Person, {
+            'age': self.male_form.cleaned_data['age'],
+            'gender': self.male_form.cleaned_data['gender'],
+            'weight': self.male_form.cleaned_data['weight'],
+            'height': self.male_form.cleaned_data['height'], 
+        })
+        male_person = Person.objects.get(user=self.user)
+        self.assertEqual(male_person.age, 40)
+        self.assertEqual(male_person.gender, 'male')
+        self.assertEqual(male_person.weight, 100)
+        self.assertEqual(male_person.height, 190)
+
+    def test_female_saving_data(self):
+        self.client.login(username='test_user', password='test_password')
+        response = self.client.get(reverse('bmi-filled'))
+        self.female_form.is_valid()
+        user_update_or_create(response.wsgi_request, Person, {
+            'age': self.female_form.cleaned_data['age'],
+            'gender': self.female_form.cleaned_data['gender'],
+            'weight': self.female_form.cleaned_data['weight'],
+            'height': self.female_form.cleaned_data['height']
+        })
+        female_person = Person.objects.get(user=self.user)
+        self.assertEqual(female_person.age, 50)
+        self.assertEqual(female_person.gender, 'female')
+        self.assertEqual(female_person.weight, 70)
+        self.assertEqual(female_person.height, 150)
+
+
+class SavingCalculatedDataModelTestCase(TestCase):
+
+    def setUp(self):
+        self.user = User.objects.create_user(username='test_user', password='test_password')
+        self.user.save()
+    
+    def test_unfilled_calculated_data(self):
+        unfilled_data = CalculatedData(user=self.user)
+        unfilled_data.save()
+        self.assertEqual(unfilled_data.user, self.user)
+        self.assertEqual(unfilled_data.bmi, 0)
+        self.assertEqual(unfilled_data.bmi_category, 'unknown')
+        self.assertEqual(unfilled_data.pal, 'unknown')
+        self.assertEqual(unfilled_data.tmr, 0)
+
+    def test_filled_calculted_data(self):
+        self.client.login(username='test_user', password='test_password')
+        filled_data = CalculatedData(user=self.user, 
+                                     bmi=20,
+                                     bmi_category='normal weight',
+                                     pal=1.6,
+                                     tmr=2000)
+        filled_data.save()
+        self.assertEqual(filled_data.user, self.user)
+        self.assertEqual(filled_data.bmi, 20)
+        self.assertEqual(filled_data.bmi_category, 'normal weight')
+        self.assertEqual(filled_data.pal, 1.6)
+        self.assertEqual(filled_data.tmr, 2000)
+
+
+class BMICalculatorTestCase:
+
+    def setUp(self):
+        self.client = Client()
+
+    def test_form_is_invalid(self):
+        invalid_data = {
+            'age': 20
+            }
+        url = reverse('bmi')
+        response = self.client.post(url, data=invalid_data)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'calculator/bmi.html')
+        self.assertIsInstance(response.context['form'], UserDataForm)
