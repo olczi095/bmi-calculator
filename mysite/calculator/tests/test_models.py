@@ -1,4 +1,3 @@
-from django.forms import ValidationError
 from django.test import TestCase
 from calculator.models import Person, CalculatedData
 from django.contrib.auth.models import User
