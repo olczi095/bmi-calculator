@@ -1,14 +1,21 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User
+from calculator.views import home as home_page
 
 
 class SignUpTestCase(TestCase):
 
-    valid_data = {'username': 'testuser',
-                  'email': 'testuser@test.com', 
-                  'password1': 'testpassword',
-                  'password2': 'testpassword'}
+
+    def setUp(self):
+        self.client = Client()
+        self.login_url = reverse('accounts:login')
+        self.logout_url = reverse(home_page)
+        self.valid_data = {
+            'username': 'testuser',
+            'email': 'testuser@test.com', 
+            'password1': 'testpassword',
+            'password2': 'testpassword'}
                   
     def test_display_registration_view(self):
         response = self.client.get(reverse('accounts:signup'))
@@ -32,3 +39,15 @@ class SignUpTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'accounts/signup.html')
         self.assertFalse(response.context['form'].is_valid())
+
+    def test_login(self):
+        response = self.client.post(self.login_url, {
+            'username': 'testuser',
+            'password': 'testpassword'
+        }, follow=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_logout(self):
+        self.client.login(username='testuser', password='testpassword')
+        response = self.client.post(self.logout_url, follow=True)
+        self.assertEqual(response.status_code, 200)
