@@ -5,6 +5,7 @@ from calculator.forms import UserDataForm
 from calculator.models import Person, CalculatedData
 from calculator.views import checking_bmi_category, calculate_bmi_save_data, calculate_bmr_save_data, calculate_tmr_save_data, user_update_or_create
 
+
 class URLViewTestCase(TestCase):
 
     def setUp(self):
@@ -111,6 +112,7 @@ class UtilityFunctionsTestCase(TestCase):
         self.assertEqual(calculate_bmi_save_data(request, self.female_form), expected_values_female['expected_bmi'])
         self.assertEqual(calculate_bmr_save_data(request, self.female_form), expected_values_female['expected_bmr'])
         self.assertEqual(calculate_tmr_save_data(request, self.female_form), expected_values_female['expected_tmr'])
+
 
 class SavingDataPersonModelTestCase(TestCase):
 

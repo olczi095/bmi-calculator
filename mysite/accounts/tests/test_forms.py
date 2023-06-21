@@ -1,6 +1,7 @@
 from accounts.forms import RegisterForm
 from django.test import TestCase
 
+
 class RegisterFormTestCase(TestCase):
     
     def setUp(self):
