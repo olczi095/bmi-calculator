@@ -1,6 +1,7 @@
 from django.test import TestCase
 from calculator.forms import UserDataForm
 
+
 class UserDataFormTest(TestCase):
 
     def setUp(self):

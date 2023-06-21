@@ -6,7 +6,6 @@ from calculator.views import home as home_page
 
 class SignUpTestCase(TestCase):
 
-
     def setUp(self):
         self.client = Client()
         self.login_url = reverse('accounts:login')
