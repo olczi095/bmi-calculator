@@ -6,15 +6,17 @@ from calculator.views import home as home_page
 
 class SignUpTestCase(TestCase):
 
-    def setUp(self):
-        self.client = Client()
-        self.login_url = reverse('accounts:login')
-        self.logout_url = reverse(home_page)
-        self.valid_data = {
+    @classmethod
+    def setUpClass(cls):
+        cls.client = Client()
+        cls.login_url = reverse('accounts:login')
+        cls.logout_url = reverse(home_page)
+        cls.valid_data = {
             'username': 'testuser',
             'email': 'testuser@test.com', 
             'password1': 'testpassword',
             'password2': 'testpassword'}
+        super().setUpClass()
                   
     def test_display_registration_view(self):
         response = self.client.get(reverse('accounts:signup'))
