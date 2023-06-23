@@ -13,10 +13,6 @@
    --color-green: #17B169;
 }
 
-h3 {
-   font: 900 var(--font-rubik);
-} 
-
 .navbar-dark .navbar-brand {
     color: var(--color-basic);
     font: 30px var(--font-orbitron);
