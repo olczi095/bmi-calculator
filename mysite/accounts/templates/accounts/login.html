@@ -6,7 +6,7 @@
     <div class="container">
         <form class="login" method="POST" action="{% url 'accounts:login' %}">
                 {% csrf_token %}
-                <h3>Log in</h3>
+                <h4>Log in</h4>
                 <hr>
                 <p><div class="field-style">{{ form }}</div><br /></p>
                 {% for message in messages %}
