@@ -1,59 +1,67 @@
-h3 {
-   font-family: 'Rubik', sans-serif;
-   font-weight: 900;
+/* Variables */
+
+:root {
+   /* Fonts */
+   --font-rubik: 'Rubik', sans-serif;
+   --font-orbitron: 'Orbitron', sans-serif;
+
+   /* Colors */
+   --color-basic: #ffe4c4;
+   --color-grey: #808080;
+   --color-lightgrey: #d3d3d3;
+   --color-white: #fff;
+   --color-green: #17B169;
 }
 
+h3 {
+   font: 900 var(--font-rubik);
+} 
 
 .navbar-dark .navbar-brand {
-    font-family: 'Nunito Sans', sans-serif;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 30px;
-    color: bisque;
-    margin-left: 40px;
-    margin-right: 40px;
-    text-shadow: 5px 1px 2px grey;
+    color: var(--color-basic);
+    font: 30px var(--font-orbitron);
+    margin: 0 40px;
+    text-shadow: 5px 1px 2px var(--color-grey);
  }
 
 .signup {
-   border: 2px solid bisque;
-   padding: 15px;
    border-radius: 5px;
-   margin: 0 auto;
-   width: 500px;
-   font-family: 'Rubik', sans-serif;
+   border: 2px solid var(--color-basic);
+   font-family: var(--font-rubik);
    font-size: 80%;
-   margin-top: 20px;
+   margin: 20px auto 0;
+   padding: 15px;
+   width: 500px;
 }
 
 .login {
-   border: 2px solid bisque;
-   padding: 35px;
    border-radius: 5px;
-   margin: 0 auto;
-   margin-top: 50px;
+   border: 2px solid var(--color-basic);
+   font-family: var(--font-rubik);
+   margin: 50px auto;
+   padding: 35px;
    width: 500px;
-   font-family: 'Rubik', sans-serif;
 }
 
 .field-style input{
-   display: block;
-   width: 100%;
-   height: 7%;
-   border: 1px solid lightgrey;
    border-radius: 5px;
+   border: 1px solid var(--color-lightgrey);
+   display: block;
+   height: 7%;
    margin: 0 auto;
+   width: 100%;
 }
 
 .submit-button {
-   display: block;
-   width: 300px;
-   height: 7%;
-   font-family: 'Rubik', sans-serif;
-   color: white;
-   background-color: #17B169;
-   border: 1px solid #17B169;
+   background-color: var(--color-green);
    border-radius: 20px;
+   border: 1px solid var(--color-green);
+   color: var(--color-white);
+   display: block;
+   font-family: var(--font-rubik);
+   height: 7%;
    margin: 0 auto;
+   width: 300px;
 }
 
 .space {
