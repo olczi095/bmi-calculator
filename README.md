@@ -39,7 +39,7 @@ The website is designed to be clear user-friendly. I've also put some effort to 
   source venv/bin/activate # on MacOS/Unix
 ```
 <br />
-<strong>3. Change to the directory:</strong>
+<strong>3. Change to the project directory:</strong>
 
 ```bash
   cd mysite
@@ -51,7 +51,14 @@ The website is designed to be clear user-friendly. I've also put some effort to 
   pip3 install -r requirements.txt
 ```
 <br />
-<strong>5. Run the development server:</strong>
+<strong>5. Create a ".env" file and place the following code in it. Generate your own unique secret key and replace the key provided in the below code. Also, change the value of DEBUG to "True" or "False":</strong>
+
+```bash
+  SECRET_KEY=your_own_secret_key_here
+  DEBUG=true_or_false
+```
+<br />
+<strong>6. Run the development server:</strong>
 
 ```bash
   python3 manage.py runserver
