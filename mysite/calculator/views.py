@@ -3,12 +3,6 @@ from django.shortcuts import render, redirect
 from .forms import UserDataForm
 from .models import Person, CalculatedData
 
-def user_update_or_create(request, object_for_update, defaults):
-    if request.user.is_authenticated:
-        object_for_update.objects.update_or_create(
-            user=request.user,
-            defaults=defaults
-        )
 
 def select_required_fields(calculator, form):
     if calculator == 'bmi_calculator':
@@ -22,6 +16,7 @@ def select_required_fields(calculator, form):
         form.fields['weight'].required = True
         if calculator == 'tmr_calculator':
             form.fields['pal'].required = True
+
 
 def checking_bmi_category(bmi):
 
@@ -51,10 +46,11 @@ def checking_bmi_category(bmi):
         category = 'morbidly obese'
 
     return {
-        'calculated_bmi': bmi, 
-        'category': category, 
+        'calculated_bmi': bmi,
+        'category': category,
         'description': bmi_categories[category]
     }
+
 
 def calculate_bmi_save_data(request, form):
     height = form.cleaned_data['height']
@@ -62,55 +58,50 @@ def calculate_bmi_save_data(request, form):
     gender = form.cleaned_data['gender']
     calculated_bmi = round(weight / (height * 0.01) ** 2, 2)
 
-    user_update_or_create(
-        request,
-        Person,
-        {
-            'weight': weight,
-            'height': height, 
-            'gender': gender
-        }
-    )
-    user_update_or_create(
-        request,
-        CalculatedData,
-        {
-            'bmi': calculated_bmi, 
-            'bmi_category': checking_bmi_category(calculated_bmi)['category']
-        }
-    )
-        
+    person_instance, created = Person.objects.get_or_create(user=request.user)
+    calculated_data_instance, created = CalculatedData.objects.get_or_create(
+        user=request.user)
+
+    person_instance.update_or_create_data({
+        'weight': weight,
+        'height': height,
+        'gender': gender
+    })
+    calculated_data_instance.update_or_create_data({
+        'bmi': calculated_bmi,
+        'bmi_category': checking_bmi_category(calculated_bmi)['category']
+    })
+
     return calculated_bmi
+
 
 def calculate_bmr_save_data(request, form):
     age = form.cleaned_data['age']
     gender = form.cleaned_data['gender']
     height = form.cleaned_data['height']
     weight = form.cleaned_data['weight']
+
     if gender == 'male':
         bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5
     else:
         bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161
-    
-    user_update_or_create(
-        request,
-        Person,
-        {
-            'age': age,
-            'gender': gender,
-            'height': height,
-            'weight': weight
-        }
-    )
-    user_update_or_create(
-        request,
-        CalculatedData,
-        {
-            'bmr': bmr
-        }
-    )
+
+    person_instance, created = Person.objects.get_or_create(user=request.user)
+    calculated_data_instance, created = CalculatedData.objects.get_or_create(
+        user=request.user)
+
+    person_instance.update_or_create_data({
+        'age': age,
+        'gender': gender,
+        'height': height,
+        'weight': weight
+    })
+    calculated_data_instance.update_or_create_data({
+        'bmr': bmr
+    })
 
     return bmr
+
 
 def calculate_tmr_save_data(request, form):
     age = form.cleaned_data['age']
@@ -121,35 +112,22 @@ def calculate_tmr_save_data(request, form):
     if gender == 'male':
         tmr = round(((10 * weight) + (6.25 * height) - (5 * age) + 5) * pal, 2)
     else:
-        tmr = round(((10 * weight) + (6.25 * height) - (5 * age) - 161) * pal, 2)
-    
-    user_update_or_create(
-        request,
-        Person,
-        {
-            'age': age,
-            'gender': gender,
-            'height': height,
-            'weight': weight
-        }
-    )
-    user_update_or_create(
-        request,
-        CalculatedData,
-        {
-            'pal': pal,
-            'tmr': tmr
-        }
-    )
+        tmr = round(((10 * weight) + (6.25 * height) -
+                    (5 * age) - 161) * pal, 2)
 
     return tmr
 
+
 def add_success_message(request):
-    messages.success(request, '<strong>Your data has been successfully saved.</strong> You will be able to use them later to refill if you want to!')
+    messages.success(
+        request, '<strong>Your data has been successfully saved.</strong> You will be able to use them later to refill if you want to!')
 
 # Main views
+
+
 def home(request):
-   return redirect('bmi')
+    return redirect('bmi')
+
 
 def bmi_calculator(request):
     if request.method == 'POST':
@@ -167,7 +145,8 @@ def bmi_calculator(request):
         except:
             last_bmi = "Sorry you don't have any saved data."
     return render(request, 'calculator/bmi.html', {'form': form, 'last_bmi': last_bmi})
-        
+
+
 def bmi_calculator_filled_out(request):
     try:
         person = Person.objects.get(user=request.user)
@@ -183,10 +162,11 @@ def bmi_calculator_filled_out(request):
     select_required_fields('bmi_calculator', form=form)
 
     if request.method == 'POST' and form.is_valid():
-            add_success_message(request)
-            calculated_bmi = calculate_bmi_save_data(request, form)
-            return render(request, 'calculator/bmiresult.html', checking_bmi_category(calculated_bmi))
+        add_success_message(request)
+        calculated_bmi = calculate_bmi_save_data(request, form)
+        return render(request, 'calculator/bmiresult.html', checking_bmi_category(calculated_bmi))
     return render(request, 'calculator/bmi.html', {'form': form})
+
 
 def bmr_calculator(request):
     if request.method == "POST":
@@ -204,7 +184,8 @@ def bmr_calculator(request):
         except:
             last_bmr = "Sorry you don't have any saved data."
         return render(request, 'calculator/bmr.html', {'form': form, 'last_bmr': last_bmr})
-    
+
+
 def bmr_calculator_filled_out(request):
     try:
         person = Person.objects.get(user=request.user)
@@ -226,10 +207,11 @@ def bmr_calculator_filled_out(request):
         return render(request, 'calculator/bmrresult.html', {'bmr': bmr})
     else:
         return render(request, 'calculator/bmr.html', {'form': form})
-    
+
 
 def pal_calculator(request):
     return render(request, 'calculator/pal.html')
+
 
 def tmr_calculator(request):
     if request.method == 'POST':
@@ -248,6 +230,7 @@ def tmr_calculator(request):
             last_tmr = "Sorry you don't have any saved data."
         return render(request, 'calculator/tmr.html', {'form': form, 'last_tmr': last_tmr})
 
+
 def tmr_calculator_filled_out(request):
     try:
         person = Person.objects.get(user=request.user)
@@ -261,7 +244,7 @@ def tmr_calculator_filled_out(request):
         }
     except:
         return redirect('tmr')
-    
+
     form = UserDataForm(request.POST or None, initial=initial_data)
     select_required_fields('tmr_calculator', form=form)
 
@@ -271,5 +254,3 @@ def tmr_calculator_filled_out(request):
         return render(request, 'calculator/tmrresult.html', {'tmr': tmr})
     else:
         return render(request, 'calculator/tmr.html', {'form': form})
-
-    
