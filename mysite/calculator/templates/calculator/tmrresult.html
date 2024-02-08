@@ -1,0 +1,53 @@
+{% extends 'calculator/base.html' %}
+
+{% block title %}TMR Calculator{% endblock %}
+
+{% block content %}
+
+{% for message in messages %}
+    <div class="message-success alert alert-success">
+        {{ message|safe }}
+    </div>
+{% endfor %} 
+
+<div class="form-style" style="max-width: 40%; top: 45%">
+    <h2>Your TMR:</h2>
+    <hr>
+    <div style="background-color:#1E8CFB"><font color="white" size="150%"><div style="text-align:center">
+    {{ tmr }}<br /></div></div></font></hr>
+    <br />
+    <div style="text-align: justify">
+        This is the amount of calories your body needs per day in your normal lifestyle to maintain your current weight.<hr>
+        If you are looking to lose or gain weight, refer to the appropriate table below with some tips and advice.
+    </div>
+</div>
+
+<section class="box-grid">
+    <div class="box">
+        <h3>How to lose weight?</h3><br />
+        <p>
+            To lose weight, you need to create a caloric deficit. How can you achieve this? 
+            There are many different recommended methods, but the most popular way is to subtract approximately 15% of the calories from your calculated TMR.
+            <br /><br />
+            To make this process easier, you can start by subtracting around 200-300 kcal per day. If your weight doesn't decrease, it's an indication that you need to subtract more calories (for example, 400-500 kcal).
+        </p>
+    </div>
+    <div class="box">
+        <h3>How to gain weight?</h3><br />
+        <p>
+            If you want to increase your weight, start by adding approximately 15% of the calories from your calculated TMR. 
+            For example, if your TMR is 2000 kcal, you should aim to eat around 2300 kcal per day. 
+            <br /><br />
+            You can also simplify this approach by adding 200-300 kcal to your current TMR. Remember that if your weight doesn't change, it's an indication that you need to add even more calories (for instance, 400-500 kcal).
+        </p>
+    </div>
+    <div class="box important">
+        <h3 class="important-text">IMPORTANT</h3><hr>
+        <p>
+            Remember that when your weight changes, you should recalculate your Total Metabolic Rate (TMR) from scratch.
+            Gaining or losing body mass can affect your TMR value and you need to take it to account for achieving your goals effectively.
+        </p>
+    </div>
+</section>   
+
+{% endblock %}

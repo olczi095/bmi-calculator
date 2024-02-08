@@ -1,0 +1,210 @@
+/* Variables */
+:root {
+    /* Fonts */
+    --font-orbitron: 'Orbitron', sans-serif;
+    --font-rubik: 'Rubik', sans-serif;
+    --font-nunito: 'Nunito Sans', sans-serif;
+
+    /* Colors */
+    --color-black: #000;
+    --color-basic: #ffe4c4;
+    --color-white: #fff;
+    --color-lightgrey: #ddd;
+    --color-grey: #808080;
+    --color-darkgrey: #666666;
+    --color-lightblue: #b0c4de;
+    --color-normalblue: #1E8CFB;
+    --color-red: #bb2d3b;
+}
+
+/* Global Styles */
+html, body {
+    height: 120%;
+}
+
+.background {
+    background-size: auto 120%;
+    background: url('/static/calculator/background.jpg') no-repeat;
+}
+
+/* Typography */
+h2 {
+    color: var(--color-black);
+    font: 700 1.875rem var(--font-orbitron);
+}
+
+h3 {
+    color: var(--color-black);
+    font: 500 1.25rem var(--font-orbitron);
+}
+
+.navbar-dark .navbar-brand {
+    color: var(--color-basic);
+    font: 1.875rem var(--font-orbitron);
+    margin: auto 2.5rem;
+    text-shadow: 0.3125rem 0.0625rem 0.125rem var(--color-grey);
+ }
+
+.nav-link {
+    color: var(--color-white);
+    font-family: var(--font-rubik);
+    margin: auto 0.625rem;
+}
+
+.strong-text {
+    color: var(--color-black);
+    font-size: 1.5rem;
+}
+
+.important-text {
+    font-weight: bold;
+    text-align: center;
+}
+
+.message-success {
+    font-size: 1rem;
+}
+
+/* Components */
+.form-style {
+    background-color: var(--color-white);
+    border-radius: 0.625rem;
+    border: 0.0625rem solid var(--color-grey);
+    color: var(--color-grey);
+    font: 1.25rem var(--font-rubik);
+    left: 31.2rem;
+    max-width: 20.575rem;
+    padding: 1.25rem;
+    position: absolute;
+    top: 20.90rem;
+    transform: translate(-50%, -50%);
+}
+
+.nice-alert {
+    float: left;
+    font: 1.25rem var(--font-rubik);
+    margin: 8.1rem auto auto 38.9rem;
+    max-width: 20.2rem;
+    text-align: center;
+}
+
+.my-btn {
+    width: 6.25rem;
+}
+
+.box {
+    background-color: var(--color-white);
+    border-radius: 0.625rem;
+    border: 0.0625rem solid var(--color-lightblue);
+    color: var(--color-normalblue);
+    font-size: 1rem;
+    max-width: 21.875rem;
+    padding: 1.25rem;
+}
+
+.box-grid {
+    display: flex;
+    justify-content: space-around;
+    position: absolute;
+    top: 37.75rem;
+    width: 81rem;
+}
+
+.second-box-grid {
+    display: flex;
+    justify-content: space-around;
+    position: absolute;
+    top: 37.75rem;
+    width: 54rem;
+
+}
+
+.bmi-table {
+    left: 14.5rem;
+    opacity: 0.8;
+    position: absolute;
+    top: 22.25rem;  
+}
+
+.bmi-table th {
+    background-color: var(--color-red);
+    color: var(--color-white);
+    font-size: 0.9rem;
+    font-weight: bold;
+    padding: 0.5rem;
+    text-align: left;
+}
+
+.td-category {
+    background-color: var(--color-basic);
+    border: 0.0625rem solid var(--color-lightgrey);
+    color: var(--color-grey);
+    font-size: 0.88rem;
+    padding: 0.5rem;
+}
+
+.td-number {
+    background-color: var(--color-basic);
+    border: 0.0625rem solid var(--color-lightgrey);
+    color: var(--color-red);
+    font-size: 0.88rem;
+    font-weight: bold;
+    padding: 0.625rem;
+}
+
+.info {
+    background-color: var(--color-lightgrey);
+    border: 0.1875rem dotted var(--color-red);
+    font-size: 1.25rem;
+    margin: auto;
+    padding: 1.25rem;
+    text-align: center;
+    width: 64.8rem;
+}
+
+.pal-table {
+    background-color: var(--color-white);
+    border: 0.0625rem solid var(--color-grey);
+    color: var(--color-darkgrey);
+    font: bold 1.25rem var(--font-nunito); 
+    left: 10.8rem;
+    max-width: 62rem;
+    position: absolute;
+    top: 17.8rem;
+}
+
+.th-pal {
+    background-color: var(--color-basic);
+    border: 0.125rem solid var(--color-lightgrey);
+    color: var(--color-black);
+    font: bold 1.125rem var(--font-rubik);
+    padding: 1.25rem;
+}
+
+.pal-box {
+    max-width: 63rem;
+    position: absolute;
+    top: 48.9rem;
+}
+
+.tmr-info {
+    background-color: var(--color-basic);
+    border: 0.0625rem solid var(--color-black);
+    left: 50rem;
+    padding: 0.625rem 1.875rem 0.625rem 0.625rem;
+    position: absolute;
+    text-align: right;
+    top: 4.45rem;
+    width: 38.7rem;
+}
+
+.important {
+    background-color: var(--color-basic);
+    color: var(--color-red);
+    height: 15.6rem;
+}
+
+.navbar-log {
+    position: absolute;
+    right: 6.25rem;
+}

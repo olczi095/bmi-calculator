@@ -2,7 +2,3 @@ asgiref==3.6.0
 Django==4.1.7
 python-dotenv==1.0.0
 sqlparse==0.4.3
-
-# Quality control and code formatting tools, mainly used for development purposes
-flake8==7.0.0
-flake8-isort==6.1.1

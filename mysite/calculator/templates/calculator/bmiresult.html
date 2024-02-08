@@ -1,0 +1,89 @@
+{% extends 'calculator/bmi.html' %}
+
+{% block title %}BMI Result{% endblock %}
+
+{% block content %}
+
+{% for message in messages %}
+    <div class="message-success alert alert-success">
+        {{ message|safe }}
+    </div>
+{% endfor %} 
+
+<div class="form-style">
+    <h2>Your result:</h2>
+    <hr>
+    <div style="background-color:#1E8CFB"><hr><font color="white"><div style='text-align:center'>
+        {{ calculated_bmi }} - {{ category }}</div></font>
+    <hr></div>
+    <div style="text-align: justify">
+    {{ description }}</div>
+    <br />
+</div>
+
+{% if user.is_authenticated %}
+    <table class="form-style bmi-table" style="left:53.5%">
+{% else %}
+    <table class="form-style bmi-table" style="left:53.5%">
+{% endif %}
+        <tr>
+            <th>Category</th>
+            <th>BMI</th>
+        </tr>
+        <tr>
+            <td class="td-category">{{bmi_data}}Severe Thinness</td>
+            <td class="td-number"><16</td>
+        </tr>
+        <tr>
+            <td class="td-category">Underweight</td>
+            <td class="td-number">16-18.5</td>
+        </tr>
+        <tr>
+            <td class="td-category">Normal weight</td>
+            <td class="td-number">18.5–24.9</td>
+        </tr>
+        <tr>
+            <td class="td-category">Overweight</td>
+            <td class="td-number">25–29.9</td>
+        </tr>
+        <tr>
+            <td class="td-category">Obese</td>
+            <td class="td-number">30-34.9</td>
+        </tr>
+        <tr>
+            <td class="td-category">Severely Obese</td>
+            <td class="td-number">35-39.9</td>
+        </tr>
+        <tr>
+            <td class="td-category">Morbidly Obede</td>
+            <td class="td-number">>40</td>
+        </tr>
+    </table>
+
+<section class="box-grid">
+    <div class="box">
+        <h3>What is the BMI?</h3>
+        <br />
+        <p>
+            BMI is a Body Mass Index calculated from height (in metres) and weight (in kilograms). It is used to determine whether the person's weight is correct or not.
+        Generally accepted standards allow for quick and efficient interpretation of results.</p>
+    </div>
+    <div class="box">
+        <h3>Important warnings</h3>
+        <br />
+        <p>
+            It is recommended that the BMI calculator be used by people at least over 14 years old, and the best practise is to use it in adult age. Additionally, it does not work properly on pregnant and lactating women.
+        <br /><br />It's also important to take into account that people who exercise, especially people who practice strength exercises (for example weightlifting), may weigh more than the scale accepts, due to the higher amount of muscle tissue. 
+        </p>
+    </div>
+    <div class="box">
+        <h3>What to do with the result?</h3>
+        <br />
+        <p>
+            If the weight turns out to be incorrect (too high or even to low) it is always a good idea to talk to a specialist - for example dietitian or personal trainer. 
+        <br /><br />If you are overweight, you can always try to lose weight on your own at first by changing the eating style and introducing more physical activity.
+        </p>
+    </div>
+</section>
+
+{% endblock %}

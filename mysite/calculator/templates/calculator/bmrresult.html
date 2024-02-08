@@ -1,0 +1,48 @@
+{% extends 'calculator/base.html' %}
+
+{% block title %}BMR Calculator{% endblock %}
+
+{% block content %}
+
+{% for message in messages %}
+    <div class="message-success alert alert-success">
+        {{ message|safe }}
+    </div>
+{% endfor %} 
+
+<div class="form-style" style="max-width: 40%">
+    <h2>Your BMR:</h2>
+    <hr>
+    <div style="background-color:#1E8CFB"><font color="white" size="150%"><div style="text-align:center">
+    {{ bmr }}<br /></div></div></font></hr>
+    <br />
+    <div style="text-align: justify">
+        This is the amount of calories which your body needs to survive at rest. 
+        Surely you need to eat more, even if you want to lose your weight. If you want to check how many calories you should really eat to keep your current weight, you need to multiply BMR by PAL.
+    </div>
+</div>
+
+<section class="second-box-grid">
+    <div class="box">
+        <h3>What is the BMR?</h3>
+        <br />
+        <p>
+            BMR is Basal Metabolic Rate. This is the amount of calories that the body needs to survive normally at rest (including for breathing, heart work and cell regeneration).
+            <br /><br />BMR does not include any additional activities. To get to know how many calories should you eat a day to keep your weight, lose weight or gain weight, you need to calculate your total metabolic rate (TMR) taking into account your level of physical activity.
+            </p>
+    </div>
+    <div class="box" style="background-color: bisque;">
+        <h3>BMR Formula (Harris-Benedict)</h3>
+        <br />
+        <p>
+            <h4 style="color: #bb2d3b;">Formula for men</h4>
+            BMR = (10 * weight in kg) + (6.25 * height in cm) - (5 * age in years) + 5
+        </p>
+        <p>
+            <h4 style="color: #bb2d3b;">Formula for women</h4>
+            BMR = (10 * weight in kg) + (6.25 * height in cm) - (5 * age in years) - 161
+        </p>
+    </div>
+</section>
+
+{% endblock %}
