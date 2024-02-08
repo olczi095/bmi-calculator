@@ -1,0 +1,5 @@
+[tool.isort]
+skip = [".gitignore", "*env*", "venv"]
+skip_glob = ["*migration*"]
+line_length = 88
+known_third_party = ["django"]
