@@ -30,6 +30,7 @@ class CalculatedData(models.Model):
         default='unknown',
         max_length=100
     )
+    bmr = models.FloatField(default=0)
     pal = models.CharField(
         default='unknown',
         max_length=100
@@ -42,6 +43,7 @@ class CalculatedData(models.Model):
     def update_or_create_data(self, new_data):
         self.bmi = new_data.get('bmi', self.bmi)
         self.bmi_category = new_data.get('bmi_category', self.bmi_category)
+        self.bmr = new_data.get('bmr', self.bmr)
         self.pal = new_data.get('pal', self.pal)
         self.tmr = new_data.get('tmr', self.tmr)
         self.save()
