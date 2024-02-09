@@ -120,6 +120,22 @@ def calculate_tmr_save_data(request, form):
         tmr = round(((10 * weight) + (6.25 * height) -
                     (5 * age) - 161) * pal, 2)
 
+    if request.user.is_authenticated:
+        person_instance, created = Person.objects.get_or_create(user=request.user)
+        calculated_data_instance, created = CalculatedData.objects.get_or_create(
+            user=request.user)
+
+        person_instance.update_or_create_data({
+            'age': age,
+            'gender': gender,
+            'height': height,
+            'weight': weight,
+            # 'pal': pal
+        })
+        calculated_data_instance.update_or_create_data({
+            'tmr': tmr
+        })
+
     return tmr
 
 
