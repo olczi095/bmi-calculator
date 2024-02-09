@@ -1,5 +1,21 @@
+from typing import Iterable, Optional
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _
+
+
+class PALValue(models.TextChoices):
+    UNKNOWN = 'unknown', _('unknown')
+    ONE_TWO = '1.2', '1.2'
+    ONE_THREE = '1.3', '1.3'
+    ONE_FOUR = '1.4', '1.4'
+    ONE_FIVE = '1.5', '1.5'
+    ONE_SIX = '1.6', '1.6'
+    ONE_SEVEN = '1.7', '1.7'
+    ONE_EIGHT = '1.8', '1.8'
+    ONE_NINE = '1.9', '1.9'
+    TWO_ZERO = '2.0', '2.0'
+    TWO_TWO = '2.2', '2.2'
 
 
 class Person(models.Model):
@@ -11,15 +27,25 @@ class Person(models.Model):
         max_length=100
     )
     age = models.IntegerField(default=0)
+    pal = models.CharField(choices=PALValue.choices,
+                           default='unknown', max_length=7)
 
     def __str__(self):
         return self.user.get_username()
+
+    def save(self, *args, **kwargs):
+        calculated_data_instance, created = CalculatedData.objects.get_or_create(
+            user=self.user)
+        calculated_data_instance.pal = self.pal
+        calculated_data_instance.save()
+        return super().save(*args, **kwargs)
 
     def update_or_create_data(self, new_data):
         self.weight = new_data.get('weight', self.weight)
         self.height = new_data.get('height', self.height)
         self.gender = new_data.get('gender', self.gender)
         self.age = new_data.get('age', self.age)
+        self.pal = new_data.get('pal', self.pal)
         self.save()
 
 
@@ -31,10 +57,8 @@ class CalculatedData(models.Model):
         max_length=100
     )
     bmr = models.FloatField(default=0)
-    pal = models.CharField(
-        default='unknown',
-        max_length=100
-    )
+    pal = models.CharField(choices=PALValue.choices,
+                           default='unknown', max_length=7)
     tmr = models.FloatField(default=0)
 
     def __str__(self):

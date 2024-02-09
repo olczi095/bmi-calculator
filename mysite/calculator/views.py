@@ -130,10 +130,11 @@ def calculate_tmr_save_data(request, form):
             'gender': gender,
             'height': height,
             'weight': weight,
-            # 'pal': pal
+            'pal': pal
         })
         calculated_data_instance.update_or_create_data({
-            'tmr': tmr
+            'tmr': tmr,
+            'pal': pal
         })
 
     return tmr
@@ -268,7 +269,7 @@ def tmr_calculator_filled_out(request):
             'gender': person.gender,
             'weight': person.weight,
             'height': person.height,
-            'pal': calculated_data.pal
+            'pal': person.pal
         }
     except Person.DoesNotExist or CalculatedData.DoesNotExist:
         return redirect('tmr')
