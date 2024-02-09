@@ -23,7 +23,10 @@ class URLViewTestCase(TestCase):
     def test_bmi_url_filled_returns_redirect(self):
         response = self.client.get(reverse('bmi-filled'))
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['Location'], '/bmi_calculator/')
+
+    def test_bmi_url_filled_redirect_to_login(self):
+        response = self.client.get(reverse('bmi-filled'), follow=True)
+        self.assertRedirects(response, '/accounts/login/?next=/bmi_calculator/filled/')
 
     def test_bmr_url_returns_success(self):
         response = self.client.get(reverse('bmr'))
@@ -32,7 +35,10 @@ class URLViewTestCase(TestCase):
     def test_bmr_url_filled_returns_redirect(self):
         response = self.client.get(reverse('bmr-filled'))
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['Location'], '/bmr_calculator/')
+
+    def test_bmr_url_filled_redirect_to_login(self):
+        response = self.client.get(reverse('bmr-filled'))
+        self.assertRedirects(response, '/accounts/login/?next=/bmr_calculator/filled/')
 
     def test_pal_url_returns_success(self):
         response = self.client.get(reverse('pal'))
@@ -45,7 +51,10 @@ class URLViewTestCase(TestCase):
     def test_tmr_filled_returns_redirect(self):
         response = self.client.get(reverse('tmr-filled'))
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['Location'], '/tmr_calculator/')
+
+    def test_rm_filled_redirect_to_login(self):
+        response = self.client.get(reverse('tmr-filled'))
+        self.assertRedirects(response, '/accounts/login/?next=/tmr_calculator/filled/')
 
 
 class UtilityFunctionsTestCase(TestCase):

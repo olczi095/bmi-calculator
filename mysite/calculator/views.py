@@ -1,9 +1,11 @@
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, render, redirect
 from .forms import UserDataForm
 from .models import Person, CalculatedData
 
 
+# Helper functions (utils)
 def select_required_fields(calculator, form):
     if calculator == 'bmi_calculator':
         form.fields['height'].required = True
@@ -58,19 +60,20 @@ def calculate_bmi_save_data(request, form):
     gender = form.cleaned_data['gender']
     calculated_bmi = round(weight / (height * 0.01) ** 2, 2)
 
-    person_instance, created = Person.objects.get_or_create(user=request.user)
-    calculated_data_instance, created = CalculatedData.objects.get_or_create(
-        user=request.user)
+    if request.user.is_authenticated:
+        person_instance, created = Person.objects.get_or_create(user=request.user)
+        calculated_data_instance, created = CalculatedData.objects.get_or_create(
+            user=request.user)
 
-    person_instance.update_or_create_data({
-        'weight': weight,
-        'height': height,
-        'gender': gender
-    })
-    calculated_data_instance.update_or_create_data({
-        'bmi': calculated_bmi,
-        'bmi_category': checking_bmi_category(calculated_bmi)['category']
-    })
+        person_instance.update_or_create_data({
+            'weight': weight,
+            'height': height,
+            'gender': gender
+        })
+        calculated_data_instance.update_or_create_data({
+            'bmi': calculated_bmi,
+            'bmi_category': checking_bmi_category(calculated_bmi)['category']
+        })
 
     return calculated_bmi
 
@@ -86,19 +89,20 @@ def calculate_bmr_save_data(request, form):
     else:
         bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161
 
-    person_instance, created = Person.objects.get_or_create(user=request.user)
-    calculated_data_instance, created = CalculatedData.objects.get_or_create(
-        user=request.user)
+    if request.user.is_authenticated:
+        person_instance, created = Person.objects.get_or_create(user=request.user)
+        calculated_data_instance, created = CalculatedData.objects.get_or_create(
+            user=request.user)
 
-    person_instance.update_or_create_data({
-        'age': age,
-        'gender': gender,
-        'height': height,
-        'weight': weight
-    })
-    calculated_data_instance.update_or_create_data({
-        'bmr': bmr
-    })
+        person_instance.update_or_create_data({
+            'age': age,
+            'gender': gender,
+            'height': height,
+            'weight': weight
+        })
+        calculated_data_instance.update_or_create_data({
+            'bmr': bmr
+        })
 
     return bmr
 
@@ -109,6 +113,7 @@ def calculate_tmr_save_data(request, form):
     height = form.cleaned_data['height']
     weight = form.cleaned_data['weight']
     pal = float(form.cleaned_data['pal'])
+
     if gender == 'male':
         tmr = round(((10 * weight) + (6.25 * height) - (5 * age) + 5) * pal, 2)
     else:
@@ -122,31 +127,33 @@ def add_success_message(request):
     messages.success(
         request, '<strong>Your data has been successfully saved.</strong> You will be able to use them later to refill if you want to!')
 
+
 # Main views
-
-
 def home(request):
     return redirect('bmi')
 
 
 def bmi_calculator(request):
-    if request.method == 'POST':
-        form = UserDataForm(request.POST)
-        select_required_fields('bmi_calculator', form=form)
-        if form.is_valid():
-            calculated_bmi = calculate_bmi_save_data(request, form)
-            return render(request, 'calculator/bmiresult.html', checking_bmi_category(calculated_bmi))
-    else:
-        form = UserDataForm()
-        select_required_fields('bmi_calculator', form=form)
+    form = UserDataForm(request.POST or None)
+    select_required_fields('bmi_calculator', form=form)
+
+    if request.user.is_authenticated:
         try:
             calculated_data = CalculatedData.objects.get(user=request.user)
             last_bmi = calculated_data.bmi if calculated_data.bmi != 0 else "Sorry you don't have any saved data."
-        except:
+        except CalculatedData.DoesNotExist:
             last_bmi = "Sorry you don't have any saved data."
+    else:
+        last_bmi = "Sorry you don't have any saved data."
+
+    if request.method == 'POST' and form.is_valid():
+        calculated_bmi = calculate_bmi_save_data(request, form)
+        return render(request, 'calculator/bmiresult.html', checking_bmi_category(calculated_bmi))
+
     return render(request, 'calculator/bmi.html', {'form': form, 'last_bmi': last_bmi})
 
 
+@login_required
 def bmi_calculator_filled_out(request):
     try:
         person = Person.objects.get(user=request.user)
@@ -155,7 +162,7 @@ def bmi_calculator_filled_out(request):
             'weight': person.weight,
             'gender': person.gender
         }
-    except:
+    except Person.DoesNotExist:
         return redirect('bmi')
 
     form = UserDataForm(request.POST or None, initial=initial_data)
@@ -169,23 +176,26 @@ def bmi_calculator_filled_out(request):
 
 
 def bmr_calculator(request):
-    if request.method == "POST":
-        form = UserDataForm(request.POST)
-        select_required_fields('bmr_calculator', form=form)
-        if form.is_valid():
-            bmr = calculate_bmr_save_data(request, form)
-            return render(request, 'calculator/bmrresult.html', {'bmr': bmr})
-    else:
-        form = UserDataForm()
-        select_required_fields('bmr_calculator', form=form)
+    form = UserDataForm(request.POST or None)
+    select_required_fields('bmr_calculator', form=form)
+
+    if request.user.is_authenticated:
         try:
             calculated_data = CalculatedData.objects.get(user=request.user)
             last_bmr = calculated_data.bmr if calculated_data.bmr != 0 else "Sorry you don't have any saved data."
-        except:
+        except CalculatedData.DoesNotExist:
             last_bmr = "Sorry you don't have any saved data."
-        return render(request, 'calculator/bmr.html', {'form': form, 'last_bmr': last_bmr})
+    else:
+        last_bmr = "Sorry you don't have any saved data."
+
+    if request.method == 'POST' and form.is_valid():
+        bmr = calculate_bmr_save_data(request, form)
+        return render(request, 'calculator/bmrresult.html', {'bmr': bmr})
+
+    return render(request, 'calculator/bmr.html', {'form': form, 'last_bmr': last_bmr})
 
 
+@login_required
 def bmr_calculator_filled_out(request):
     try:
         person = Person.objects.get(user=request.user)
@@ -195,7 +205,7 @@ def bmr_calculator_filled_out(request):
             'height': person.height,
             'weight': person.weight
         }
-    except:
+    except Person.DoesNotExist:
         return redirect('bmr')
 
     form = UserDataForm(request.POST or None, initial=initial_data)
@@ -205,8 +215,7 @@ def bmr_calculator_filled_out(request):
         add_success_message(request)
         bmr = calculate_bmr_save_data(request, form)
         return render(request, 'calculator/bmrresult.html', {'bmr': bmr})
-    else:
-        return render(request, 'calculator/bmr.html', {'form': form})
+    return render(request, 'calculator/bmr.html', {'form': form})
 
 
 def pal_calculator(request):
@@ -214,23 +223,26 @@ def pal_calculator(request):
 
 
 def tmr_calculator(request):
-    if request.method == 'POST':
-        form = UserDataForm(request.POST)
-        select_required_fields('tmr_calculator', form=form)
-        if form.is_valid():
-            tmr = calculate_tmr_save_data(request, form)
-            return render(request, 'calculator/tmrresult.html', {'tmr': tmr})
-    else:
-        form = UserDataForm()
-        select_required_fields('tmr_calculator', form=form)
+    form = UserDataForm(request.POST or None)
+    select_required_fields('tmr_calculator', form=form)
+
+    if request.user.is_authenticated:
         try:
             calculated_data = CalculatedData.objects.get(user=request.user)
             last_tmr = calculated_data.tmr if calculated_data.tmr != 0 else "Sorry you don't have any saved data."
-        except:
+        except CalculatedData.DoesNotExist:
             last_tmr = "Sorry you don't have any saved data."
-        return render(request, 'calculator/tmr.html', {'form': form, 'last_tmr': last_tmr})
+    else:
+        last_tmr = "Sorry you don't have any saved data."
+
+    if request.method == 'POST' and form.is_valid():
+        tmr = calculate_tmr_save_data(request, form)
+        return render(request, 'calculator/tmrresult.html', {'tmr': tmr})
+
+    return render(request, 'calculator/tmr.html', {'form': form, 'last_tmr': last_tmr})
 
 
+@login_required
 def tmr_calculator_filled_out(request):
     try:
         person = Person.objects.get(user=request.user)
@@ -242,7 +254,7 @@ def tmr_calculator_filled_out(request):
             'height': person.height,
             'pal': calculated_data.pal
         }
-    except:
+    except Person.DoesNotExist or CalculatedData.DoesNotExist:
         return redirect('tmr')
 
     form = UserDataForm(request.POST or None, initial=initial_data)
@@ -252,5 +264,4 @@ def tmr_calculator_filled_out(request):
         add_success_message(request)
         tmr = calculate_tmr_save_data(request, form)
         return render(request, 'calculator/tmrresult.html', {'tmr': tmr})
-    else:
-        return render(request, 'calculator/tmr.html', {'form': form})
+    return render(request, 'calculator/tmr.html', {'form': form})
