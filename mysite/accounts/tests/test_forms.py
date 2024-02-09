@@ -1,9 +1,10 @@
-from accounts.forms import RegisterForm
 from django.test import TestCase
+
+from accounts.forms import RegisterForm
 
 
 class RegisterFormTestCase(TestCase):
-    
+
     def setUp(self):
         self.form = RegisterForm()
 
@@ -26,7 +27,10 @@ class RegisterFormTestCase(TestCase):
         }
         register_user = RegisterForm(data=form_data)
         self.assertFalse(register_user.is_valid())
-        self.assertEqual(register_user.errors['password2'][0], 'The two password fields didn’t match.')        
+        self.assertEqual(
+            register_user.errors['password2'][0],
+            'The two password fields didn’t match.'
+        )
 
     def test_invalid_form_without_email(self):
         data_form = {

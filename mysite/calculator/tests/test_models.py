@@ -1,21 +1,28 @@
-from django.test import TestCase
-from calculator.models import Person, CalculatedData
 from django.contrib.auth.models import User
+from django.test import TestCase
+
+from calculator.models import CalculatedData, Person
 
 
 class PersonTestCase(TestCase):
 
     def setUp(self):
-        self.user = User.objects.create_user(username='test_user', password='test_password')
-        self.second_user = User.objects.create_user(username='test_second_user', password='test_second_password')
-        Person.objects.create(user=self.user, weight=80, height=175, gender='male', age=30)
-        Person.objects.create(user=self.second_user, weight=60, height=160, gender='female', age=40)
+        self.user = User.objects.create_user(
+            username='test_user', password='test_password'
+        )
+        self.second_user = User.objects.create_user(
+            username='test_second_user', password='test_second_password'
+        )
+        Person.objects.create(user=self.user, weight=80,
+                              height=175, gender='male', age=30)
+        Person.objects.create(user=self.second_user, weight=60,
+                              height=160, gender='female', age=40)
 
     def test_person_string_representation(self):
         person = Person.objects.get(id=2)
         self.assertEqual(str(person), 'test_second_user')
         self.assertTrue(isinstance(person, Person))
-    
+
     def test_person_labels(self):
         person = Person.objects.get(id=1)
         self.assertEqual(person._meta.get_field('weight').verbose_name, 'weight')
@@ -39,20 +46,23 @@ class PersonTestCase(TestCase):
 
 
 class CalculatedDataTestCase(TestCase):
-    
+
     def setUp(self):
-        self.user = User.objects.create_user(username='test_user', password='test_password')
-        CalculatedData.objects.create(user=self.user, bmi=18, bmi_category='unknown', pal='2.0', tmr=2000)
+        self.user = User.objects.create_user(
+            username='test_user', password='test_password')
+        CalculatedData.objects.create(
+            user=self.user, bmi=18, bmi_category='unknown', pal='2.0', tmr=2000)
 
     def test_calculated_data_string_representation(self):
         calculated_data = CalculatedData.objects.get(id=1)
         self.assertEqual(str(calculated_data), 'test_user')
         self.assertTrue(isinstance(calculated_data, CalculatedData))
-        
+
     def test_calculated_data_labels(self):
         calculated_data = CalculatedData.objects.get(id=1)
         self.assertEqual(calculated_data._meta.get_field('bmi').verbose_name, 'bmi')
-        self.assertEqual(calculated_data._meta.get_field('bmi_category').verbose_name, 'bmi category')
+        self.assertEqual(calculated_data._meta.get_field(
+            'bmi_category').verbose_name, 'bmi category')
         self.assertEqual(calculated_data._meta.get_field('pal').verbose_name, 'pal')
         self.assertEqual(calculated_data._meta.get_field('tmr').verbose_name, 'tmr')
 

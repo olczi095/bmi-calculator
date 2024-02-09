@@ -1,9 +1,11 @@
-from django.test import TestCase, Client
-from django.urls import reverse
 from django.contrib.auth.models import User
+from django.test import Client, TestCase
+from django.urls import reverse
+
 from calculator.forms import UserDataForm
-from calculator.models import Person, CalculatedData
-from calculator.views import checking_bmi_category, calculate_bmi_save_data, calculate_bmr_save_data, calculate_tmr_save_data
+from calculator.models import CalculatedData, Person
+from calculator.views import (calculate_bmi_save_data, calculate_bmr_save_data,
+                              calculate_tmr_save_data, checking_bmi_category)
 
 
 class URLViewTestCase(TestCase):
@@ -60,20 +62,50 @@ class URLViewTestCase(TestCase):
 class UtilityFunctionsTestCase(TestCase):
 
     bmi_categories = {
-        'severe thinnes': 'Your weight is too low and your life may be at risk. Try to gain weight but if you may have problems with an eating disorder, please contant an experienced specialist.',
-        'underweight': 'Your weight is too low. You may be suffering from deficiency of multiple nutrient elements. Try to gain weight or meet with a dietitian to receive a specific menu included your calorie needs.',
-        'normal weight': 'Your weight is perfect! Congratulations and keep going. Still try to eat healthy and exercise at least three times a week for maintaining your weight and good health.',
-        'overweight': 'Your weight is slightly too high and indicates a risk of obese. For improving your body appearance and health you should lose a few kilograms by changing a diet and trying to exercises more than before. Simple things can make a huge difference.',
-        'obese': 'You have first degree obesity. It is a diseases that should be treated. At first you can try to do it on your own by changing diet, eating less calories and exercising more but if you notices that your efforts do not yield expected results, contact with an experienced specialist like a dietitian or personal trainer.',
-        'severely obese': 'You have second degree obesity. It is a serious danger for your health. Start treating as soon as it is possible. Contact with a dietitian who has an experience in working with patients with obese and changed your whole lifestyle.',
-        'morbidly obese': 'You have third degree obesity. This is a really danger diseases that threatens your health and even your life. You should meet an experienced specialist immediately. Sometimes in the treatment it becomes necessary to involve psychologists, especially eating disorder therapists.'
+        'severe thinnes':
+            'Your weight is too low and your life may be at risk.'
+            ' Try to gain weight but if you may have problems with'
+            ' an eating disorder, please contant an experienced specialist.',
+        'underweight':
+            'Your weight is too low. You may be suffering from deficiency of'
+            ' multiple nutrient elements. Try to gain weight or meet with a'
+            ' dietitian to receive a specific menu included your calorie needs.',
+        'normal weight':
+            'Your weight is perfect! Congratulations and keep going. Still try to'
+            ' eat healthy and exercise at least three times a week for maintaining'
+            ' your weight and good health.',
+        'overweight':
+            'Your weight is slightly too high and indicates a risk of obese. For'
+            ' improving your body appearance and health you should lose a few'
+            ' kilograms by changing a diet and trying to exercises more than before.'
+            ' Simple things can make a huge difference.',
+        'obese':
+            'You have first degree obesity. It is a diseases that should be treated.'
+            ' At first you can try to do it on your own by changing diet, eating less'
+            ' calories and exercising more but if you notices that your efforts do'
+            ' not yield expected results, contact with an experienced specialist like'
+            ' a dietitian or personal trainer.',
+        'severely obese':
+            'You have second degree obesity. It is a serious danger for your health.'
+            ' Start treating as soon as it is possible. Contact with a dietitian who'
+            ' has an experience in working with patients with obese and changed your'
+            ' whole lifestyle.',
+        'morbidly obese':
+            'You have third degree obesity. This is a really danger diseases that'
+            ' threatens your health and even your life. You should meet an experienced'
+            ' specialist immediately. Sometimes in the treatment it becomes necessary'
+            ' to involve psychologists, especially eating disorder therapists.'
     }
 
     def setUp(self):
         self.male_form = UserDataForm(
-            data={'age': 40, 'weight': 100, 'height': 190, 'gender': 'male', 'pal': 1.2})
+            data={
+                'age': 40, 'weight': 100, 'height': 190, 'gender': 'male', 'pal': 1.2
+            })
         self.female_form = UserDataForm(
-            data={'age': 50, 'weight': 70, 'height': 150, 'gender': 'female', 'pal': 1.8})
+            data={
+                'age': 50, 'weight': 70, 'height': 150, 'gender': 'female', 'pal': 1.8
+            })
         self.user = User.objects.create_user(
             username='test_user', password='test_password')
         self.user.save()

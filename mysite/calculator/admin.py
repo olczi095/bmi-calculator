@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Person, CalculatedData
+
+from .models import CalculatedData, Person
 
 
 @admin.register(Person)
