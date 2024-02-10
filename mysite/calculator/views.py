@@ -105,6 +105,19 @@ def calculate_bmi_save_data(request, form):
     return calculated_bmi
 
 
+def get_last_calculated_data(request, field_name):
+    try:
+        calculated_data = CalculatedData.objects.get(user=request.user)
+        last_data = (
+            getattr(calculated_data, field_name)
+            if getattr(calculated_data, field_name) != 0
+            else "Sorry you don't have any saved data."
+        )
+    except CalculatedData.DoesNotExist:
+        last_data = "Sorry you don't have any saved data."
+    return last_data
+
+
 def calculate_bmr_save_data(request, form):
     age = form.cleaned_data['age']
     gender = form.cleaned_data['gender']
@@ -185,15 +198,7 @@ def bmi_calculator(request):
     select_required_fields('bmi_calculator', form=form)
 
     if request.user.is_authenticated:
-        try:
-            calculated_data = CalculatedData.objects.get(user=request.user)
-            last_bmi = (
-                calculated_data.bmi
-                if calculated_data.bmi != 0
-                else "Sorry you don't have any saved data."
-            )
-        except CalculatedData.DoesNotExist:
-            last_bmi = "Sorry you don't have any saved data."
+        last_bmi = get_last_calculated_data(request=request, field_name='bmi')
     else:
         last_bmi = "Sorry you don't have any saved data."
 
@@ -221,13 +226,15 @@ def bmi_calculator_filled_out(request):
     form = UserDataForm(request.POST or None, initial=initial_data)
     select_required_fields('bmi_calculator', form=form)
 
+    last_bmi = get_last_calculated_data(request=request, field_name='bmi')
+
     if request.method == 'POST' and form.is_valid():
         add_success_message(request)
         calculated_bmi = calculate_bmi_save_data(request, form)
         return render(
             request, 'calculator/bmiresult.html', checking_bmi_category(calculated_bmi)
         )
-    return render(request, 'calculator/bmi.html', {'form': form})
+    return render(request, 'calculator/bmi.html', {'form': form, 'last_bmi': last_bmi})
 
 
 def bmr_calculator(request):
@@ -235,15 +242,7 @@ def bmr_calculator(request):
     select_required_fields('bmr_calculator', form=form)
 
     if request.user.is_authenticated:
-        try:
-            calculated_data = CalculatedData.objects.get(user=request.user)
-            last_bmr = (
-                calculated_data.bmr
-                if calculated_data.bmr != 0
-                else "Sorry you don't have any saved data."
-            )
-        except CalculatedData.DoesNotExist:
-            last_bmr = "Sorry you don't have any saved data."
+        last_bmr = get_last_calculated_data(request=request, field_name='bmr')
     else:
         last_bmr = "Sorry you don't have any saved data."
 
@@ -270,11 +269,13 @@ def bmr_calculator_filled_out(request):
     form = UserDataForm(request.POST or None, initial=initial_data)
     select_required_fields('bmr_calculator', form=form)
 
+    last_bmr = get_last_calculated_data(request=request, field_name='bmr')
+
     if request.method == 'POST' and form.is_valid():
         add_success_message(request)
         bmr = calculate_bmr_save_data(request, form)
         return render(request, 'calculator/bmrresult.html', {'bmr': bmr})
-    return render(request, 'calculator/bmr.html', {'form': form})
+    return render(request, 'calculator/bmr.html', {'form': form, 'last_bmr': last_bmr})
 
 
 def pal_calculator(request):
@@ -286,15 +287,7 @@ def tmr_calculator(request):
     select_required_fields('tmr_calculator', form=form)
 
     if request.user.is_authenticated:
-        try:
-            calculated_data = CalculatedData.objects.get(user=request.user)
-            last_tmr = (
-                calculated_data.tmr
-                if calculated_data.tmr != 0
-                else "Sorry you don't have any saved data."
-            )
-        except CalculatedData.DoesNotExist:
-            last_tmr = "Sorry you don't have any saved data."
+        last_tmr = get_last_calculated_data(request=request, field_name='tmr')
     else:
         last_tmr = "Sorry you don't have any saved data."
 
@@ -322,8 +315,10 @@ def tmr_calculator_filled_out(request):
     form = UserDataForm(request.POST or None, initial=initial_data)
     select_required_fields('tmr_calculator', form=form)
 
+    last_tmr = get_last_calculated_data(request=request, field_name='tmr')
+
     if request.method == 'POST' and form.is_valid():
         add_success_message(request)
         tmr = calculate_tmr_save_data(request, form)
         return render(request, 'calculator/tmrresult.html', {'tmr': tmr})
-    return render(request, 'calculator/tmr.html', {'form': form})
+    return render(request, 'calculator/tmr.html', {'form': form, 'last_tmr': last_tmr})
