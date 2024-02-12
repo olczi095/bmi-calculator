@@ -19,6 +19,9 @@ class PALValue(models.TextChoices):
 
 class Person(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.CharField(
+        max_length=50
+    )
     weight = models.IntegerField(default=0)
     height = models.IntegerField(default=0)
     gender = models.CharField(
@@ -33,6 +36,12 @@ class Person(models.Model):
         return self.user.get_username()
 
     def save(self, *args, **kwargs):
+        if self.user:
+            if self.user.first_name and self.user.last_name:
+                self.name = f"{self.user.first_name} {self.user.last_name}"
+            else:
+                self.name = self.user.username
+
         calculated_data_instance, created = CalculatedData.objects.get_or_create(
             user=self.user)
         calculated_data_instance.pal = self.pal
