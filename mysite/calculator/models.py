@@ -3,6 +3,13 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
+class Gender(models.TextChoices):
+    MALE = 'male', _('male'),
+    FEMALE = 'female', _('female'),
+    OTHER = 'other', _('other'),
+    UNKNOWN = 'unknown', _('unknown')
+
+
 class PALValue(models.TextChoices):
     UNKNOWN = 'unknown', _('unknown')
     ONE_TWO = '1.2', '1.2'
@@ -24,10 +31,8 @@ class Person(models.Model):
     )
     weight = models.IntegerField(default=0)
     height = models.IntegerField(default=0)
-    gender = models.CharField(
-        default='unknown',
-        max_length=100
-    )
+    gender = models.CharField(choices=Gender.choices,
+                              default='unknown', max_length=8)
     age = models.IntegerField(default=0)
     pal = models.CharField(choices=PALValue.choices,
                            default='unknown', max_length=7)
