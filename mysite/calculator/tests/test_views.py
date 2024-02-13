@@ -213,26 +213,25 @@ class SavingCalculatedDataModelTestCase(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(
             username='test_user', password='test_password')
-        self.user.save()
+        self.person = Person.objects.create(user=self.user)
 
     def test_unfilled_calculated_data(self):
-        unfilled_data = CalculatedData(user=self.user)
-        unfilled_data.save()
-        self.assertEqual(unfilled_data.user, self.user)
+        unfilled_data = CalculatedData.objects.get(person=self.person)
+        self.assertEqual(unfilled_data.person, self.person)
         self.assertEqual(unfilled_data.bmi, 0)
         self.assertEqual(unfilled_data.bmi_category, 'unknown')
         self.assertEqual(unfilled_data.pal, 'unknown')
         self.assertEqual(unfilled_data.tmr, 0)
 
-    def test_filled_calculted_data(self):
-        self.client.login(username='test_user', password='test_password')
-        filled_data = CalculatedData(user=self.user,
-                                     bmi=20,
-                                     bmi_category='normal weight',
-                                     pal=1.6,
-                                     tmr=2000)
+    def test_filled_calculated_data(self):
+        filled_data = CalculatedData.objects.get(person=self.person)
+        filled_data.bmi = 20
+        filled_data.bmi_category = 'normal weight'
+        filled_data.pal = 1.6
+        filled_data.tmr = 2000
         filled_data.save()
-        self.assertEqual(filled_data.user, self.user)
+
+        self.assertEqual(filled_data.person, self.person)
         self.assertEqual(filled_data.bmi, 20)
         self.assertEqual(filled_data.bmi_category, 'normal weight')
         self.assertEqual(filled_data.pal, 1.6)
