@@ -29,11 +29,11 @@ class Person(models.Model):
     name = models.CharField(
         max_length=50
     )
-    weight = models.IntegerField(default=0)
-    height = models.IntegerField(default=0)
+    weight = models.IntegerField(blank=True, null=True)
+    height = models.IntegerField(blank=True, null=True)
     gender = models.CharField(choices=Gender.choices,
                               default='unknown', max_length=8)
-    age = models.IntegerField(default=0)
+    age = models.IntegerField(blank=True, null=True)
     pal = models.CharField(choices=PALValue.choices,
                            default='unknown', max_length=7)
 
