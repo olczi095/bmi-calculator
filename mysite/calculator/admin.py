@@ -2,10 +2,7 @@ from django.contrib import admin
 
 from .models import CalculatedData, Person
 
-
-@admin.register(Person)
-class PersonAdmin(admin.ModelAdmin):
-    readonly_fields = ('user',)
+admin.site.register(Person)
 
 
 @admin.register(CalculatedData)
