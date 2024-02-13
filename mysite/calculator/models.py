@@ -18,7 +18,7 @@ class PALValue(models.TextChoices):
 
 
 class Person(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
     name = models.CharField(
         max_length=50
     )
@@ -33,7 +33,7 @@ class Person(models.Model):
                            default='unknown', max_length=7)
 
     def __str__(self):
-        return self.user.get_username()
+        return self.name
 
     def save(self, *args, **kwargs):
         if self.user:
@@ -42,10 +42,6 @@ class Person(models.Model):
             else:
                 self.name = self.user.username
 
-        calculated_data_instance, created = CalculatedData.objects.get_or_create(
-            user=self.user)
-        calculated_data_instance.pal = self.pal
-        calculated_data_instance.save()
         return super().save(*args, **kwargs)
 
     def update_or_create_data(self, new_data):
@@ -58,7 +54,8 @@ class Person(models.Model):
 
 
 class CalculatedData(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    person = models.OneToOneField(
+        Person, on_delete=models.CASCADE, related_name='calculated_data')
     bmi = models.FloatField(default=0)
     bmi_category = models.CharField(
         default='unknown',
@@ -70,7 +67,7 @@ class CalculatedData(models.Model):
     tmr = models.FloatField(default=0)
 
     def __str__(self):
-        return self.user.get_username()
+        return self.person.name
 
     def update_or_create_data(self, new_data):
         self.bmi = new_data.get('bmi', self.bmi)

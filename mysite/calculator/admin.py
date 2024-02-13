@@ -10,4 +10,4 @@ class PersonAdmin(admin.ModelAdmin):
 
 @admin.register(CalculatedData)
 class CalculatedDataAdmin(admin.ModelAdmin):
-    readonly_fields = ('user', 'bmi', 'bmi_category', 'bmr', 'pal', 'tmr')
+    readonly_fields = ('person', 'bmi', 'bmi_category', 'bmr', 'pal', 'tmr')

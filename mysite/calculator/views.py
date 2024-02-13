@@ -90,7 +90,7 @@ def calculate_bmi_save_data(request, form):
     if request.user.is_authenticated:
         person_instance, created = Person.objects.get_or_create(user=request.user)
         calculated_data_instance, created = CalculatedData.objects.get_or_create(
-            user=request.user)
+            person=person_instance)
 
         person_instance.update_or_create_data({
             'weight': weight,
@@ -107,13 +107,14 @@ def calculate_bmi_save_data(request, form):
 
 def get_last_calculated_data(request, field_name):
     try:
-        calculated_data = CalculatedData.objects.get(user=request.user)
+        person = Person.objects.get(user=request.user)
+        calculated_data = CalculatedData.objects.get(person=person)
         last_data = (
             getattr(calculated_data, field_name)
             if getattr(calculated_data, field_name) != 0
             else "Sorry you don't have any saved data."
         )
-    except CalculatedData.DoesNotExist:
+    except (Person.DoesNotExist, CalculatedData.DoesNotExist):
         last_data = "Sorry you don't have any saved data."
     return last_data
 
@@ -132,7 +133,7 @@ def calculate_bmr_save_data(request, form):
     if request.user.is_authenticated:
         person_instance, created = Person.objects.get_or_create(user=request.user)
         calculated_data_instance, created = CalculatedData.objects.get_or_create(
-            user=request.user)
+            person=person_instance)
 
         person_instance.update_or_create_data({
             'age': age,
@@ -163,7 +164,7 @@ def calculate_tmr_save_data(request, form):
     if request.user.is_authenticated:
         person_instance, created = Person.objects.get_or_create(user=request.user)
         calculated_data_instance, created = CalculatedData.objects.get_or_create(
-            user=request.user)
+            person=person_instance)
 
         person_instance.update_or_create_data({
             'age': age,
