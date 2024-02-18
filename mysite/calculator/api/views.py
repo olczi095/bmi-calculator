@@ -18,13 +18,13 @@ class PersonViewSet(viewsets.ModelViewSet):
         return super().get_permissions()
 
 
-class CalculatedDataList(generics.ListAPIView):
+class CalculatedDataListView(generics.ListAPIView):
     queryset = CalculatedData.objects.exclude(person__user__is_active=False)
     serializer_class = CalculatedDataSerializer
     permission_classes = [IsAdminUser]
 
 
-class CalculatedDataDetail(generics.RetrieveDestroyAPIView):
+class CalculatedDataDetailView(generics.RetrieveDestroyAPIView):
     queryset = CalculatedData.objects.exclude(person__user__is_active=False)
     serializer_class = CalculatedDataSerializer
     permission_classes = [IsOwnerOrIsAdminUser]
