@@ -2,7 +2,7 @@ from django.urls import include, path
 from rest_framework import routers
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from .views import (CalculateBMIAPIView, CalculatedDataDetailView,
+from .views import (CalculateBMIAPIView, CalculateBMRAPIView, CalculatedDataDetailView,
                     CalculatedDataListView, PersonViewSet)
 
 router = routers.SimpleRouter()
@@ -19,6 +19,7 @@ urlpatterns = [
          name='calculateddata-detail'),
 
     path('bmi_calculation/', CalculateBMIAPIView.as_view(), name='bmi-calculation'),
+    path('bmr_calculation/', CalculateBMRAPIView.as_view(), name='bmr-calculation'),
 ]
 
 urlpatterns += router.urls

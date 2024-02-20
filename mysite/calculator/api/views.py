@@ -7,7 +7,7 @@ from calculator.models import CalculatedData, Person
 from calculator.views import checking_bmi_category
 
 from .permissions import IsOwnerOrIsAdminUser
-from .serializers import CalculatedDataSerializer, PersonSerializer
+from .serializers import BMRSerializer, CalculatedDataSerializer, PersonSerializer
 
 
 class PersonViewSet(viewsets.ModelViewSet):
@@ -75,4 +75,64 @@ class CalculateBMIAPIView(APIView):
             return Response(
                 {'message': 'Invalid data. Please provide valid height and weight.'},
                 status.HTTP_400_BAD_REQUEST
+            )
+
+
+class CalculateBMRAPIView(APIView):
+    """
+    A view to calculate BMR (Basal Metabolic Rate).
+    Available for any user.
+
+    Usage:
+        1. Use POST method to calculate BMR.
+        2. Required input data:
+            - age
+            - gender ('male' or 'female')
+            - height (in centimeters)
+            - weight (in kilograms)
+
+    Sample request data:
+        {
+            "age": 30,
+            "gender": "male",
+            "height": 170,
+            "weight": 70
+        }
+    """
+
+    name = "BMR Calculation API"
+
+    def get(self, request):
+        return Response(
+            {'message': 'Please use POST method to calculate BMR.'},
+            status=status.HTTP_405_METHOD_NOT_ALLOWED
+        )
+
+    def post(self, request):
+        """
+        Calculate BMR based on provided data:
+            age,
+            gender ('female' or 'male'),
+            height (in centimeters),
+            weight (in kilograms).
+        """
+        serializer = BMRSerializer(data=request.data)
+        if serializer.is_valid():
+            age = serializer.validated_data['age']
+            gender = serializer.validated_data['gender']
+            height = serializer.validated_data['height']
+            weight = serializer.validated_data['weight']
+
+            if gender == 'male':
+                bmr_result = (10 * weight) + (6.25 * height) - (5 * age) + 5
+            else:
+                bmr_result = (10 * weight) + (6.25 * height) - (5 * age) - 161
+
+            return Response(
+                {'bmr': bmr_result, 'message': 'BMR calculated successfully'},
+                status=status.HTTP_200_OK
+            )
+        else:
+            return Response(
+                serializer.errors, status=status.HTTP_400_BAD_REQUEST
             )
