@@ -3,7 +3,7 @@ from rest_framework import routers
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from .views import (CalculateBMIAPIView, CalculateBMRAPIView, CalculatedDataDetailView,
-                    CalculatedDataListView, PersonViewSet)
+                    CalculatedDataListView, CalculateTMRAPIView, PersonViewSet)
 
 router = routers.SimpleRouter()
 router.register('persons', PersonViewSet)
@@ -20,6 +20,7 @@ urlpatterns = [
 
     path('bmi_calculation/', CalculateBMIAPIView.as_view(), name='bmi-calculation'),
     path('bmr_calculation/', CalculateBMRAPIView.as_view(), name='bmr-calculation'),
+    path('tmr_calculation/', CalculateTMRAPIView.as_view(), name='tmr-calculation'),
 ]
 
 urlpatterns += router.urls

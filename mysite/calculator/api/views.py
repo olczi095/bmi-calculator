@@ -8,7 +8,7 @@ from calculator.views import checking_bmi_category
 
 from .permissions import IsOwnerOrIsAdminUser
 from .serializers import (BMISerializer, BMRSerializer, CalculatedDataSerializer,
-                          PersonSerializer)
+                          PersonSerializer, TMRSerializer)
 
 
 class PersonViewSet(viewsets.ModelViewSet):
@@ -137,6 +137,73 @@ class CalculateBMRAPIView(APIView):
                 {'bmr': bmr_result, 'message': 'BMR calculated successfully'},
                 status=status.HTTP_200_OK
             )
+        else:
+            return Response(
+                serializer.errors, status=status.HTTP_400_BAD_REQUEST
+            )
+
+
+class CalculateTMRAPIView(APIView):
+    """
+    A view to calculate TMR (Total Metabolic Rate).
+    Available for any user.
+
+    Usage:
+        1. Use POST method to calculate TMR.
+        2. Required input data:
+            - age
+            - gender ('male' or 'female')
+            - height (in centimeters)
+            - weight (in kilograms)
+            - PAL ('1.2', '1.3', '1.4', '1.5', '1.6', '1.7', '1.8', '1.9', '2.0', '2.2')
+
+    Sample request data:
+        {
+            "age": 30,
+            "gender": "male",
+            "height": 170,
+            "weight": 70,
+            "pal": "1.2"
+        }
+    """
+
+    name = "TMR Calculation API"
+
+    def get(self, request):
+        return Response(
+            {'message': 'Please use POST method to calculate TMR.'},
+            status=status.HTTP_405_METHOD_NOT_ALLOWED
+        )
+
+    def post(self, request):
+        """
+        Calculate TMR based on provided data:
+            age,
+            gender ('female' or 'male'),
+            height (in centimeters),
+            weight (in kilograms).
+            pal ('1.2', '1.3', '1.4', '1.5', '1.6', '1.7', '1.8', '1.9', '2.0', '2.2')
+        """
+        serializer = TMRSerializer(data=request.data)
+        if serializer.is_valid():
+            age = serializer.validated_data['age']
+            gender = serializer.validated_data['gender']
+            height = serializer.validated_data['height']
+            weight = serializer.validated_data['weight']
+            pal = serializer.validated_data['pal']
+
+            if gender == 'male':
+                tmr_result = round(
+                    ((10 * weight) + (6.25 * height) - (5 * age) + 5) * float(pal), 2)
+            else:
+                tmr_result = round(
+                    ((10 * weight) + (6.25 * height) - (5 * age) - 161) * float(pal), 2)
+
+            return Response(
+                {'tmr': tmr_result, 'message': 'TMR calculated successfully'},
+                status=status.HTTP_200_OK
+            )
+
         else:
             return Response(
                 serializer.errors, status=status.HTTP_400_BAD_REQUEST
