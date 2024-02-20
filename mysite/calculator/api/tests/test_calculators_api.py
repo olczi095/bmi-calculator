@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 
-class BmiCalculationAPITest(APITestCase):
+class BMICalculationAPITest(APITestCase):
     def setUp(self):
         self.path = reverse('bmi-calculation')
 
