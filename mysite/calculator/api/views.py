@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from calculator.models import CalculatedData, Person
+from calculator.utils import calculate_bmi, calculate_bmr, calculate_tmr
 from calculator.views import checking_bmi_category
 
 from .permissions import IsOwnerOrIsAdminUser
@@ -58,17 +59,12 @@ class CalculateBMIAPIView(APIView):
         )
 
     def post(self, request):
-        """
-        Calculate BMI based on provided data:
-            height (centimeters),
-            weight (kilograms).
-        """
         serializer = BMISerializer(data=request.data)
         if serializer.is_valid():
             height = serializer.validated_data['height']
             weight = serializer.validated_data['weight']
 
-            bmi_result = round(weight / (height * 0.01) ** 2, 2)
+            bmi_result = calculate_bmi(height, weight)
             bmi_category = checking_bmi_category(bmi_result)
             description = bmi_category['description']
 
@@ -114,13 +110,6 @@ class CalculateBMRAPIView(APIView):
         )
 
     def post(self, request):
-        """
-        Calculate BMR based on provided data:
-            age,
-            gender ('female' or 'male'),
-            height (in centimeters),
-            weight (in kilograms).
-        """
         serializer = BMRSerializer(data=request.data)
         if serializer.is_valid():
             age = serializer.validated_data['age']
@@ -128,10 +117,7 @@ class CalculateBMRAPIView(APIView):
             height = serializer.validated_data['height']
             weight = serializer.validated_data['weight']
 
-            if gender == 'male':
-                bmr_result = (10 * weight) + (6.25 * height) - (5 * age) + 5
-            else:
-                bmr_result = (10 * weight) + (6.25 * height) - (5 * age) - 161
+            bmr_result = calculate_bmr(age, gender, height, weight)
 
             return Response(
                 {'bmr': bmr_result, 'message': 'BMR calculated successfully'},
@@ -176,14 +162,6 @@ class CalculateTMRAPIView(APIView):
         )
 
     def post(self, request):
-        """
-        Calculate TMR based on provided data:
-            age,
-            gender ('female' or 'male'),
-            height (in centimeters),
-            weight (in kilograms).
-            pal ('1.2', '1.3', '1.4', '1.5', '1.6', '1.7', '1.8', '1.9', '2.0', '2.2')
-        """
         serializer = TMRSerializer(data=request.data)
         if serializer.is_valid():
             age = serializer.validated_data['age']
@@ -192,12 +170,7 @@ class CalculateTMRAPIView(APIView):
             weight = serializer.validated_data['weight']
             pal = serializer.validated_data['pal']
 
-            if gender == 'male':
-                tmr_result = round(
-                    ((10 * weight) + (6.25 * height) - (5 * age) + 5) * float(pal), 2)
-            else:
-                tmr_result = round(
-                    ((10 * weight) + (6.25 * height) - (5 * age) - 161) * float(pal), 2)
+            tmr_result = calculate_tmr(age, gender, height, weight, pal)
 
             return Response(
                 {'tmr': tmr_result, 'message': 'TMR calculated successfully'},

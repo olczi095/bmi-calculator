@@ -4,9 +4,11 @@ from django.shortcuts import redirect, render
 
 from .forms import UserDataForm
 from .models import CalculatedData, Person
-
+from .utils import calculate_bmi, calculate_bmr, calculate_tmr
 
 # Helper functions (utils)
+
+
 def select_required_fields(calculator, form):
     if calculator == 'bmi_calculator':
         form.fields['height'].required = True
@@ -85,7 +87,7 @@ def calculate_bmi_save_data(request, form):
     height = form.cleaned_data['height']
     weight = form.cleaned_data['weight']
     gender = form.cleaned_data['gender']
-    calculated_bmi = round(weight / (height * 0.01) ** 2, 2)
+    calculated_bmi = calculate_bmi(height, weight)
 
     if request.user.is_authenticated:
         person_instance, created = Person.objects.get_or_create(user=request.user)
@@ -125,10 +127,7 @@ def calculate_bmr_save_data(request, form):
     height = form.cleaned_data['height']
     weight = form.cleaned_data['weight']
 
-    if gender == 'male':
-        bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5
-    else:
-        bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161
+    bmr = calculate_bmr(age, gender, height, weight)
 
     if request.user.is_authenticated:
         person_instance, created = Person.objects.get_or_create(user=request.user)
@@ -155,11 +154,7 @@ def calculate_tmr_save_data(request, form):
     weight = form.cleaned_data['weight']
     pal = float(form.cleaned_data['pal'])
 
-    if gender == 'male':
-        tmr = round(((10 * weight) + (6.25 * height) - (5 * age) + 5) * pal, 2)
-    else:
-        tmr = round(((10 * weight) + (6.25 * height) -
-                    (5 * age) - 161) * pal, 2)
+    tmr = calculate_tmr(age, gender, height, weight, pal)
 
     if request.user.is_authenticated:
         person_instance, created = Person.objects.get_or_create(user=request.user)
