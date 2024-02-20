@@ -44,8 +44,8 @@ class CalculateBMIAPIView(APIView):
 
     Sample request data:
         {
-            "height": 170
-            "weight": 70,
+            "height": 170,
+            "weight": 70
         }
     """
 
