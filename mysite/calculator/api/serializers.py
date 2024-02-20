@@ -26,9 +26,9 @@ class CalculatedDataSerializer(serializers.ModelSerializer):
                   'bmi', 'bmi_category', 'bmr', 'pal', 'tmr')
 
 
-class BMISerializer(serializers.Serializer):
-    height = serializers.FloatField()
-    weight = serializers.FloatField()
+class BaseInputSerializer(serializers.Serializer):
+    height = serializers.IntegerField()
+    weight = serializers.IntegerField()
 
     def validate_height(self, value):
         """
@@ -53,11 +53,13 @@ class BMISerializer(serializers.Serializer):
             return value
 
 
-class BMRSerializer(serializers.Serializer):
+class BMISerializer(BaseInputSerializer, serializers.Serializer):
+    pass
+
+
+class BMRSerializer(BaseInputSerializer, serializers.Serializer):
     age = serializers.IntegerField()
     gender = serializers.ChoiceField(choices=['male', 'female'])
-    height = serializers.FloatField()
-    weight = serializers.FloatField()
 
     def validate_age(self, value):
         """
@@ -67,34 +69,10 @@ class BMRSerializer(serializers.Serializer):
             raise serializers.ValidationError("Age must be a positive integer")
         return value
 
-    def validate_height(self, value):
-        """
-        Validate that the height is an positive integer, less than 300.
-        """
-        if value <= 0:
-            raise serializers.ValidationError("Height must be greater than 0")
-        elif value >= 300:
-            raise serializers.ValidationError("Height must be less than 300")
-        else:
-            return value
 
-    def validate_weight(self, value):
-        """
-        Validate that the weight is a positive integer, less than 1000.
-        """
-        if value <= 0:
-            raise serializers.ValidationError("Weight must be greater than 0")
-        elif value >= 1000:
-            raise serializers.ValidationError("Weight must be less than 1000")
-        else:
-            return value
-
-
-class TMRSerializer(serializers.Serializer):
+class TMRSerializer(BaseInputSerializer, serializers.Serializer):
     age = serializers.IntegerField()
     gender = serializers.ChoiceField(choices=['male', 'female'])
-    height = serializers.IntegerField()
-    weight = serializers.IntegerField()
     pal = serializers.ChoiceField(choices=[
         '1.2', '1.3', '1.4', '1.5', '1.6', '1.7', '1.8', '1.9', '2.0', '2.2'
     ])
@@ -106,25 +84,3 @@ class TMRSerializer(serializers.Serializer):
         if value <= 0:
             raise serializers.ValidationError("Age must be a positive integer")
         return value
-
-    def validate_height(self, value):
-        """
-        Validate that the height is an positive integer, less than 300.
-        """
-        if value <= 0:
-            raise serializers.ValidationError("Height must be greater than 0")
-        elif value >= 300:
-            raise serializers.ValidationError("Height must be less than 300")
-        else:
-            return value
-
-    def validate_weight(self, value):
-        """
-        Validate that the weight is a positive integer, less than 1000.
-        """
-        if value <= 0:
-            raise serializers.ValidationError("Weight must be greater than 0")
-        elif value >= 1000:
-            raise serializers.ValidationError("Weight must be less than 1000")
-        else:
-            return value
