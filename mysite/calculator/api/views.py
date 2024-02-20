@@ -7,7 +7,8 @@ from calculator.models import CalculatedData, Person
 from calculator.views import checking_bmi_category
 
 from .permissions import IsOwnerOrIsAdminUser
-from .serializers import BMRSerializer, CalculatedDataSerializer, PersonSerializer
+from .serializers import (BMISerializer, BMRSerializer, CalculatedDataSerializer,
+                          PersonSerializer)
 
 
 class PersonViewSet(viewsets.ModelViewSet):
@@ -43,8 +44,8 @@ class CalculateBMIAPIView(APIView):
 
     Sample request data:
         {
-            "weight": 70,
             "height": 170
+            "weight": 70,
         }
     """
 
@@ -58,23 +59,27 @@ class CalculateBMIAPIView(APIView):
 
     def post(self, request):
         """
-        Calculate BMI based on provided height (centimeters) and weight (kilograms).
+        Calculate BMI based on provided data:
+            height (centimeters),
+            weight (kilograms).
         """
-        height = float(request.data.get('height', 0))
-        weight = float(request.data.get('weight', 0))
+        serializer = BMISerializer(data=request.data)
+        if serializer.is_valid():
+            height = serializer.validated_data['height']
+            weight = serializer.validated_data['weight']
 
-        if 300 > height > 0 and 600 > weight > 0:
-            bmi = round(weight / (height * 0.01) ** 2, 2)
-            bmi_category = checking_bmi_category(bmi)
+            bmi_result = round(weight / (height * 0.01) ** 2, 2)
+            bmi_category = checking_bmi_category(bmi_result)
             description = bmi_category['description']
+
             return Response(
-                {'bmi': bmi, 'bmi_category': bmi_category['category'],
-                    'description': description},
-                status=status.HTTP_200_OK)
+                {'bmi': bmi_result, 'bmi_category': bmi_category['category'],
+                 'description': description, 'message': 'BMI calculated successfully'},
+                status=status.HTTP_200_OK
+            )
         else:
             return Response(
-                {'message': 'Invalid data. Please provide valid height and weight.'},
-                status.HTTP_400_BAD_REQUEST
+                serializer.errors, status=status.HTTP_400_BAD_REQUEST
             )
 
 
