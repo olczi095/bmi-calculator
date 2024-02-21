@@ -6,8 +6,6 @@ from django.utils.translation import gettext_lazy as _
 class Gender(models.TextChoices):
     MALE = 'male', _('male'),
     FEMALE = 'female', _('female'),
-    OTHER = 'other', _('other'),
-    UNKNOWN = 'unknown', _('unknown')
 
 
 class PALValue(models.TextChoices):
@@ -32,7 +30,7 @@ class Person(models.Model):
     weight = models.IntegerField(blank=True, null=True)
     height = models.IntegerField(blank=True, null=True)
     gender = models.CharField(choices=Gender.choices,
-                              default='unknown', max_length=8)
+                              max_length=8, null=True, blank=True)
     age = models.IntegerField(blank=True, null=True)
     pal = models.CharField(choices=PALValue.choices,
                            default='unknown', max_length=7)

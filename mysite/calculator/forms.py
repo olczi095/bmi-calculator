@@ -31,8 +31,7 @@ class UserDataForm(forms.Form):
         choices=(
             ('male', 'male'),
             ('female', 'female'),
-            ('other', 'other'),
-            ('unknown', 'unknown'))
+        )
     )
     pal = forms.ChoiceField(
         required=False,
