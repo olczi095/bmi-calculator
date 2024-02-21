@@ -218,10 +218,10 @@ class SavingCalculatedDataModelTestCase(TestCase):
     def test_unfilled_calculated_data(self):
         unfilled_data = CalculatedData.objects.get(person=self.person)
         self.assertEqual(unfilled_data.person, self.person)
-        self.assertEqual(unfilled_data.bmi, 0)
-        self.assertEqual(unfilled_data.bmi_category, 'unknown')
+        self.assertEqual(unfilled_data.bmi, None)
+        self.assertEqual(unfilled_data.bmi_category, None)
         self.assertEqual(unfilled_data.pal, '1.2')
-        self.assertEqual(unfilled_data.tmr, 0)
+        self.assertEqual(unfilled_data.tmr, None)
 
     def test_filled_calculated_data(self):
         filled_data = CalculatedData.objects.get(person=self.person)

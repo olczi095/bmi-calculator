@@ -23,9 +23,7 @@ class PALValue(models.TextChoices):
 
 class Person(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
-    name = models.CharField(
-        max_length=50
-    )
+    name = models.CharField(max_length=50)
     weight = models.IntegerField(blank=True, null=True)
     height = models.IntegerField(blank=True, null=True)
     gender = models.CharField(choices=Gender.choices,
@@ -57,16 +55,17 @@ class Person(models.Model):
 
 class CalculatedData(models.Model):
     person = models.OneToOneField(
-        Person, on_delete=models.CASCADE, related_name='calculated_data')
-    bmi = models.FloatField(default=0)
-    bmi_category = models.CharField(
-        default='unknown',
-        max_length=100
+        Person, on_delete=models.CASCADE, related_name='calculated_data'
     )
-    bmr = models.FloatField(default=0)
-    pal = models.CharField(choices=PALValue.choices, default='1.2',
-                           max_length=3, blank=True, null=True)
-    tmr = models.FloatField(default=0)
+    bmi = models.FloatField(null=True)
+    bmi_category = models.CharField(
+        null=True, max_length=100
+    )
+    bmr = models.FloatField(null=True)
+    pal = models.CharField(
+        choices=PALValue.choices, default='1.2', max_length=3, blank=True, null=True
+    )
+    tmr = models.FloatField(null=True)
 
     def __str__(self):
         return self.person.name

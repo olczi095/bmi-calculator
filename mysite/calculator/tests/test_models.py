@@ -72,7 +72,7 @@ class CalculatedDataTestCase(TestCase):
 
     def test_calculated_data_with_correct_values(self):
         self.assertEqual(self.calculated_data.bmi, 18)
-        self.assertEqual(self.calculated_data.bmi_category, 'unknown')
+        self.assertEqual(self.calculated_data.bmi_category, None)
         self.assertEqual(self.calculated_data.pal, '2.0')
         self.assertEqual(self.calculated_data.tmr, 2000)
 
