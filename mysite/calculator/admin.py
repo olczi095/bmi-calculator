@@ -53,4 +53,17 @@ class PersonAdmin(admin.ModelAdmin):
 
 @admin.register(CalculatedData)
 class CalculatedDataAdmin(admin.ModelAdmin):
+    fieldsets = (
+        (None, {
+            'fields': ('person',)
+        }),
+        ('Calculated Data', {
+            'fields': ('bmi', 'bmi_category', 'bmr', 'pal', 'tmr')
+        }),
+    )
     readonly_fields = ('person', 'bmi', 'bmi_category', 'bmr', 'pal', 'tmr')
+    list_display = ('person', 'bmi', 'bmi_category')
+    list_filter = ('person__user__is_active', 'bmi_category')
+    search_fields = ('person__name',)
+
+    ordering = (Lower('person__name'),)
