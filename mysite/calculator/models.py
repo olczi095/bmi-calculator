@@ -9,7 +9,6 @@ class Gender(models.TextChoices):
 
 
 class PALValue(models.TextChoices):
-    UNKNOWN = 'unknown', _('unknown')
     ONE_TWO = '1.2', '1.2'
     ONE_THREE = '1.3', '1.3'
     ONE_FOUR = '1.4', '1.4'
@@ -32,8 +31,8 @@ class Person(models.Model):
     gender = models.CharField(choices=Gender.choices,
                               max_length=8, null=True, blank=True)
     age = models.IntegerField(blank=True, null=True)
-    pal = models.CharField(choices=PALValue.choices,
-                           default='unknown', max_length=7)
+    pal = models.CharField(choices=PALValue.choices, default='1.2',
+                           max_length=3, blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -65,8 +64,8 @@ class CalculatedData(models.Model):
         max_length=100
     )
     bmr = models.FloatField(default=0)
-    pal = models.CharField(choices=PALValue.choices,
-                           default='unknown', max_length=7)
+    pal = models.CharField(choices=PALValue.choices, default='1.2',
+                           max_length=3, blank=True, null=True)
     tmr = models.FloatField(default=0)
 
     def __str__(self):

@@ -37,7 +37,6 @@ class UserDataForm(forms.Form):
         required=False,
         label='PAL ',
         choices=[
-            ('unknown', 'unknown'),
             ('1.2', '1.2'),
             ('1.3', '1.3'),
             ('1.4', '1.4'),
