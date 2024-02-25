@@ -28,7 +28,7 @@ class Person(models.Model):
     height = models.IntegerField(blank=True, null=True)
     gender = models.CharField(choices=Gender.choices,
                               max_length=8, null=True, blank=True)
-    age = models.IntegerField(blank=True, null=True)
+    age = models.PositiveIntegerField(blank=True, null=True)
     pal = models.CharField(choices=PALValue.choices, default='1.2',
                            max_length=3, blank=True, null=True)
 
