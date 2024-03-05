@@ -7,7 +7,8 @@ The website provides a set of basic functional calculators, including:
 * :weight_lifting_man: **PAL calculator** - Physical Activity Level
 * :running_woman: **TMR calculator** - Total Metabolic Rate
 <br />
-The project allows users to save their data (like current BMI value) for future reference, which can particularly useful especially during weight loss or weight gain journeys.
+The project allows users to save their data, including for example current BMI value and user biometric data such as weight, height, etc., for future reference, which can particularly useful especially during weight loss or weight gain journeys.
+Additionally, the project offers three types of APIs: one for data manipulation (for 'Person' and 'CalculatedData' models in the database) and two for calculating BMI, BMR, and TMR values.
 
 ## Overview
 Honestly despite my interests in healthy lifestyle, I have never seen a website that offers all these useful and essential calculators.
@@ -79,9 +80,21 @@ The website is designed to be clear user-friendly. I've also put some effort to 
 - For registered and logged in users additional great options:
 
     * saving the submitted data (e.g. weight or height) in account for possibility to using them next time
-    * saving the calculated values (e.g. BMI value) to check them next time and for example to compare last and current weight and notice the progress 
+    * saving the calculated values (e.g. BMI value) to check them next time and for example to compare last and current weight and notice the progress
 
+## API
 
+### Person Model API
+
+The API for the 'Person' model which utilizes ViewSets and token-based authorization. It allows admin to perform CRUD operations, while allowing owners to read and update their own 'Person' instances.
+
+### CalculatedData API
+
+The CalculatedDataAPI utilizes token-based authorization. It includes two classes: 'CalculatedDataListView' for listing data with admin permissions, and 'CalculatedDataDetailView' for retrieving and deleting individual instances with owner or admin permissions.
+
+### Functional API
+
+A more functional API built on class-based views used for calculating BMI, BMR and TMR values, based on provided information, available for everyone.
 
 ## Screenshots
 <br />
