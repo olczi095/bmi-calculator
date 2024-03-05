@@ -1,12 +1,13 @@
 {% extends 'calculator/base.html' %}
+{% load static %}
 
 {% block title %}TMR Calculator{% endblock %}
 
 {% block content %}
 
 {% if user.is_authenticated %}
-    <div id="tmrContainer">
-        <button onclick="displayLastTMR()" class="alert alert-info nice-alert">Click and check your last saved TMR value!</button>
+    <div class="dataContainer">
+        <button class="alert alert-info nice-alert">Click and check your last saved TMR value!</button>
         <div id="tmrMessage" class="alert alert-info nice-alert" style="display: none;">
             Your last TMR: 
             <p class="strong-text">
@@ -14,17 +15,6 @@
             </p>
         </div>
     </div>
-
-    <script>
-        function displayLastTMR() {
-            const tmrContainer = document.getElementById("tmrContainer");
-            const button = document.querySelector("#tmrContainer button");
-            const tmrMessage = document.getElementById("tmrMessage");
-
-            button.style.display = "none";
-            tmrMessage.style.display = "block";
-        }
-    </script>
 {% endif %}
 
 <div class="form-style">
@@ -82,6 +72,8 @@
             You can also simplify this approach by adding 200-300 kcal to your current TMR. Remember that if your weight doesn't change, it's an indication that you need to add even more calories (for instance, 400-500 kcal).
         </p>
     </div>
-</section>   
+</section>
+
+<script src="{% static 'calculator/data_display.js' %}">
 
 {% endblock %}

@@ -1,12 +1,13 @@
 {% extends 'calculator/base.html' %}
+{% load static %}
 
 {% block title %}BMI Calculator{% endblock %}
 
 {% block content %}
 
 {% if user.is_authenticated %}
-    <div id="bmiContainer">
-        <button onclick="displayLastBMI()" class="alert alert-info nice-alert">Click and check your last saved BMI value!</button>
+    <div class="dataContainer">
+        <button class="alert alert-info nice-alert">Click and check your last saved BMI value!</button>
         <div id="bmiMessage" class="alert alert-info nice-alert" style="display: none;">
             Your last BMI: 
             <p class="strong-text">
@@ -14,17 +15,6 @@
             </p>
         </div>
     </div>
-
-    <script>
-        function displayLastBMI() {
-            const bmiContainer = document.getElementById("bmiContainer");
-            const button = document.querySelector("#bmiContainer button");
-            const bmiMessage = document.getElementById("bmiMessage");
-
-            button.style.display = "none";
-            bmiMessage.style.display = "block";
-        }
-    </script>
 {% endif %}
 
 <div class="form-style">
@@ -113,5 +103,7 @@
         </p>
     </div>
 </section>
+
+<script src="{% static 'calculator/data_display.js' %}">
 
 {% endblock %}
